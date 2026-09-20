@@ -95,7 +95,7 @@ private struct LoopStatusColorPaletteKey: EnvironmentKey {
     static let defaultValue: StateColorPalette = StateColorPalette(unknown: .systemGray4,
                                                                    normal: .green,
                                                                    warning: .yellow,
-                                                                   error: .red)
+                                                                   error: .systemPink)
 }
 
 public extension EnvironmentValues {
