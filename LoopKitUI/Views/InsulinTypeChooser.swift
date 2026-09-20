@@ -87,6 +87,6 @@ struct InsulinTypeChooser_Previews: PreviewProvider {
 
 extension InsulinType {
     var image: UIImage? {
-        return UIImage(frameworkImage: "vial")?.withTintColor(.red)
+        return UIImage(frameworkImage: "vial")?.withTintColor(.systemPink)
     }
 }
