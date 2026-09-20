@@ -4476,7 +4476,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Een waarde van 0 E/uur betekent dat u geen basale insuline ontvangt."
+            "value" : "Een waarde van 0 E/uur betekent dat je geen basale insuline ontvangt."
           }
         },
         "pl" : {
@@ -30511,7 +30511,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deze instelling bepaalt ook een veiligheidslimiet voor automatische dosering. %1$@ beperkt de automatische toediening om de hoeveelheid actieve insuline onder tweemaal uw maximale bolus te houden."
+            "value" : "Deze instelling bepaalt ook een veiligheidslimiet voor automatische dosering. %1$@ beperkt de automatische toediening om de hoeveelheid actieve insuline onder tweemaal je maximale bolus te houden."
           }
         },
         "pl" : {
