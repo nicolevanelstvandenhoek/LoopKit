@@ -75,7 +75,7 @@ struct InsulinStatusView: View {
                 .font(.system(size: 34))
                 .fixedSize()
                 .foregroundColor(guidanceColors.warning)
-            Text("Insulin\nSuspended")
+            Text(LocalizedString("Insulin\nSuspended", comment: "Label shown when insulin delivery is suspended"))
                 .font(.system(size: 14, weight: .heavy, design: .default))
                 .lineSpacing(0.01)
                 .fixedSize()
@@ -115,7 +115,7 @@ struct InsulinStatusView: View {
                 .font(.system(size: 34))
                 .fixedSize()
                 .foregroundColor(guidanceColors.critical)
-            Text("No\nDelivery")
+            Text(LocalizedString("No\nDelivery", comment: "Label shown when there is no insulin delivery"))
                 .font(.system(size: 16, weight: .heavy, design: .default))
                 .lineSpacing(0.01)
                 .fixedSize()
@@ -133,7 +133,7 @@ struct InsulinStatusView: View {
     var reservoirStatus: some View {
         VStack(alignment: .trailing) {
             VStack(alignment: .leading, spacing: reservoirStatusSpacing) {
-                Text("Insulin\(String.nonBreakingSpace)Remaining")
+                Text(LocalizedString("Insulin\(String.nonBreakingSpace)Remaining", comment: "Label for insulin remaining in reservoir"))
                     .foregroundColor(Color(UIColor.secondaryLabel))
                 HStack {
                     if let pumpStatusHighlight = viewModel.pumpStatusHighlight {

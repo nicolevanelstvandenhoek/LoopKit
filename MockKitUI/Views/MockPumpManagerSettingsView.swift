@@ -105,7 +105,7 @@ struct MockPumpManagerSettingsView: View {
     }
     
     private var expirationText: some View {
-        Text("Pump expires in ")
+        Text(LocalizedString("Pump expires in ", comment: "Text describing pump expiration time"))
             .font(.subheadline)
             .foregroundColor(.secondary)
     }
@@ -114,7 +114,7 @@ struct MockPumpManagerSettingsView: View {
         HStack(alignment: .lastTextBaseline) {
             Text("2")
                 .font(.system(size: 24, weight: .heavy, design: .default))
-            Text("days")
+            Text(LocalizedString("days", comment: "Unit for days"))
                 .font(.system(size: 15, weight: .regular, design: .default))
                 .foregroundColor(.secondary)
                 .offset(x: -3)
@@ -271,7 +271,7 @@ struct MockPumpManagerSettingsView: View {
 
 
             NavigationLink(destination: DemoPlaceHolderView(appName: appName)) {
-                Text("Device Details")
+                Text(LocalizedString("Device Details", comment: "Navigation link to device details"))
             }
         }
     }
@@ -279,7 +279,7 @@ struct MockPumpManagerSettingsView: View {
     private var settingsSubSection: some View {
         Section {
             NavigationLink(destination: MockPumpManagerControlsView(pumpManager: viewModel.pumpManager, supportedInsulinTypes: supportedInsulinTypes)) {
-                Text("Simulator Settings")
+                Text(LocalizedString("Simulator Settings", comment: "Navigation link to simulator settings"))
             }
         }
     }
@@ -353,11 +353,11 @@ struct MockPumpManagerSettingsView: View {
             Text(String(format: LocalizedString("When the device time is manually set, %1$@ will not synchronize the pump time to the device time.", comment: "Description for why the pump time is not synchronized (1: app name)"), appName))
         }
     }
-    
+
     private var supportSection: some View {
-        Section(header: SectionHeader(label: "Support")) {
+        Section(header: SectionHeader(label: LocalizedString("Support", comment: "Section header for the support section"))) {
             NavigationLink(destination: DemoPlaceHolderView(appName: appName)) {
-                Text("Get help with your pump")
+                Text(LocalizedString("Get help with your pump", comment: "Navigation link to get help with pump"))
             }
         }
     }
@@ -370,12 +370,12 @@ struct MockPumpManagerSettingsView: View {
         switch presentedAlert {
         case .suspendInsulinDeliveryError(let error):
             return Alert(
-                title: Text("Failed to Suspend Insulin Delivery"),
+                title: Text(LocalizedString("Failed to Suspend Insulin Delivery", comment: "Alert title for suspend insulin delivery error")),
                 message: Text(error.localizedDescription)
             )
         case .resumeInsulinDeliveryError(let error):
             return Alert(
-                title: Text("Failed to Resume Insulin Delivery"),
+                title: Text(LocalizedString("Failed to Resume Insulin Delivery", comment: "Alert title for resume insulin delivery error")),
                 message: Text(error.localizedDescription)
             )
         case .syncTimeError(let error):
