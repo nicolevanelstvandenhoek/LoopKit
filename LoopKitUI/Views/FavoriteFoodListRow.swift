@@ -91,7 +91,7 @@ extension FavoriteFoodListRow {
         let isConfirmingDelete = foodToConfirmDeleteId == food.id
         
         return ZStack {
-            Color.red
+            Color.pink
                 .clipShape(RoundedRectangle(cornerRadius: isConfirmingDelete ? 0 : 12.5))
                 .frame(width: isConfirmingDelete ? nil : 25, height: isConfirmingDelete ? nil : 25)
             
