@@ -20,6 +20,10 @@ private class LocalBundle {
     }()
 }
 
+var localizationBundle: Bundle {
+    LocalBundle.main
+}
+
 func LocalizedString(_ key: String, tableName: String? = nil, value: String? = nil, comment: String) -> String {
     if let value = value {
         return NSLocalizedString(key, tableName: tableName, bundle: LocalBundle.main, value: value, comment: comment)

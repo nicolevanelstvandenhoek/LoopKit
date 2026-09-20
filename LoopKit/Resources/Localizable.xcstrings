@@ -2688,7 +2688,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Autorisatie Geweigerd"
+            "value" : "Autorisatie geweigerd"
           }
         },
         "pl" : {
@@ -3720,7 +3720,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kritieke Update"
+            "value" : "Kritieke update"
           }
         },
         "pl" : {
@@ -4024,7 +4024,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apparaat Geweigerd"
+            "value" : "Apparaat geweigerd"
           }
         },
         "pl" : {
@@ -7087,7 +7087,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ongeldige Configuratie"
+            "value" : "Ongeldige configuratie"
           }
         },
         "pl" : {
@@ -7809,7 +7809,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Maximale Basaalsnelheid"
+            "value" : "Maximale basaalsnelheid"
           }
         },
         "pl" : {
@@ -8101,7 +8101,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Maximale Bolus"
+            "value" : "Maximale bolus"
           }
         },
         "pl" : {
@@ -9126,7 +9126,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aandacht Nodig"
+            "value" : "Aandacht nodig"
           }
         },
         "pl" : {
@@ -9269,7 +9269,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geen Update"
+            "value" : "Geen update"
           }
         },
         "pl" : {
@@ -10438,7 +10438,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pre-Meal"
+            "value" : "Pre-meal"
           }
         },
         "pl" : {
@@ -10581,7 +10581,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aanbevolen Update"
+            "value" : "Aanbevolen update"
           }
         },
         "pl" : {
@@ -12756,7 +12756,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toediening Onzeker"
+            "value" : "Toediening onzeker"
           }
         },
         "pl" : {
@@ -13495,7 +13495,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Update Beschikbaar"
+            "value" : "Update beschikbaar"
           }
         },
         "pl" : {

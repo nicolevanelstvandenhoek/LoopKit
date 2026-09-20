@@ -138,25 +138,25 @@ struct SupportMenuItem : View {
                 return ActionSheet.Button.default(Text(versionUpdate.localizedDescription), action: setter)
             }
         } +
-        [.cancel(Text("Cancel"))]
+        [.cancel(Text(LocalizedString("Cancel", comment: "Cancel button for mock version check action sheet")))]
     }
 
     private var actionSheet: ActionSheet {
-        ActionSheet(title: Text("Version Check Response"), message: Text("How should the simulator respond to a version check?"), buttons: buttons)
+        ActionSheet(title: Text(LocalizedString("Version Check Response", comment: "Title for mock version check action sheet")), message: Text(LocalizedString("How should the simulator respond to a version check?", comment: "Message for mock version check action sheet")), buttons: buttons)
     }
 
     var body: some View {
         Button(action: {
             self.showActionSheet.toggle()
         }) {
-            Text("Mock Version Check \(currentVersionUpdate)")
+            Text("Mock Version Check \(currentVersionUpdate)", bundle: localizationBundle)
         }
         .actionSheet(isPresented: $showActionSheet, content: {
             self.actionSheet
         })
         
         Button(action: { mockSupport.lastVersionCheckAlertDate = nil } ) {
-            Text("Clear Last Version Check Alert Date")
+            Text(LocalizedString("Clear Last Version Check Alert Date", comment: "Button title to clear the last version check alert date"))
         }
     }
     

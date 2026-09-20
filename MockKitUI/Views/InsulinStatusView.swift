@@ -72,7 +72,7 @@ struct InsulinStatusView: View {
                 .font(.system(size: 34))
                 .fixedSize()
                 .foregroundColor(guidanceColors.warning)
-            Text("Insulin\nSuspended")
+            Text(LocalizedString("Insulin\nSuspended", comment: "Label shown when insulin delivery is suspended"))
                 .font(.system(size: 14, weight: .heavy, design: .default))
                 .lineSpacing(0.01)
                 .fixedSize()
@@ -100,9 +100,9 @@ struct InsulinStatusView: View {
                 }
                 Group {
                     if viewModel.isScheduledBasal {
-                        Text("Scheduled\(String.nonBreakingSpace)Basal")
+                        Text(LocalizedString("Scheduled\(String.nonBreakingSpace)Basal", comment: "Label for scheduled basal delivery"))
                     } else if viewModel.isTempBasal {
-                        Text("Temporary\(String.nonBreakingSpace)Basal")
+                        Text(LocalizedString("Temporary\(String.nonBreakingSpace)Basal", comment: "Label for temporary basal delivery"))
                     }
                 }
                 .font(.footnote)
@@ -117,7 +117,7 @@ struct InsulinStatusView: View {
                 .font(.system(size: 34))
                 .fixedSize()
                 .foregroundColor(guidanceColors.critical)
-            Text("No\nDelivery")
+            Text(LocalizedString("No\nDelivery", comment: "Label shown when there is no insulin delivery"))
                 .font(.system(size: 16, weight: .heavy, design: .default))
                 .lineSpacing(0.01)
                 .fixedSize()
@@ -135,7 +135,7 @@ struct InsulinStatusView: View {
     var reservoirStatus: some View {
         VStack(alignment: .trailing) {
             VStack(alignment: .leading, spacing: reservoirStatusSpacing) {
-                Text("Insulin\(String.nonBreakingSpace)Remaining")
+                Text(LocalizedString("Insulin\(String.nonBreakingSpace)Remaining", comment: "Label for insulin remaining in reservoir"))
                     .foregroundColor(Color(UIColor.secondaryLabel))
                 HStack {
                     reservoirLevelStatus
@@ -167,7 +167,7 @@ struct InsulinStatusView: View {
                         .foregroundColor(.secondary)
                 }
             }
-            Text("Estimated Reading")
+            Text(LocalizedString("Estimated Reading", comment: "Label for estimated reservoir reading"))
                 .font(.footnote)
                 .foregroundColor(.accentColor)
         }

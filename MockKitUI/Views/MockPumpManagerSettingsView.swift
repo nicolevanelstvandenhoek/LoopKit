@@ -98,7 +98,7 @@ struct MockPumpManagerSettingsView: View {
     }
     
     private var expirationText: some View {
-        Text("Pump expires in ")
+        Text(LocalizedString("Pump expires in ", comment: "Text describing pump expiration time"))
             .font(.subheadline)
             .foregroundColor(.secondary)
     }
@@ -107,7 +107,7 @@ struct MockPumpManagerSettingsView: View {
         HStack(alignment: .lastTextBaseline) {
             Text("2")
                 .font(.system(size: 24, weight: .heavy, design: .default))
-            Text("days")
+            Text(LocalizedString("days", comment: "Unit for days"))
                 .font(.system(size: 15, weight: .regular, design: .default))
                 .foregroundColor(.secondary)
                 .offset(x: -3)
@@ -178,12 +178,12 @@ struct MockPumpManagerSettingsView: View {
     
     private var deviceDetailsSubSection: some View {
         Section {
-            LabeledValueView(label: "Pump Paired", value: viewModel.lastPumpPairedDateTimeString)
-            
-            LabeledValueView(label: "Pump Expires", value: viewModel.pumpExpirationDateTimeString)
+            LabeledValueView(label: LocalizedString("Pump Paired", comment: "Label for pump paired date/time field"), value: viewModel.lastPumpPairedDateTimeString)
+
+            LabeledValueView(label: LocalizedString("Pump Expires", comment: "Label for pump expiration date/time field"), value: viewModel.pumpExpirationDateTimeString)
             
             NavigationLink(destination: DemoPlaceHolderView(appName: appName)) {
-                Text("Device Details")
+                Text(LocalizedString("Device Details", comment: "Navigation link to device details"))
             }
         }
     }
@@ -191,7 +191,7 @@ struct MockPumpManagerSettingsView: View {
     private var replaceSystemComponentsSubSection: some View {
         Section {
             NavigationLink(destination: DemoPlaceHolderView(appName: appName)) {
-                Text("Replace Pump")
+                Text(LocalizedString("Replace Pump", comment: "Navigation link to replace pump"))
                     .foregroundColor(.accentColor)
             }
         }
@@ -200,7 +200,7 @@ struct MockPumpManagerSettingsView: View {
     private var settingsSubSection: some View {
         Section {
             NavigationLink(destination: MockPumpManagerControlsView(pumpManager: viewModel.pumpManager, supportedInsulinTypes: supportedInsulinTypes)) {
-                Text("Simulator Settings")
+                Text(LocalizedString("Simulator Settings", comment: "Navigation link to simulator settings"))
             }
         }
     }
@@ -213,23 +213,23 @@ struct MockPumpManagerSettingsView: View {
     }
     
     private var notificationSubSection: some View {
-        Section(header: SectionHeader(label: "Configuration")) {
+        Section(header: SectionHeader(label: LocalizedString("Configuration", comment: "Section header for the configuration section"))) {
             NavigationLink(destination: DemoPlaceHolderView(appName: appName)) {
-                Text("Notification Settings")
+                Text(LocalizedString("Notification Settings", comment: "Navigation link to notification settings"))
             }
         }
     }
     
     private var pumpTimeSubSection: some View {
         Section {
-            TimeView(label: "Pump Time")
+            TimeView(label: LocalizedString("Pump Time", comment: "Label for pump time field"))
         }
     }
-    
+
     private var supportSection: some View {
-        Section(header: SectionHeader(label: "Support")) {
+        Section(header: SectionHeader(label: LocalizedString("Support", comment: "Section header for the support section"))) {
             NavigationLink(destination: DemoPlaceHolderView(appName: appName)) {
-                Text("Get help with your pump")
+                Text(LocalizedString("Get help with your pump", comment: "Navigation link to get help with pump"))
             }
         }
     }
@@ -242,12 +242,12 @@ struct MockPumpManagerSettingsView: View {
         switch presentedAlert {
         case .suspendInsulinDeliveryError(let error):
             return Alert(
-                title: Text("Failed to Suspend Insulin Delivery"),
+                title: Text(LocalizedString("Failed to Suspend Insulin Delivery", comment: "Alert title for suspend insulin delivery error")),
                 message: Text(error.localizedDescription)
             )
         case .resumeInsulinDeliveryError(let error):
             return Alert(
-                title: Text("Failed to Resume Insulin Delivery"),
+                title: Text(LocalizedString("Failed to Resume Insulin Delivery", comment: "Alert title for resume insulin delivery error")),
                 message: Text(error.localizedDescription)
             )
         }

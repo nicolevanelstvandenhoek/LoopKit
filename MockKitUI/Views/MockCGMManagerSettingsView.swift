@@ -49,7 +49,7 @@ struct MockCGMManagerSettingsView: View {
         }
         .insetGroupedListStyle()
         .navigationBarItems(trailing: doneButton)
-        .navigationBarTitle(Text("CGM Simulator"), displayMode: .large)
+        .navigationBarTitle(Text(LocalizedString("CGM Simulator", comment: "Navigation bar title for CGM simulator settings")), displayMode: .large)
         .alert(item: $presentedAlert, content: alert(for:))
     }
     
@@ -107,7 +107,7 @@ struct MockCGMManagerSettingsView: View {
     }
     
     private var expirationText: some View {
-        Text("Sensor expires in ")
+        Text(LocalizedString("Sensor expires in ", comment: "Text describing sensor expiration time"))
             .font(.subheadline)
             .foregroundColor(.secondary)
     }
@@ -116,7 +116,7 @@ struct MockCGMManagerSettingsView: View {
         HStack(alignment: .lastTextBaseline) {
             Text("5")
                 .font(.system(size: 24, weight: .heavy, design: .default))
-            Text("days")
+            Text(LocalizedString("days", comment: "Unit for days"))
                 .font(.system(size: 15, weight: .regular, design: .default))
                 .foregroundColor(.secondary)
                 .offset(x: -3)
@@ -144,7 +144,7 @@ struct MockCGMManagerSettingsView: View {
     @ViewBuilder
     private var lastGlucoseReading: some View {
         VStack(alignment: .leading, spacing: 5) {
-            Text("Last Reading")
+            Text(LocalizedString("Last Reading", comment: "Label for last glucose reading value"))
                 .foregroundColor(.secondary)
             
             HStack(alignment: .center, spacing: 16) {
@@ -172,7 +172,7 @@ struct MockCGMManagerSettingsView: View {
                 Text("\(viewModel.lastReadingMinutesFromNow)")
                     .font(.title)
                     .fontWeight(.heavy)
-                Text("min")
+                Text(LocalizedString("min", comment: "Unit for minutes"))
                     .foregroundColor(.secondary)
             }
         }
@@ -182,7 +182,7 @@ struct MockCGMManagerSettingsView: View {
     private var notificationSubSection: some View {
         Section {
             NavigationLink(destination: DemoPlaceHolderView(appName: appName)) {
-                Text("Notification Settings")
+                Text(LocalizedString("Notification Settings", comment: "Navigation link to notification settings"))
             }
         }
     }
@@ -190,7 +190,7 @@ struct MockCGMManagerSettingsView: View {
     private var settingsSubSection: some View {
         Section {
             NavigationLink(destination: MockCGMManagerControlsView(cgmManager: viewModel.cgmManager, displayGlucosePreference: displayGlucosePreference)) {
-                Text("Simulator Settings")
+                Text(LocalizedString("Simulator Settings", comment: "Navigation link to simulator settings"))
             }
         }
     }
@@ -203,34 +203,34 @@ struct MockCGMManagerSettingsView: View {
     }
     
     private var deviceDetailsSubSection: some View {
-        Section(header: SectionHeader(label: "Sensor")) {
-            LabeledValueView(label: "Insertion Time", value: viewModel.sensorInsertionDateTimeString)
+        Section(header: SectionHeader(label: LocalizedString("Sensor", comment: "Section header for the sensor section"))) {
+            LabeledValueView(label: LocalizedString("Insertion Time", comment: "Label for sensor insertion time field"), value: viewModel.sensorInsertionDateTimeString)
             
-            LabeledValueView(label: "Sensor Expires", value: viewModel.sensorExpirationDateTimeString)
+            LabeledValueView(label: LocalizedString("Sensor Expires", comment: "Label for sensor expiration field"), value: viewModel.sensorExpirationDateTimeString)
         }
     }
     
     private var stopSensorSubSection: some View {
         Section {
             NavigationLink(destination: DemoPlaceHolderView(appName: appName)) {
-                Text("Stop Sensor")
+                Text(LocalizedString("Stop Sensor", comment: "Navigation link to stop sensor"))
                     .foregroundColor(guidanceColors.critical)
             }
         }
     }
 
     private var lastReadingSection: some View {
-        Section(header: SectionHeader(label: "Last Reading")) {
-            LabeledValueView(label: "Glucose", value: viewModel.lastGlucoseValueWithUnitFormatted)
-            LabeledValueView(label: "Time", value: viewModel.lastGlucoseDateFormatted)
-            LabeledValueView(label: "Trend", value: viewModel.lastGlucoseTrendFormatted)
+        Section(header: SectionHeader(label: LocalizedString("Last Reading", comment: "Section header for the last reading section"))) {
+            LabeledValueView(label: LocalizedString("Glucose", comment: "Label for last glucose value"), value: viewModel.lastGlucoseValueWithUnitFormatted)
+            LabeledValueView(label: LocalizedString("Time", comment: "Label for last glucose reading time"), value: viewModel.lastGlucoseDateFormatted)
+            LabeledValueView(label: LocalizedString("Trend", comment: "Label for last glucose trend"), value: viewModel.lastGlucoseTrendFormatted)
         }
     }
     
     private var supportSection: some View {
-        Section(header: SectionHeader(label: "Support")) {
+        Section(header: SectionHeader(label: LocalizedString("Support", comment: "Section header for the support section"))) {
             NavigationLink(destination: DemoPlaceHolderView(appName: appName)) {
-                Text("Get help with your CGM")
+                Text(LocalizedString("Get help with your CGM", comment: "Navigation link to get help with CGM"))
             }
         }
     }
@@ -243,12 +243,12 @@ struct MockCGMManagerSettingsView: View {
         switch presentedAlert {
         case .suspendInsulinDeliveryError(let error):
             return Alert(
-                title: Text("Failed to Suspend Insulin Delivery"),
+                title: Text(LocalizedString("Failed to Suspend Insulin Delivery", comment: "Alert title for suspend insulin delivery error")),
                 message: Text(error.localizedDescription)
             )
         case .resumeInsulinDeliveryError(let error):
             return Alert(
-                title: Text("Failed to Resume Insulin Delivery"),
+                title: Text(LocalizedString("Failed to Resume Insulin Delivery", comment: "Alert title for resume insulin delivery error")),
                 message: Text(error.localizedDescription)
             )
         }

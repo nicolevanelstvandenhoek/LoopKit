@@ -26,9 +26,9 @@ class MockPumpManagerSettingsViewModel: ObservableObject {
     
     var suspendResumeInsulinDeliveryLabel: String {
         if isDeliverySuspended {
-            return "Tap to Resume Insulin Delivery"
+            return LocalizedString("Tap to Resume Insulin Delivery", comment: "Label for button to resume insulin delivery")
         } else {
-            return "Suspend Insulin Delivery"
+            return LocalizedString("Suspend Insulin Delivery", comment: "Label for button to suspend insulin delivery")
         }
     }
     

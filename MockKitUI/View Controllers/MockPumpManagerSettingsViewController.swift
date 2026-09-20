@@ -134,9 +134,9 @@ final class MockPumpManagerSettingsViewController: UITableViewController {
         case .actions:
             return nil
         case .settings:
-            return "Configuration"
+            return LocalizedString("Configuration", comment: "Section header for the configuration section")
         case .statusProgress:
-            return "Status Progress"
+            return LocalizedString("Status Progress", comment: "Section header for the status progress section")
         case .deletePump:
             return " "  // Use an empty string for more dramatic spacing
         }
@@ -146,7 +146,7 @@ final class MockPumpManagerSettingsViewController: UITableViewController {
         switch Section(rawValue: indexPath.section)! {
         case .basalRate:
             let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath)
-            cell.textLabel?.text = "Current Basal Rate"
+            cell.textLabel?.text = LocalizedString("Current Basal Rate", comment: "Label for current basal rate cell")
             if let currentBasalRate = pumpManager.currentBasalRate {
                 cell.detailTextLabel?.text = rateFormatter.string(from: currentBasalRate)
             } else {
@@ -163,25 +163,25 @@ final class MockPumpManagerSettingsViewController: UITableViewController {
             case .occlusion:
                 let cell = tableView.dequeueReusableCell(withIdentifier: TextButtonTableViewCell.className, for: indexPath) as! TextButtonTableViewCell
                 if pumpManager.state.occlusionDetected {
-                    cell.textLabel?.text = "Resolve Occlusion"
+                    cell.textLabel?.text = LocalizedString("Resolve Occlusion", comment: "Button title to resolve a mock occlusion")
                 } else {
-                    cell.textLabel?.text = "Detect Occlusion"
+                    cell.textLabel?.text = LocalizedString("Detect Occlusion", comment: "Button title to trigger a mock occlusion")
                 }
                 return cell
             case .pumpError:
                 let cell = tableView.dequeueReusableCell(withIdentifier: TextButtonTableViewCell.className, for: indexPath) as! TextButtonTableViewCell
                 if pumpManager.state.pumpErrorDetected {
-                    cell.textLabel?.text = "Resolve Pump Error"
+                    cell.textLabel?.text = LocalizedString("Resolve Pump Error", comment: "Button title to resolve a mock pump error")
                 } else {
-                    cell.textLabel?.text = "Cause Pump Error"
+                    cell.textLabel?.text = LocalizedString("Cause Pump Error", comment: "Button title to trigger a mock pump error")
                 }
                 return cell
             case .pumpComponentReplacement:
                 let cell = tableView.dequeueReusableCell(withIdentifier: TextButtonTableViewCell.className, for: indexPath) as! TextButtonTableViewCell
                 if pumpManager.state.replacePumpComponent {
-                    cell.textLabel?.text = "Resume Therapy"
+                    cell.textLabel?.text = LocalizedString("Resume Therapy", comment: "Button title to resume therapy after a mock pump component replacement")
                 } else {
-                    cell.textLabel?.text = "Replace Pump Component"
+                    cell.textLabel?.text = LocalizedString("Replace Pump Component", comment: "Button title to trigger a mock pump component replacement")
                 }
                 return cell
             }
@@ -190,7 +190,7 @@ final class MockPumpManagerSettingsViewController: UITableViewController {
             case .deliverableIncrements:
                 let cell = tableView.dequeueReusableCell(withIdentifier: SegmentedControlTableViewCell.className, for: indexPath) as! SegmentedControlTableViewCell
                 let possibleDeliverableIncrements = MockPumpManagerState.DeliverableIncrements.allCases
-                cell.textLabel?.text = "Increments"
+                cell.textLabel?.text = LocalizedString("Increments", comment: "Label for deliverable increments setting")
                 cell.options = possibleDeliverableIncrements.map { increments in
                     switch increments {
                     case .omnipod:
@@ -202,7 +202,7 @@ final class MockPumpManagerSettingsViewController: UITableViewController {
                     case .dana:
                         return "Dana"
                     case .custom:
-                        return "Custom"
+                        return LocalizedString("Custom", comment: "Deliverable increments option: custom")
                     }
                 }
                 cell.segmentedControl.selectedSegmentIndex = possibleDeliverableIncrements.firstIndex(of: pumpManager.state.deliverableIncrements)!
@@ -213,7 +213,7 @@ final class MockPumpManagerSettingsViewController: UITableViewController {
                 return cell
             case .supportedBasalRates:
                 let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath)
-                cell.textLabel?.text = "Basal Rates"
+                cell.textLabel?.text = LocalizedString("Basal Rates", comment: "Label for supported basal rates cell")
                 cell.detailTextLabel?.text = pumpManager.state.supportedBasalRatesDescription
                 if pumpManager.state.deliverableIncrements == .custom {
                     cell.accessoryType = .disclosureIndicator
@@ -221,7 +221,7 @@ final class MockPumpManagerSettingsViewController: UITableViewController {
                 return cell
             case .supportedBolusVolumes:
                 let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath)
-                cell.textLabel?.text = "Bolus Volumes"
+                cell.textLabel?.text = LocalizedString("Bolus Volumes", comment: "Label for supported bolus volumes cell")
                 cell.detailTextLabel?.text = pumpManager.state.supportedBolusVolumesDescription
                 if pumpManager.state.deliverableIncrements == .custom {
                     cell.accessoryType = .disclosureIndicator
@@ -230,19 +230,19 @@ final class MockPumpManagerSettingsViewController: UITableViewController {
             case .insulinType:
                 let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath)
                 cell.prepareForReuse()
-                cell.textLabel?.text = "Insulin Type"
-                cell.detailTextLabel?.text = pumpManager.state.insulinType?.brandName ?? "Unset"
+                cell.textLabel?.text = LocalizedString("Insulin Type", comment: "Label for insulin type cell")
+                cell.detailTextLabel?.text = pumpManager.state.insulinType?.brandName ?? LocalizedString("Unset", comment: "Value shown when no insulin type is set")
                 cell.accessoryType = .disclosureIndicator
                 return cell
             case .reservoirRemaining:
                 let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath)
-                cell.textLabel?.text = "Reservoir Remaining"
+                cell.textLabel?.text = LocalizedString("Reservoir Remaining", comment: "Label for reservoir remaining cell")
                 cell.detailTextLabel?.text = reservoirFormatter.string(from: HKQuantity(unit: .internationalUnit(), doubleValue: pumpManager.state.reservoirUnitsRemaining))
                 cell.accessoryType = .disclosureIndicator
                 return cell
             case .batteryRemaining:
                 let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath)
-                cell.textLabel?.text = "Battery Remaining"
+                cell.textLabel?.text = LocalizedString("Battery Remaining", comment: "Label for battery remaining cell")
                 if let remainingCharge = pumpManager.status.pumpBatteryChargeRemaining {
                     cell.detailTextLabel?.text = "\(Int(round(remainingCharge * 100)))%"
                 } else {
@@ -251,24 +251,24 @@ final class MockPumpManagerSettingsViewController: UITableViewController {
                 cell.accessoryType = .disclosureIndicator
                 return cell
             case .tempBasalErrorToggle:
-                return switchTableViewCell(for: indexPath, titled: "Error on Temp Basal", boundTo: \.tempBasalEnactmentShouldError)
+                return switchTableViewCell(for: indexPath, titled: LocalizedString("Error on Temp Basal", comment: "Title for switch to enable a mock error on temp basal"), boundTo: \.tempBasalEnactmentShouldError)
             case .bolusErrorToggle:
-                return switchTableViewCell(for: indexPath, titled: "Error on Bolus", boundTo: \.bolusEnactmentShouldError)
+                return switchTableViewCell(for: indexPath, titled: LocalizedString("Error on Bolus", comment: "Title for switch to enable a mock error on bolus"), boundTo: \.bolusEnactmentShouldError)
             case .bolusCancelErrorToggle:
-                return switchTableViewCell(for: indexPath, titled: "Error on Cancel Bolus", boundTo: \.bolusCancelShouldError)
+                return switchTableViewCell(for: indexPath, titled: LocalizedString("Error on Cancel Bolus", comment: "Title for switch to enable a mock error on cancel bolus"), boundTo: \.bolusCancelShouldError)
             case .suspendErrorToggle:
-                return switchTableViewCell(for: indexPath, titled: "Error on Suspend", boundTo: \.deliverySuspensionShouldError)
+                return switchTableViewCell(for: indexPath, titled: LocalizedString("Error on Suspend", comment: "Title for switch to enable a mock error on suspend"), boundTo: \.deliverySuspensionShouldError)
             case .resumeErrorToggle:
-                return switchTableViewCell(for: indexPath, titled: "Error on Resume", boundTo: \.deliveryResumptionShouldError)
+                return switchTableViewCell(for: indexPath, titled: LocalizedString("Error on Resume", comment: "Title for switch to enable a mock error on resume"), boundTo: \.deliveryResumptionShouldError)
             case .crashOnBolus:
-                return switchTableViewCell(for: indexPath, titled: "Crash on Bolus", boundTo: \.bolusShouldCrash)
+                return switchTableViewCell(for: indexPath, titled: LocalizedString("Crash on Bolus", comment: "Title for switch to enable a mock crash on bolus"), boundTo: \.bolusShouldCrash)
             case .crashOnTempBasal:
-                return switchTableViewCell(for: indexPath, titled: "Crash on Temp Basal", boundTo: \.tempBasalShouldCrash)
+                return switchTableViewCell(for: indexPath, titled: LocalizedString("Crash on Temp Basal", comment: "Title for switch to enable a mock crash on temp basal"), boundTo: \.tempBasalShouldCrash)
             case .uncertainDeliveryErrorToggle:
-                return switchTableViewCell(for: indexPath, titled: "Next Delivery Command Uncertain", boundTo: \.deliveryCommandsShouldTriggerUncertainDelivery)
+                return switchTableViewCell(for: indexPath, titled: LocalizedString("Next Delivery Command Uncertain", comment: "Title for switch to enable uncertain delivery on the next command"), boundTo: \.deliveryCommandsShouldTriggerUncertainDelivery)
             case .lastReconciliationDate:
                 let cell = tableView.dequeueReusableCell(withIdentifier: DateAndDurationTableViewCell.className, for: indexPath) as! DateAndDurationTableViewCell
-                cell.titleLabel.text = "Last Reconciliation Date"
+                cell.titleLabel.text = LocalizedString("Last Reconciliation Date", comment: "Label for last reconciliation date cell")
                 cell.date = pumpManager.lastSync ?? Date()
                 cell.datePicker.maximumDate = Date()
                 cell.datePicker.minimumDate = Date() - .hours(48)
@@ -286,21 +286,21 @@ final class MockPumpManagerSettingsViewController: UITableViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: SettingsTableViewCell.className, for: indexPath)
             switch StatusProgressRow(rawValue: indexPath.row)! {
             case .percentComplete:
-                cell.textLabel?.text = "Percent Completed"
+                cell.textLabel?.text = LocalizedString("Percent Completed", comment: "Label for percent completed cell")
                 if let percentCompleted = pumpManager.state.progressPercentComplete {
                     cell.detailTextLabel?.text = "\(Int(round(percentCompleted * 100)))%"
                 } else {
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
                 }
             case .warningThreshold:
-                cell.textLabel?.text = "Warning Threshold"
+                cell.textLabel?.text = LocalizedString("Warning Threshold", comment: "Label for warning threshold cell")
                 if let warningThreshold = pumpManager.state.progressWarningThresholdPercentValue {
                     cell.detailTextLabel?.text = "\(Int(round(warningThreshold * 100)))%"
                 } else {
                     cell.detailTextLabel?.text = SettingsTableViewCell.NoValueString
                 }
             case .criticalThreshold:
-                cell.textLabel?.text = "Critical Threshold"
+                cell.textLabel?.text = LocalizedString("Critical Threshold", comment: "Label for critical threshold cell")
                 if let criticalThreshold = pumpManager.state.progressCriticalThresholdPercentValue {
                     cell.detailTextLabel?.text = "\(Int(round(criticalThreshold * 100)))%"
                 } else {
@@ -311,7 +311,7 @@ final class MockPumpManagerSettingsViewController: UITableViewController {
             return cell
         case .deletePump:
             let cell = tableView.dequeueReusableCell(withIdentifier: TextButtonTableViewCell.className, for: indexPath) as! TextButtonTableViewCell
-            cell.textLabel?.text = "Delete Pump"
+            cell.textLabel?.text = LocalizedString("Delete Pump", comment: "Button title to delete the mock pump")
             cell.textLabel?.textAlignment = .center
             cell.tintColor = .delete
             cell.isEnabled = true
@@ -365,7 +365,7 @@ final class MockPumpManagerSettingsViewController: UITableViewController {
                 if pumpManager.state.deliverableIncrements == .custom, pumpManager.state.supportedBasalRates.indices.contains(1) {
                     let basalRates = pumpManager.state.supportedBasalRates
                     let vc = SupportedRangeTableViewController(minValue: basalRates.first!, maxValue: basalRates.last!, stepSize: basalRates[1] - basalRates.first!)
-                    vc.title = "Supported Basal Rates"
+                    vc.title = LocalizedString("Supported Basal Rates", comment: "Title for supported basal rates screen")
                     vc.indexPath = indexPath
                     vc.delegate = self
                     show(vc, sender: sender)
@@ -375,7 +375,7 @@ final class MockPumpManagerSettingsViewController: UITableViewController {
                 if pumpManager.state.deliverableIncrements == .custom, pumpManager.state.supportedBolusVolumes.indices.contains(1) {
                     let bolusVolumes = pumpManager.state.supportedBolusVolumes
                     let vc = SupportedRangeTableViewController(minValue: bolusVolumes.first!, maxValue: bolusVolumes.last!, stepSize: bolusVolumes[1] - bolusVolumes.first!)
-                    vc.title = "Supported Bolus Volumes"
+                    vc.title = LocalizedString("Supported Bolus Volumes", comment: "Title for supported bolus volumes screen")
                     vc.indexPath = indexPath
                     vc.delegate = self
                     show(vc, sender: sender)
@@ -472,7 +472,7 @@ final class MockPumpManagerSettingsViewController: UITableViewController {
             switch SettingsRow(rawValue: indexPath.row)! {
             case .lastReconciliationDate:
                 
-                let resetAction = UIContextualAction(style: .normal, title:  "Reset") {[weak self] _,_,_ in
+                let resetAction = UIContextualAction(style: .normal, title: LocalizedString("Reset", comment: "Swipe action title to reset the last reconciliation date")) {[weak self] _,_,_ in
                     self?.pumpManager.testLastReconciliation = nil
                     tableView.reloadRows(at: [indexPath], with: .automatic)
                 }
@@ -564,17 +564,17 @@ private extension UIAlertController {
     convenience init(pumpDeletionHandler handler: @escaping () -> Void) {
         self.init(
             title: nil,
-            message: "Are you sure you want to delete this pump?",
+            message: LocalizedString("Are you sure you want to delete this pump?", comment: "Confirmation message for deleting the mock pump"),
             preferredStyle: .actionSheet
         )
 
         addAction(UIAlertAction(
-            title: "Delete Pump",
+            title: LocalizedString("Delete Pump", comment: "Button title to confirm deleting the mock pump"),
             style: .destructive,
             handler: { _ in handler() }
         ))
 
-        addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        addAction(UIAlertAction(title: LocalizedString("Cancel", comment: "Button title to cancel deleting the mock pump"), style: .cancel, handler: nil))
     }
 
     convenience init(title: String, error: Error) {
