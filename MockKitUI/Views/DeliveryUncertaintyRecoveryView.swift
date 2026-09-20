@@ -19,7 +19,7 @@ struct DeliveryUncertaintyRecoveryView: View, HorizontalSizeClassOverride {
     var body: some View {
         NavigationView {
             GuidePage(content: {
-                Text("\(self.appName) has been unable to communicate with the Simulator Pump since \(self.uncertaintyDateLocalizedString).\n\nWithout communication, the app cannot continue to send commands for insulin delivery or display accurate, recent information about your active insulin or the insulin being delivered.")
+                Text("\(self.appName) has been unable to communicate with the Simulator Pump since \(self.uncertaintyDateLocalizedString).\n\nWithout communication, the app cannot continue to send commands for insulin delivery or display accurate, recent information about your active insulin or the insulin being delivered.", bundle: localizationBundle)
             }) {
                 Button(action: {
                     self.recoverCommsTapped()
@@ -31,7 +31,7 @@ struct DeliveryUncertaintyRecoveryView: View, HorizontalSizeClassOverride {
                 }
             }
             .environment(\.horizontalSizeClass, horizontalOverride)
-            .navigationBarTitle(Text("Comms Recovery"), displayMode: .large)
+            .navigationBarTitle(Text(LocalizedString("Comms Recovery", comment: "Navigation bar title for delivery uncertainty recovery screen")), displayMode: .large)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     backButton

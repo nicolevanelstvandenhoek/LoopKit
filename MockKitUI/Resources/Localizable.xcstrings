@@ -1,11 +1,137 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "" : {
-
-    },
+    "" : {},
     "\n\nGo to %1$@ Settings > Software Update to complete." : {
       "comment" : "Navigation guidance appended to software update alerts (1: app name)"
+    },
+    "%1$@ for %2$@" : {
+      "comment" : "Summary string for temporary basal rate configuration page"
+    },
+    "%1$@%2$@%3$@" : {
+      "comment" : "String format for value with units (1: value, 2: separator, 3: units)",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@%2$@%3$@"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@%2$@%3$@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@%2$@%3$@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@%2$@%3$@"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@%2$@%3$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@%2$@%3$@"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@%2$@%3$@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@%2$@%3$@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@%2$@%3$@"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ %2$@ %3$@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@%2$@%3$@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@%2$@%3$@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@%2$@%3$@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@%2$@%3$@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@%2$@%3$@"
+          }
+        },
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ %2$@ %3$@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@%2$@%3$@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@%2$@%3$@"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@%2$@%3$@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@%2$@%3$@"
+          }
+        }
+      }
     },
     "%@" : {
       "extractionState" : "manual",
@@ -285,134 +411,6 @@
         }
       }
     },
-    "%1$@ for %2$@" : {
-      "comment" : "Summary string for temporary basal rate configuration page"
-    },
-    "%1$@%2$@%3$@" : {
-      "comment" : "String format for value with units (1: value, 2: separator, 3: units)",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@%2$@%3$@"
-          }
-        },
-        "da" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@%2$@%3$@"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@%2$@%3$@"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@%2$@%3$@"
-          }
-        },
-        "fi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@%2$@%3$@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@%2$@%3$@"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@%2$@%3$@"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@%2$@%3$@"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@%2$@%3$@"
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@ %2$@ %3$@"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@%2$@%3$@"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@%2$@%3$@"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@%2$@%3$@"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@%2$@%3$@"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@%2$@%3$@"
-          }
-        },
-        "sk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@ %2$@ %3$@"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@%2$@%3$@"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@%2$@%3$@"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@%2$@%3$@"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@%2$@%3$@"
-          }
-        }
-      }
-    },
     "%lld" : {
       "localizations" : {
         "ar" : {
@@ -531,9 +529,7 @@
         }
       }
     },
-    "%u%% Battery" : {
-
-    },
+    "%u%% Battery" : {},
     "2" : {
       "localizations" : {
         "da" : {
@@ -941,12 +937,22 @@
         }
       }
     },
-    "Adjusting Pump Time..." : {
-
-    },
+    "Adjusting Pump Time..." : {},
     "App Store to Download and Install" : {
       "comment" : "A button that opens the App Store to download and install the latest version of the app.",
       "isCommentAutoGenerated" : true
+    },
+    "Are you sure you want to delete this pump?" : {
+      "comment" : "Confirmation message for deleting the mock pump",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weet je zeker dat je deze pomp wilt verwijderen?"
+          }
+        }
+      }
     },
     "Are you sure you want to delete this service?" : {
       "comment" : "Confirmation message for deleting a service",
@@ -1054,9 +1060,6 @@
           }
         }
       }
-    },
-    "at %@" : {
-
     },
     "Back" : {
       "comment" : "Back button text on DeliveryUncertaintyRecoveryView",
@@ -1183,8 +1186,201 @@
         }
       }
     },
-    "Battery Level Unknown" : {
-
+    "Basal Rates" : {
+      "comment" : "Label for supported basal rates cell",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Basaalstanden"
+          }
+        }
+      }
+    },
+    "Battery Level Unknown" : {},
+    "Battery Remaining" : {
+      "comment" : "Label for battery remaining cell",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resterende batterij"
+          }
+        }
+      }
+    },
+    "Bolus Volumes" : {
+      "comment" : "Label for supported bolus volumes cell",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bolusvolumes"
+          }
+        }
+      }
+    },
+    "CGM Settings" : {
+      "comment" : "Title for CGM simulator settings",
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CGM-indstillinger"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CGM-Einstellungen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuración del MCG"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CGM-asetukset"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paramètres CGM"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "הגדרות חיישן"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impostazioni CGM"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CGM-innstillinger"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CGM instellingen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ustawienia CGM"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setări senzor de glicemie"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройки CGM"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CGM-inställningar"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CGM Ayarları"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CGM 设置"
+          }
+        }
+      }
+    },
+    "CGM Simulator" : {
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CGM-simulator"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CGM-Simulator"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simulateur CGM"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simulatore CGM"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CGM-simulator"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CGM-simulator"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Symulator CGM"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simulator senzor de glicemie"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Симулятор CGM"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CGM 模拟器"
+          }
+        }
+      }
     },
     "Cancel" : {
       "comment" : "Cancel button text\nThe title of the cancel action in an action sheet",
@@ -1320,161 +1516,14 @@
     "Cancel Manual Basal" : {
       "comment" : "Button title to cancel manual basal"
     },
-    "CGM Settings" : {
-      "comment" : "Title for CGM simulator settings",
+    "Cause Pump Error" : {
+      "comment" : "Button title to trigger a mock pump error",
+      "extractionState" : "manual",
       "localizations" : {
-        "da" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CGM-indstillinger"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CGM-Einstellungen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Configuración del MCG"
-          }
-        },
-        "fi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CGM-asetukset"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Paramètres CGM"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "הגדרות חיישן"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Impostazioni CGM"
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CGM-innstillinger"
-          }
-        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CGM Instellingen"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ustawienia CGM"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Setări senzor de glicemie"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Настройки CGM"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CGM-inställningar"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CGM Ayarları"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CGM 设置"
-          }
-        }
-      }
-    },
-    "CGM Simulator" : {
-      "localizations" : {
-        "da" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CGM-simulator"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CGM-Simulator"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Simulateur CGM"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Simulatore CGM"
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CGM-simulator"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CGM-simulator"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Symulator CGM"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Simulator senzor de glicemie"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Симулятор CGM"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CGM 模拟器"
+            "value" : "Pompfout veroorzaken"
           }
         }
       }
@@ -1520,7 +1569,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wis laatste versie controleer waarschuwingsdatum"
+            "value" : "Laatste waarschuwingsdatum voor versiecontrole wissen"
           }
         },
         "pl" : {
@@ -1643,130 +1692,96 @@
         }
       }
     },
+    "Configuration" : {
+      "comment" : "Section header for the configuration section",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuratie"
+          }
+        }
+      }
+    },
+    "Crash on Bolus" : {
+      "comment" : "Title for switch to enable a mock crash on bolus",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crash bij bolus"
+          }
+        }
+      }
+    },
+    "Crash on Temp Basal" : {
+      "comment" : "Title for switch to enable a mock crash on temp basal",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crash bij tijdelijke basaal"
+          }
+        }
+      }
+    },
+    "Critical Threshold" : {
+      "comment" : "Label for critical threshold cell",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kritieke drempel"
+          }
+        }
+      }
+    },
+    "Current Basal Rate" : {
+      "comment" : "Label for current basal rate cell",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Huidige basaalstand"
+          }
+        }
+      }
+    },
     "Current Version" : {
       "comment" : "A label displayed above the current version of the app.",
       "isCommentAutoGenerated" : true
     },
-    "days" : {
+    "Custom" : {
+      "comment" : "Deliverable increments option: custom",
+      "extractionState" : "manual",
       "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "days"
-          }
-        },
-        "da" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "dage"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tage"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "días"
-          }
-        },
-        "fi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "days"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "jours"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ימים"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "giorni"
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "dager"
-          }
-        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "dagen"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "dni"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "days"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "zile"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "дней"
-          }
-        },
-        "sk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "dni"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "dagar"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "gün"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "days"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "天"
+            "value" : "Aangepast"
           }
         }
       }
     },
     "Decreased\nDelivery" : {
       "comment" : "Label for when temp basal is below the neutral basal"
+    },
+    "Delete Pump" : {
+      "comment" : "Button title to delete the mock pump",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomp verwijderen"
+          }
+        }
+      }
     },
     "Delete Service" : {
       "comment" : "Button title to delete a service",
@@ -1893,8 +1908,18 @@
         }
       }
     },
-    "Delivery Suspension Reminder" : {
-
+    "Delivery Suspension Reminder" : {},
+    "Detect Occlusion" : {
+      "comment" : "Button title to trigger a mock occlusion",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Occlusie detecteren"
+          }
+        }
+      }
     },
     "Device Details" : {
       "localizations" : {
@@ -2269,6 +2294,66 @@
         }
       }
     },
+    "Error on Bolus" : {
+      "comment" : "Title for switch to enable a mock error on bolus",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fout bij bolus"
+          }
+        }
+      }
+    },
+    "Error on Cancel Bolus" : {
+      "comment" : "Title for switch to enable a mock error on cancel bolus",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fout bij bolus annuleren"
+          }
+        }
+      }
+    },
+    "Error on Resume" : {
+      "comment" : "Title for switch to enable a mock error on resume",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fout bij hervatten"
+          }
+        }
+      }
+    },
+    "Error on Suspend" : {
+      "comment" : "Title for switch to enable a mock error on suspend",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fout bij onderbreken"
+          }
+        }
+      }
+    },
+    "Error on Temp Basal" : {
+      "comment" : "Title for switch to enable a mock error on temp basal",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fout bij tijdelijke basaal"
+          }
+        }
+      }
+    },
     "Estimated Reading" : {
       "localizations" : {
         "da" : {
@@ -2430,9 +2515,7 @@
         }
       }
     },
-    "Failed to Set Pump Time" : {
-
-    },
+    "Failed to Set Pump Time" : {},
     "Failed to Suspend Insulin Delivery" : {
       "localizations" : {
         "da" : {
@@ -2468,7 +2551,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Onderbreken van insulinetoediening mislukt"
+            "value" : "Insulinetoediening onderbreken mislukt"
           }
         },
         "pl" : {
@@ -2625,11 +2708,23 @@
         }
       }
     },
-    "Heartbeat Pairing" : {
-      "comment" : "Navigation title for Heartbeat Fob Pairing View"
+    "Glucose" : {
+      "comment" : "Label for last glucose value",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Glucose"
+          }
+        }
+      }
     },
     "HIGH" : {
       "comment" : "String displayed instead of a glucose value above the CGM range"
+    },
+    "Heartbeat Pairing" : {
+      "comment" : "Navigation title for Heartbeat Fob Pairing View"
     },
     "History" : {
       "comment" : "Caption for History\nHistory Caption",
@@ -2750,9 +2845,7 @@
         }
       }
     },
-    "How long would you like to suspend insulin delivery for?" : {
-
-    },
+    "How long would you like to suspend insulin delivery for?" : {},
     "How should the simulator respond to a version check?" : {
       "localizations" : {
         "da" : {
@@ -2831,6 +2924,30 @@
     },
     "Increased\nDelivery" : {
       "comment" : "Label for when temp basal is above the neutral basal"
+    },
+    "Increments" : {
+      "comment" : "Label for deliverable increments setting",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stapgroottes"
+          }
+        }
+      }
+    },
+    "Insertion Time" : {
+      "comment" : "Label for sensor insertion time field",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inbrengtijd"
+          }
+        }
+      }
     },
     "Insulin\nSuspended" : {
       "localizations" : {
@@ -3061,6 +3178,91 @@
         }
       }
     },
+    "Insulin Delivery" : {
+      "comment" : "Title of insulin delivery section",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Insulin%@Delivery"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Insuline afgifte"
+          }
+        }
+      }
+    },
+    "Insulin Remaining" : {
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Insulin %@ Resterende"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Insulin%@Übrig"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Insuline%@Restante"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Insulina%@rimanente"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Insulin %@ gjenstår"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resterende insuline"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pozostało%@Insuliny"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Insulină %@ rămasă"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остаток инсулина %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "胰岛素%@余量"
+          }
+        }
+      }
+    },
+    "LOW" : {
+      "comment" : "String displayed instead of a glucose value below the CGM range"
+    },
     "Last Reading" : {
       "localizations" : {
         "ar" : {
@@ -3179,129 +3381,14 @@
         }
       }
     },
-    "LOW" : {
-      "comment" : "String displayed instead of a glucose value below the CGM range"
-    },
-    "min" : {
+    "Last Reconciliation Date" : {
+      "comment" : "Label for last reconciliation date cell",
+      "extractionState" : "manual",
       "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "د"
-          }
-        },
-        "da" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "min"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Min"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "min"
-          }
-        },
-        "fi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "min."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "min"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "min"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "minuti"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "min"
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "min"
-          }
-        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "min"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "min."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "min"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "min"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "мин"
-          }
-        },
-        "sk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "min"
-          }
-        },
-        "sv" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "min"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "min"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "tối thiểu"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "分钟"
+            "value" : "Datum laatste afstemming"
           }
         }
       }
@@ -3341,7 +3428,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mock versie check %@"
+            "value" : "Mock versiecontrole %@"
           }
         },
         "pl" : {
@@ -3372,6 +3459,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "模拟版本校验 %@"
+          }
+        }
+      }
+    },
+    "Next Delivery Command Uncertain" : {
+      "comment" : "Title for switch to enable uncertain delivery on the next command",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volgende toedieningsopdracht onzeker"
           }
         }
       }
@@ -3411,7 +3510,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geen\ntoediening"
+            "value" : "Geen\nafgifte"
           }
         },
         "pl" : {
@@ -3440,9 +3539,7 @@
         }
       }
     },
-    "No, Keep Pump As Is" : {
-
-    },
+    "No, Keep Pump As Is" : {},
     "Notification Settings" : {
       "localizations" : {
         "da" : {
@@ -3638,8 +3735,54 @@
         }
       }
     },
+    "Percent Completed" : {
+      "comment" : "Label for percent completed cell",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Percentage voltooid"
+          }
+        }
+      }
+    },
     "Preset\nDelivery" : {
       "comment" : "Label for neutral basal with override"
+    },
+    "Pump Expires" : {
+      "comment" : "Label for pump expiration date/time field",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomp verloopt"
+          }
+        }
+      }
+    },
+    "Pump Paired" : {
+      "comment" : "Label for pump paired date/time field",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomp gekoppeld"
+          }
+        }
+      }
+    },
+    "Pump Time" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomptijd"
+          }
+        }
+      }
     },
     "Pump expires in " : {
       "localizations" : {
@@ -3704,9 +3847,6 @@
           }
         }
       }
-    },
-    "Pump Time" : {
-
     },
     "Rate" : {
       "comment" : "Label text for basal rate summary"
@@ -3867,6 +4007,78 @@
         }
       }
     },
+    "Replace Pump Component" : {
+      "comment" : "Button title to trigger a mock pump component replacement",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomponderdeel vervangen"
+          }
+        }
+      }
+    },
+    "Reservoir Remaining" : {
+      "comment" : "Label for reservoir remaining cell",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resterend reservoir"
+          }
+        }
+      }
+    },
+    "Reset" : {
+      "comment" : "Swipe action title to reset the last reconciliation date",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resetten"
+          }
+        }
+      }
+    },
+    "Resolve Occlusion" : {
+      "comment" : "Button title to resolve a mock occlusion",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Occlusie oplossen"
+          }
+        }
+      }
+    },
+    "Resolve Pump Error" : {
+      "comment" : "Button title to resolve a mock pump error",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pompfout oplossen"
+          }
+        }
+      }
+    },
+    "Resume Therapy" : {
+      "comment" : "Button title to resume therapy after a mock pump component replacement",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Therapie hervatten"
+          }
+        }
+      }
+    },
     "Resuming Insulin Delivery" : {
       "comment" : "Label when resuming insulin delivery"
     },
@@ -3937,6 +4149,94 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "预设%@基础率"
+          }
+        }
+      }
+    },
+    "Scheduled Basal" : {
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Planlagt%@Basal"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geplantes%@Basal"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Débit basal programmé %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Basale%@programmata"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Planlagt%@Basal"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geplande basaal"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zaplanowana%@Baza"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bazală programată%@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запланированный базал %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "预设%@基础率"
+          }
+        }
+      }
+    },
+    "Sensor" : {
+      "comment" : "Section header for the sensor section",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sensor"
+          }
+        }
+      }
+    },
+    "Sensor Expires" : {
+      "comment" : "Label for sensor expiration field",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sensor verloopt"
           }
         }
       }
@@ -4065,9 +4365,7 @@
     "Set Temporary Basal Rate" : {
       "comment" : "Button title to set temporary basal rate"
     },
-    "Signal Loss" : {
-
-    },
+    "Signal Loss" : {},
     "Simulator Settings" : {
       "localizations" : {
         "de" : {
@@ -4097,7 +4395,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Simulatorinstellingen"
+            "value" : "Simulator-instellingen"
           }
         },
         "ro" : {
@@ -4195,6 +4493,18 @@
         }
       }
     },
+    "Status Progress" : {
+      "comment" : "Section header for the status progress section",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Statusvoortgang"
+          }
+        }
+      }
+    },
     "Stop Sensor" : {
       "localizations" : {
         "da" : {
@@ -4230,7 +4540,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stop Sensor"
+            "value" : "Sensor stoppen"
           }
         },
         "pl" : {
@@ -4259,8 +4569,52 @@
         }
       }
     },
+    "Support" : {
+      "comment" : "Section header for the support section",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ondersteuning"
+          }
+        }
+      }
+    },
+    "Supported Basal Rates" : {
+      "comment" : "Title for supported basal rates screen",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ondersteunde basaalstanden"
+          }
+        }
+      }
+    },
+    "Supported Bolus Volumes" : {
+      "comment" : "Title for supported bolus volumes screen",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ondersteunde bolusvolumes"
+          }
+        }
+      }
+    },
     "Suspend Insulin Delivery" : {
-      "comment" : "Label when the user can suspend insulin delivery"
+      "comment" : "Label when the user can suspend insulin delivery",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Insulinetoediening onderbreken"
+          }
+        }
+      }
     },
     "Suspended At" : {
       "comment" : "Label for suspended at field",
@@ -4330,11 +4684,17 @@
     "Suspending Insulin Delivery" : {
       "comment" : "Label when suspending insulin delivery"
     },
-    "Sync to Current Time" : {
-
-    },
+    "Sync to Current Time" : {},
     "Tap to Resume Insulin Delivery" : {
-      "comment" : "Label when the user can resume insulin delivery"
+      "comment" : "Label when the user can resume insulin delivery",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tik om insulinetoediening te hervatten"
+          }
+        }
+      }
     },
     "Temporary Basal" : {
       "comment" : "Navigation Title for ManualTempBasalEntryView"
@@ -4410,17 +4770,113 @@
         }
       }
     },
-    "The time on your pump is different from the current time. Do you want to update the time on your pump to the current time?" : {
-
+    "Temporary Basal" : {
+      "localizations" : {
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Midlertidig%@ basal"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temporäres%@Basal"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Débit Basal temporaire %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Basale%@temporanea"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Midlertidig %@ Basal"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tijdelijke basaal"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baza%@Tymczasowa"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@Bazală temporară"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Временный базал %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "临时%@基础率"
+          }
+        }
+      }
     },
-    "Time Change Detected" : {
-
+    "The time on your pump is different from the current time. Do you want to update the time on your pump to the current time?" : {},
+    "Time" : {
+      "comment" : "Label for last glucose reading time",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tijd"
+          }
+        }
+      }
+    },
+    "Time Change Detected" : {},
+    "Trend" : {
+      "comment" : "Label for last glucose trend",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trend"
+          }
+        }
+      }
     },
     "Unable to set a temporary basal rate: %1$@" : {
       "comment" : "Alert format string for a failure to set temporary basal. (1: error description)"
     },
     "Unable to set a temporary basal rate: %1$@\n\n%2$@" : {
       "comment" : "Alert format string for a failure to set temporary basal with recovery suggestion. (1: error description) (2: recovery text)"
+    },
+    "Unset" : {
+      "comment" : "Value shown when no insulin type is set",
+      "extractionState" : "manual",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet ingesteld"
+          }
+        }
+      }
     },
     "Update Reminder" : {
       "comment" : "Recurring software update alert title",
@@ -4575,49 +5031,14 @@
         }
       }
     },
-    "versionUpdate: %@\n\nbundleIdentifier: %@\n\ncurrentVersion: %@" : {
-      "extractionState" : "stale",
+    "Warning Threshold" : {
+      "comment" : "Label for warning threshold cell",
+      "extractionState" : "manual",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "versionUpdate: %1$@\n\nbundle-Kennung: %2$@\n\naktuelle Version: %3$@\n"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "versionUpdate: %1$@\n\nbundleIdentifier: %2$@\n\ncurrentVersion: %3$@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "versionUpdate : %1$@\n\nbundleIdentifier : %2$@\n\ncurrentVersion : %3$@"
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "versionUpdate: %1$@\n\nbundleIdentifier: %2$@\n\ncurrentVersion: %3$@"
-          }
-        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "versionUpdate: %1$@\n\nbundleIdentifier: %2$@\n\ncurrentVersion: %3$@"
-          }
-        },
-        "ro" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "actualizareVersiune: %1$@\n\nidentificatorPachet: %2$@\n\nversiuneaCurentă: %3$@"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "版本更新：%1$@\nbundleIdentifier: %2$@\n当前版本：%3$@"
+            "value" : "Waarschuwingsdrempel"
           }
         }
       }
@@ -4625,9 +5046,7 @@
     "When the device time is manually set, %1$@ will not synchronize the pump time to the device time." : {
       "comment" : "Description for why the pump time is not synchronized (1: app name)"
     },
-    "Yes, Sync to Current Time" : {
-
-    },
+    "Yes, Sync to Current Time" : {},
     "Your %1$@ app is out of date. It will continue to work, but we recommend updating to the latest version.\n\nGo to %2$@ Settings > Software Update to complete." : {
       "comment" : "Alert content body for first software update alert (1: app name)(2: app name)",
       "extractionState" : "stale",
@@ -4717,6 +5136,296 @@
     },
     "Your insulin delivery will not be automatically adjusted until the temporary basal rate finishes or is canceled." : {
       "comment" : "Description text on manual temp basal action sheet"
+    },
+    "at %@" : {},
+    "days" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "days"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dage"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tage"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "días"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "days"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "jours"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ימים"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "giorni"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dager"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dagen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dni"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "days"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zile"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "дней"
+          }
+        },
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dni"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dagar"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "gün"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "days"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "天"
+          }
+        }
+      }
+    },
+    "min" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "د"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "min"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Min"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "min"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "min."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "min"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "min"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "minuti"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "min"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "min"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "min"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "min."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "min"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "min"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "мин"
+          }
+        },
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "min"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "min"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "min"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tối thiểu"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分钟"
+          }
+        }
+      }
+    },
+    "versionUpdate: %@\n\nbundleIdentifier: %@\n\ncurrentVersion: %@" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "versionUpdate: %1$@\n\nbundle-Kennung: %2$@\n\naktuelle Version: %3$@\n"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "versionUpdate: %1$@\n\nbundleIdentifier: %2$@\n\ncurrentVersion: %3$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "versionUpdate : %1$@\n\nbundleIdentifier : %2$@\n\ncurrentVersion : %3$@"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "versionUpdate: %1$@\n\nbundleIdentifier: %2$@\n\ncurrentVersion: %3$@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "versieUpdate: %1$@\n\nbundleIdentifier: %2$@\n\nhuidigeVersie: %3$@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "actualizareVersiune: %1$@\n\nidentificatorPachet: %2$@\n\nversiuneaCurentă: %3$@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "版本更新：%1$@\nbundleIdentifier: %2$@\n当前版本：%3$@"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
