@@ -45,7 +45,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Maaltijdgegevens uit de Gezondheid-database worden gebruikt om glucose-effecten te bepalen. Glucosegegevens worden uit HealthKit opgehaald voor grafieken en analyse."
+            "value" : "Maaltijdgegevens uit de Gezondheid-database worden gebruikt om de effecten op de glucose te bepalen. Glucosegegevens worden uit HealthKit opgehaald voor grafieken en analyse."
           }
         },
         "ro" : {

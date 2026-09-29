@@ -34,11 +34,9 @@ struct MockPumpManagerSettingsView: View {
     private var supportedInsulinTypes: [InsulinType]
     private var appName: String
     private let allowDebugFeatures : Bool
-    private var title: String
-    
+
     init(pumpManager: MockPumpManager, supportedInsulinTypes: [InsulinType], appName: String, allowDebugFeatures: Bool) {
         viewModel = MockPumpManagerSettingsViewModel(pumpManager: pumpManager)
-        title = pumpManager.localizedTitle
         self.supportedInsulinTypes = supportedInsulinTypes
         self.appName = appName
         self.allowDebugFeatures = allowDebugFeatures
@@ -56,7 +54,7 @@ struct MockPumpManagerSettingsView: View {
         }
         .insetGroupedListStyle()
         .navigationBarItems(trailing: doneButton)
-        .navigationBarTitle(Text(title), displayMode: .large)
+        .navigationBarTitle(Text(LocalizedString("Pump Simulator", comment: "Navigation bar title for pump simulator settings")), displayMode: .large)
         .alert(item: $presentedAlert, content: alert(for:))
     }
     
