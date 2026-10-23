@@ -2096,7 +2096,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Basaalsnelheden"
+            "value" : "Basaalstanden"
           }
         },
         "pl" : {
@@ -7952,7 +7952,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Maximale Basaalsnelheid is de maximale tijdelijke basaalsnelheid die %1$@ mag instellen."
+            "value" : "Maximale basaalstand is de maximale tijdelijke basaalstand die %1$@ mag instellen."
           }
         },
         "pl" : {
@@ -8244,7 +8244,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Maximale Bolus is de hoogste bolushoeveelheid die je in één keer kunt toedienen om koolhydraten te dekken of om een hoge glucose te verlagen."
+            "value" : "Maximale bolus is de hoogste bolushoeveelheid die je in één keer kunt toedienen om koolhydraten te dekken of om een hoge glucose te verlagen."
           }
         },
         "pl" : {
@@ -10002,7 +10002,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ok"
+            "value" : "OK"
           }
         },
         "pl" : {
@@ -13644,7 +13644,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Training"
+            "value" : "Training/Sport"
           }
         },
         "pl" : {
@@ -14073,7 +14073,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je Insulinegevoeligheid is de daling van de glucose verwacht van één eenheid insuline."
+            "value" : "Je insulinegevoeligheid is de daling van de glucose verwacht van één eenheid insuline."
           }
         },
         "pl" : {
