@@ -388,7 +388,7 @@ extension TherapySettingsView {
         Section {
             NavigationLink(destination: DemoPlaceHolderView(appName: appName)) {
                 HStack {
-                    Text("Get help with Therapy Settings", comment: "Support button for Therapy Settings")
+                    Text(LocalizedString("Get help with Therapy Settings", comment: "Support button for Therapy Settings"))
                         .foregroundColor(.primary)
                     Spacer()
                     Disclosure()

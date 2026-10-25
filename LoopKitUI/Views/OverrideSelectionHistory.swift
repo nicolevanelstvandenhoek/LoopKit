@@ -106,7 +106,7 @@ public struct OverrideSelectionHistory: View {
         case .legacyWorkout:
             return OverrideViewCell(
                 symbol: Text("🏃‍♂️"),
-                name: Text("Workout", comment: "Title for workout override history cell"),
+                name: Text(LocalizedString("Workout", comment: "Title for workout override history cell")),
                 targetRange: Text(targetRange),
                 duration: Text(duration),
                 subtitle: Text(startTime),
@@ -114,7 +114,7 @@ public struct OverrideSelectionHistory: View {
         case .preMeal:
             return OverrideViewCell(
                 symbol: Text("🍽"),
-                name: Text("Pre-Meal", comment: "Title for pre-meal override history cell"),
+                name: Text(LocalizedString("Pre-Meal", comment: "Title for pre-meal override history cell")),
                 targetRange: Text(targetRange),
                 duration: Text(duration),
                 subtitle: Text(startTime),
