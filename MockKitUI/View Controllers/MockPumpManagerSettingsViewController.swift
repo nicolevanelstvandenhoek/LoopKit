@@ -482,7 +482,7 @@ final class MockPumpManagerSettingsViewController: UITableViewController {
                     self?.pumpManager.lastSync = nil
                     tableView.reloadRows(at: [indexPath], with: .automatic)
                 }
-                resetAction.backgroundColor = .systemRed
+                resetAction.backgroundColor = .systemPink
                 return UISwipeActionsConfiguration(actions: [resetAction])
             default:
                 break
