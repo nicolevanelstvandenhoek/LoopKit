@@ -8,20 +8,44 @@
 
 import SwiftUI
 
-public struct CheckmarkListItem: View {
+public struct CheckmarkListItem<LeadingView: View>: View {
     
     var title: Text
     var titleFont: Font
     var description: Text
     @Binding var isSelected: Bool
     let isEnabled: Bool
+    let leadingView: LeadingView?
 
-    public init(title: Text, titleFont: Font = .headline, description: Text, isSelected: Binding<Bool>, isEnabled: Bool = true) {
+    public init(
+        title: Text,
+        titleFont: Font = .headline,
+        description: Text,
+        isSelected: Binding<Bool>,
+        isEnabled: Bool = true,
+        @ViewBuilder leadingView: () -> LeadingView
+    ) {
         self.title = title
         self.titleFont = titleFont
         self.description = description
         self._isSelected = isSelected
         self.isEnabled = isEnabled
+        self.leadingView = leadingView()
+    }
+    
+    public init(
+        title: Text,
+        titleFont: Font = .headline,
+        description: Text,
+        isSelected: Binding<Bool>,
+        isEnabled: Bool = true
+    ) where LeadingView == EmptyView {
+        self.title = title
+        self.titleFont = titleFont
+        self.description = description
+        self._isSelected = isSelected
+        self.isEnabled = isEnabled
+        self.leadingView = nil
     }
 
     @ViewBuilder
@@ -30,6 +54,12 @@ public struct CheckmarkListItem: View {
             Button(action: { self.isSelected = true }) {
                 content
             }
+            // Opt out of iOS 26 Liquid Glass's default button styling, which otherwise
+            // wraps each row's custom label in a tinted Capsule background (ballooning into
+            // ovals on the tall multi-line rows) and accent-tints all the text. .plain keeps
+            // the row a borderless tappable item; the checkmark stays accent-colored via its
+            // own foregroundColor.
+            .buttonStyle(.plain)
         } else {
             content
         }
@@ -37,12 +67,15 @@ public struct CheckmarkListItem: View {
     
     private var content: some View {
         HStack(spacing: 0) {
+            if let leadingView = leadingView {
+                leadingView
+            }
+            
             VStack(alignment: .leading, spacing: 4) {
                 title
                     .font(titleFont)
                 description
                     .font(.footnote)
-                    .foregroundColor(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
                     .multilineTextAlignment(.leading)
             }

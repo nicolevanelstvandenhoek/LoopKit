@@ -7,8 +7,10 @@
 //
 
 import Foundation
+import SwiftData
+import os.log
 
-public enum End: Equatable, Hashable, Codable {
+public enum End: Equatable, Hashable, Codable, Sendable {
     case natural
     case early(Date)
     case deleted // Ended before started
@@ -51,9 +53,9 @@ public enum End: Equatable, Hashable, Codable {
     }
 }
 
-private struct OverrideEvent: Equatable {
+public struct OverrideEvent: Equatable, Codable, Hashable {
 
-    var override: TemporaryScheduleOverride
+    public var override: TemporaryScheduleOverride
     var modificationCounter: Int64
 
     init(override: TemporaryScheduleOverride, modificationCounter: Int64) {
@@ -67,7 +69,12 @@ public protocol TemporaryScheduleOverrideHistoryDelegate: AnyObject {
     func temporaryScheduleOverrideHistoryDidUpdate(_ history: TemporaryScheduleOverrideHistory)
 }
 
+
+@Model
 public final class TemporaryScheduleOverrideHistory {
+    
+    public static var relevantTimeWindow: TimeInterval = 1
+
     public struct QueryAnchor: RawRepresentable {
         public typealias RawValue = [String: Any]
 
@@ -91,7 +98,7 @@ public final class TemporaryScheduleOverrideHistory {
         }
     }
 
-    private var recentEvents: [OverrideEvent] = [] {
+    public var recentEvents: [OverrideEvent] = [] {
         didSet {
             modificationCounter += 1
 
@@ -107,15 +114,11 @@ public final class TemporaryScheduleOverrideHistory {
     /// Stored to enable retrieval via issue report after a deliberate crash.
     private var taintedEventLog: [OverrideEvent] = []
     
-    private var modificationCounter: Int64
-    
-    public var relevantTimeWindow: TimeInterval = TimeInterval.hours(10)
+    private var modificationCounter: Int64 = 0
 
-    public weak var delegate: TemporaryScheduleOverrideHistoryDelegate?
+    @Transient public weak var delegate: TemporaryScheduleOverrideHistoryDelegate?
 
-    public init() {
-        modificationCounter = 0
-    }
+    public init() {}
 
     public func recordOverride(_ override: TemporaryScheduleOverride?, at enableDate: Date = Date()) {
         guard override != lastUndeletedEvent?.override else {
@@ -128,12 +131,20 @@ public final class TemporaryScheduleOverrideHistory {
             cancelActiveOverride(at: enableDate)
         }
         delegate?.temporaryScheduleOverrideHistoryDidUpdate(self)
+        try? modelContext?.save()
     }
-    
+
+    public func activeOverride(at date: Date) -> TemporaryScheduleOverride? {
+        let active = recentEvents.filter({$0.override.actualEnd != .deleted}).first { event in
+            event.override.isActive(at: date)
+        }
+        return active?.override
+    }
+
     private var lastUndeletedEvent: OverrideEvent? {
         return recentEvents.reversed().first { $0.override.actualEnd != .deleted }
     }
-    
+
     private func deleteEventsStartingOnOrAfter(_ date: Date) {
         recentEvents.mutateEach { (event) in
             if event.override.startDate >= date {
@@ -141,6 +152,7 @@ public final class TemporaryScheduleOverrideHistory {
                 event.modificationCounter = modificationCounter
             }
         }
+        try? modelContext?.save()
     }
     
     // Deletes overrides that start after the passed in override.
@@ -165,6 +177,7 @@ public final class TemporaryScheduleOverrideHistory {
 
         let enabledEvent = OverrideEvent(override: override, modificationCounter: modificationCounter)
         recentEvents.append(enabledEvent)
+        try? modelContext?.save()
     }
 
     private func cancelActiveOverride(at date: Date) {
@@ -184,6 +197,8 @@ public final class TemporaryScheduleOverrideHistory {
                 break
             }
         }
+        
+        try? modelContext?.save()
     }
 
     public func resolvingRecentBasalSchedule(_ base: BasalRateSchedule, relativeTo referenceDate: Date = Date()) -> BasalRateSchedule {
@@ -212,10 +227,22 @@ public final class TemporaryScheduleOverrideHistory {
         return recentEvents.map { $0.override }
     }
 
+    public func getOverrideHistory(startDate: Date, endDate: Date) -> [TemporaryScheduleOverride] {
+        return recentEvents.compactMap { (event) -> TemporaryScheduleOverride? in
+            guard 
+                event.override.startDate < endDate,
+                event.override.actualEndDate > startDate
+            else {
+                return nil
+            }
+            return event.override
+        }
+    }
+
     private func relevantPeriod(relativeTo referenceDate: Date) -> DateInterval {
         return DateInterval(
-            start: referenceDate.addingTimeInterval(-relevantTimeWindow),
-            end: referenceDate.addingTimeInterval(relevantTimeWindow)
+            start: referenceDate.addingTimeInterval(-Self.relevantTimeWindow),
+            end: referenceDate.addingTimeInterval(Self.relevantTimeWindow)
         )
     }
 
@@ -279,9 +306,11 @@ public final class TemporaryScheduleOverrideHistory {
         }
     }
 
+    // Used in tests
     func wipeHistory() {
         recentEvents.removeAll()
         modificationCounter = 0
+        try? modelContext?.save()
     }
     
     public func queryByAnchor(_ anchor: QueryAnchor?) -> (resultOverrides: [TemporaryScheduleOverride], deletedOverrides: [TemporaryScheduleOverride], newAnchor: QueryAnchor)  {
@@ -307,77 +336,6 @@ public final class TemporaryScheduleOverrideHistory {
 }
 
 
-extension OverrideEvent: RawRepresentable {
-    typealias RawValue = [String: Any]
-
-    init?(rawValue: RawValue) {
-        guard
-            let overrideRawValue = rawValue["override"] as? TemporaryScheduleOverride.RawValue,
-            let override = TemporaryScheduleOverride(rawValue: overrideRawValue)
-        else {
-            return nil
-        }
-
-        self.override = override
-        
-        self.modificationCounter = rawValue["modificationCounter"] as? Int64 ?? 0
-        
-        if let isDeleted = rawValue["isDeleted"] as? Bool, isDeleted {
-            self.override.actualEnd = .deleted
-        } else if let endDate = rawValue["endDate"] as? Date {
-            self.override.actualEnd = .early(endDate)
-        }
-    }
-
-    var rawValue: RawValue {
-        var raw: RawValue = [
-            "override": override.rawValue,
-            "modificationCounter": modificationCounter,
-            "isDeleted": override.actualEnd == .deleted,
-        ]
-
-        if case .early(let endDate) = override.actualEnd {
-            raw["endDate"] = endDate
-        }
-
-        return raw
-    }
-}
-
-
-extension TemporaryScheduleOverrideHistory: RawRepresentable {
-    public typealias RawValue = [String: Any]
-
-    public convenience init?(rawValue: RawValue) {
-        self.init()
-        if let recentEventsRawValue = rawValue["recentEvents"] as? [[String: Any]] {
-            let recentEvents = recentEventsRawValue.compactMap(OverrideEvent.init(rawValue:))
-            guard recentEvents.count == recentEventsRawValue.count else {
-                return nil
-            }
-            self.recentEvents = recentEvents
-        }
-        if let taintedEventsRawValue = rawValue["taintedEventLog"] as? [[String: Any]] {
-            let taintedEventLog = taintedEventsRawValue.compactMap(OverrideEvent.init(rawValue:))
-            guard taintedEventLog.count == taintedEventsRawValue.count else {
-                return nil
-            }
-            self.taintedEventLog = taintedEventLog
-        }
-        
-        self.modificationCounter = rawValue["modificationCounter"] as? Int64 ?? 0
-    }
-
-    public var rawValue: RawValue {
-        return [
-            "recentEvents": recentEvents.map { $0.rawValue },
-            "taintedEventLog": taintedEventLog.map { $0.rawValue },
-            "modificationCounter": modificationCounter
-        ]
-    }
-}
-
-
 extension TemporaryScheduleOverrideHistory: CustomDebugStringConvertible {
     public var debugDescription: String {
         return "TemporaryScheduleOverrideHistory(recentEvents: \(recentEvents), taintedEventLog: \(taintedEventLog))"
@@ -385,8 +343,127 @@ extension TemporaryScheduleOverrideHistory: CustomDebugStringConvertible {
 }
 
 
+extension TemporaryScheduleOverrideHistory: CriticalEventLog {
+    public var exportName: String { "Overrides.json" }
+
+    public func exportProgressTotalUnitCount(startDate: Date, endDate: Date? = nil) -> Result<Int64, Error> {
+        return .success(Int64(exportOverrides(startDate: startDate, endDate: endDate).count))
+    }
+
+    public func export(startDate: Date, endDate: Date, to stream: DataOutputStream, progress: Progress) -> Error? {
+        guard !progress.isCancelled else {
+            return CriticalEventLogError.cancelled
+        }
+
+        let overrides = exportOverrides(startDate: startDate, endDate: endDate)
+        let encoder = JSONStreamEncoder(stream: stream)
+        var error: Error?
+        do {
+            try encoder.encode(overrides)
+            progress.completedUnitCount += Int64(overrides.count)
+        } catch let encodeError {
+            error = encodeError
+        }
+
+        if let closeError = encoder.close(), error == nil {
+            error = closeError
+        }
+
+        return error
+    }
+
+    // Exports run on background queues, but the history is read and written on the main thread
+    private func exportOverrides(startDate: Date, endDate: Date?) -> [TemporaryScheduleOverride] {
+        let read = {
+            self.recentEvents
+                .map(\.override)
+                .filter { override in override.startDate >= startDate && endDate.map { override.startDate < $0 } ?? true }
+                .sorted { $0.startDate < $1.startDate }
+        }
+        return Thread.isMainThread ? read() : DispatchQueue.main.sync(execute: read)
+    }
+}
+
 private extension Date {
     var nearestPrevious: Date {
         return Date(timeIntervalSince1970: timeIntervalSince1970.nextDown)
+    }
+}
+
+@MainActor
+public class TemporaryScheduleOverrideHistoryContainer {
+    public static let shared = TemporaryScheduleOverrideHistoryContainer()
+    public let context: ModelContext
+
+    private static let log = OSLog(subsystem: "com.loopkit.LoopKit", category: "TemporaryScheduleOverrideHistoryContainer")
+
+    private init() {
+        let schema = Schema([TemporaryScheduleOverrideHistory.self])
+        do {
+            let container = try ModelContainer(for: schema)
+            context = ModelContext(container)
+        } catch {
+            // The override history is rebuilt from settings, so it is not worth
+            // crashing the app (a loop, since launch retries) when the on-disk
+            // store cannot be opened. Fall back to an in-memory store so the
+            // app can start; the persisted history is abandoned.
+            os_log("Unable to open override history store, falling back to in-memory: %{public}@", log: Self.log, type: .error, String(describing: error))
+            let container = try! ModelContainer(for: schema, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+            context = ModelContext(container)
+        }
+    }
+
+    public func fetch(descriptor: FetchDescriptor<TemporaryScheduleOverrideHistory>? = nil) -> TemporaryScheduleOverrideHistory {
+        // Breadcrumb: this fetch materializes the persisted override events
+        // (decoding each event's context/preset/symbol). A launch crash here
+        // leaves this as the last line before the trap in a sysdiagnose, which
+        // is how we can locate it in reports from users who can reproduce it.
+        os_log("Loading override history…", log: Self.log, type: .default)
+        do {
+            let fetched = try context.fetch(descriptor ?? FetchDescriptor<TemporaryScheduleOverrideHistory>())
+            // There should only ever be one, but a duplicate must not crash the
+            // app at launch: use the first and move on.
+            if fetched.count > 1 {
+                os_log("Found %d override history records; expected 1. Using the first.", log: Self.log, type: .error, fetched.count)
+            }
+            if let persisted = fetched.first {
+                logSummary(of: persisted)
+                return persisted
+            }
+            os_log("No persisted override history; starting empty.", log: Self.log, type: .default)
+        } catch {
+            // A fetch/decode failure here would otherwise take down the app at
+            // launch. Log and start from an empty history instead.
+            os_log("Unable to fetch override history, starting empty: %{public}@", log: Self.log, type: .error, String(describing: error))
+        }
+
+        let history = TemporaryScheduleOverrideHistory()
+        context.insert(history)
+        return history
+    }
+
+    /// Logs a compact, structural summary of the loaded events so reports from
+    /// users who hit odd override/preset data (crash or not) show what was
+    /// stored, without dumping user content.
+    private func logSummary(of history: TemporaryScheduleOverrideHistory) {
+        let events = history.recentEvents
+        os_log("Loaded override history: %d event(s)", log: Self.log, type: .default, events.count)
+        for event in events {
+            let o = event.override
+            let contextKind: String
+            switch o.context {
+            case .preMeal: contextKind = "preMeal"
+            case .preset: contextKind = "preset"
+            case .activity: contextKind = "activity"
+            case .custom: contextKind = "custom"
+            }
+            os_log("  override context=%{public}@ duration=%{public}@ start=%{public}@ actualEnd=%{public}@ sync=%{public}@",
+                   log: Self.log, type: .default,
+                   contextKind,
+                   String(describing: o.duration),
+                   String(describing: o.startDate),
+                   String(describing: o.actualEnd),
+                   o.syncIdentifier.uuidString)
+        }
     }
 }

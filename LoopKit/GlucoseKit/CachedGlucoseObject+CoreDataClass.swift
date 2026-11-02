@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 import HealthKit
+import LoopAlgorithm
 
 
 class CachedGlucoseObject: NSManagedObject {
@@ -84,25 +85,29 @@ class CachedGlucoseObject: NSManagedObject {
 // MARK: - Helpers
 
 extension CachedGlucoseObject {
-    var quantity: HKQuantity { HKQuantity(unit: HKUnit(from: unitString), doubleValue: value) }
+    var quantity: LoopQuantity { LoopQuantity(unit: LoopUnit(from: unitString), doubleValue: value) }
 
     var quantitySample: HKQuantitySample {
         var metadata: [String: Any] = [:]
         metadata[HKMetadataKeySyncIdentifier] = syncIdentifier
-        metadata[HKMetadataKeySyncVersion] = syncVersion
+        metadata[HKMetadataKeySyncVersion] = syncVersion ?? 1
         if isDisplayOnly {
             metadata[MetadataKeyGlucoseIsDisplayOnly] = true
         }
         if wasUserEntered {
             metadata[HKMetadataKeyWasUserEntered] = true
         }
+        if isBackfill {
+            metadata[MetadataKeyGlucoseIsBackfill] = true
+        }
+        metadata[MetadataKeyGlucoseReceivedDate] = receivedDate
         metadata[MetadataKeyGlucoseCondition] = condition?.rawValue
         metadata[MetadataKeyGlucoseTrend] = trend?.symbol
         metadata[MetadataKeyGlucoseTrendRateValue] = trendRateValue
 
         return HKQuantitySample(
             type: HealthKitSampleStore.glucoseType,
-            quantity: quantity,
+            quantity: quantity.hkQuantity,
             start: startDate,
             end: startDate,
             device: device,
@@ -110,17 +115,17 @@ extension CachedGlucoseObject {
         )
     }
 
-    var trendRate: HKQuantity? {
+    var trendRate: LoopQuantity? {
         get {
             guard let trendRateValue = trendRateValue else {
                 return nil
             }
-            return HKQuantity(unit: .milligramsPerDeciliterPerMinute, doubleValue: trendRateValue.doubleValue)
+            return LoopQuantity(unit: .milligramsPerDeciliterPerMinute, doubleValue: trendRateValue.doubleValue)
         }
 
         set {
             if let newValue = newValue {
-                let unit = HKUnit(from: unitString).unitDivided(by: .minute())
+                let unit = LoopUnit.milligramsPerDeciliterPerMinute
                 trendRateValue = NSNumber(value: newValue.doubleValue(for: unit))
             } else {
                 trendRateValue = nil
@@ -137,8 +142,8 @@ extension CachedGlucoseObject {
     /// - parameters:
     ///   - sample: A new glucose (CGM) sample to copy data from.
     ///   - provenanceIdentifier: A string uniquely identifying the provenance (origin) of the sample.
-    ///   - healthKitStorageDelay: The amount of time (seconds) to delay writing this sample to HealthKit.  A `nil` here means this sample is not eligible (i.e. authorized) to be written to HealthKit.
-    func create(from sample: NewGlucoseSample, provenanceIdentifier: String, healthKitStorageDelay: TimeInterval?) {
+    ///   - healthKitStorageDelay: The amount of time (seconds) to delay writing this sample to HealthKit.  A `nil` here means this sample is not eligible (i.e. authorized) to be written to HealthKit. Note that user entered glucose samples are sent directly to HealthKit without any delay
+    func create(from sample: NewGlucoseSample, provenanceIdentifier: String, healthKitStorageDelay: TimeInterval?, receivedDate: Date = Date()) {
         self.uuid = nil
         self.provenanceIdentifier = provenanceIdentifier
         self.syncIdentifier = sample.syncIdentifier
@@ -147,12 +152,14 @@ extension CachedGlucoseObject {
         self.unitString = HKUnit.milligramsPerDeciliter.unitString
         self.startDate = sample.date
         self.isDisplayOnly = sample.isDisplayOnly
+        self.isBackfill = sample.isBackfill
+        self.receivedDate = receivedDate
         self.wasUserEntered = sample.wasUserEntered
         self.device = sample.device
         self.condition = sample.condition
         self.trend = sample.trend
         self.trendRate = sample.trendRate
-        self.healthKitEligibleDate = healthKitStorageDelay.map { sample.date.addingTimeInterval($0) }
+        self.healthKitEligibleDate = (healthKitStorageDelay != nil && sample.wasUserEntered) ? sample.date : healthKitStorageDelay.map { sample.date.addingTimeInterval($0) }
     }
 
     // HealthKit
@@ -165,6 +172,8 @@ extension CachedGlucoseObject {
         self.unitString = HKUnit.milligramsPerDeciliter.unitString
         self.startDate = sample.startDate
         self.isDisplayOnly = sample.isDisplayOnly
+        self.isBackfill = sample.isBackfill
+        self.receivedDate = sample.receivedDate
         self.wasUserEntered = sample.wasUserEntered
         self.device = sample.device
         self.condition = sample.condition
@@ -188,6 +197,8 @@ extension CachedGlucoseObject {
         self.unitString = HKUnit.milligramsPerDeciliter.unitString
         self.startDate = sample.startDate
         self.isDisplayOnly = sample.isDisplayOnly
+        self.isBackfill = sample.isBackfill
+        self.receivedDate = sample.receivedDate
         self.wasUserEntered = sample.wasUserEntered
         self.device = sample.device
         self.condition = sample.condition

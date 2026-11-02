@@ -10,11 +10,12 @@ import SwiftUI
 import HealthKit
 import LoopKit
 
+@MainActor
 public protocol SupportInfoProvider {
     var pumpStatus: PumpManagerStatus? { get }
     var cgmStatus: CGMManagerStatus? { get }
     var localizedAppNameAndVersion: String { get }
-    func generateIssueReport(completion: @escaping (String) -> Void)
+    func generateIssueReport() async -> String
 }
 
 public struct LoopScenario: Hashable {
@@ -53,6 +54,7 @@ public struct CustomMenuItem {
 }
 
 public protocol SupportUIDelegate: AlertIssuer, SupportInfoProvider  {
+    @MainActor
     func openURL(url: URL)
 
     /// The app's screen for exporting critical event logs.
@@ -70,6 +72,11 @@ public struct DeviceWhitelist: Hashable {
     }
 }
 
+public enum TrainingMediaDomain: Hashable {
+    case presets
+}
+
+@MainActor
 public protocol SupportUI: Pluggable {
 
     typealias RawStateValue = [String: Any]
@@ -118,6 +125,9 @@ public protocol SupportUI: Pluggable {
     /// Use this to restore any values that were cached before a reset occurred
     func loopDidReset()
     
+    /// Provides playable media to Loop to be used in training new features
+    func trainingMedia(for domain: TrainingMediaDomain) -> [MediaContent]
+
     /// The screen listing the ways to report a problem, for the app to open
     /// from outside settings. Nil if this support doesn't provide one.
     @MainActor
@@ -153,4 +163,9 @@ extension SupportUI {
     public func reportProblemView() -> AnyView? {
         nil
     }
+}
+
+@MainActor
+public protocol SupportProviding {
+    func createSupport() -> SupportUI
 }

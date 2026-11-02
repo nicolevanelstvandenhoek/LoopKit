@@ -6,6 +6,7 @@
 //  Copyright © 2023 LoopKit Authors. All rights reserved.
 //
 
+import Combine
 import SwiftUI
 import LoopKit
 import LoopKitUI
@@ -58,7 +59,9 @@ struct MockCGMManagerSettingsView: View {
         statusCardSubSection
         
         notificationSubSection
-        
+
+        heartbeatSubSection
+
         if (allowDebugFeatures) {
             settingsSubSection
         }
@@ -72,6 +75,7 @@ struct MockCGMManagerSettingsView: View {
                 Divider()
                 lastReadingInfo
             }
+            details
         }
     }
         
@@ -93,6 +97,7 @@ struct MockCGMManagerSettingsView: View {
                 .aspectRatio(contentMode: ContentMode.fit)
                 .frame(maxHeight: 70)
                 .frame(width: 70)
+                .accessibilityIdentifier("image_CgmSimulator")
         }
     }
     
@@ -142,21 +147,42 @@ struct MockCGMManagerSettingsView: View {
     }
     
     @ViewBuilder
+    private var details: some View {
+        if let detailText = viewModel.detailText() {
+            VStack(alignment: .leading) {
+                Text(detailText)
+                    .font(.footnote.weight(.semibold))
+                    .padding(.vertical, 8.0)
+            }
+        }
+    }
+    
+    @ViewBuilder
     private var lastGlucoseReading: some View {
         VStack(alignment: .leading, spacing: 5) {
             Text(LocalizedString("Last Reading", comment: "Label for last glucose reading value"))
                 .foregroundColor(.secondary)
-            
             HStack(alignment: .center, spacing: 16) {
-                viewModel.lastGlucoseTrend?.filledImage
-                    .scaleEffect(1.7, anchor: .leading)
-                    .foregroundColor(glucoseTintColor)
-                HStack(alignment: .firstTextBaseline, spacing: 4) {
-                    Text(viewModel.lastGlucoseValueFormatted)
-                        .font(.title)
-                        .fontWeight(.heavy)
-                    Text(viewModel.glucoseUnitString)
-                        .foregroundColor(.secondary)
+                if viewModel.inSignalLoss {
+                    Image(systemName: "exclamationmark.circle.fill")
+                        .scaleEffect(1.7, anchor: .leading)
+                        .foregroundColor(guidanceColors.critical)
+                    Text("Signal Loss")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                } else {
+                    viewModel.lastGlucoseTrend?.filledImage
+                        .scaleEffect(1.7, anchor: .leading)
+                        .foregroundColor(glucoseTintColor)
+                    HStack(alignment: .firstTextBaseline, spacing: 4) {
+                        Text(viewModel.lastGlucoseValueFormatted)
+                            .font(.title)
+                            .fontWeight(.heavy)
+                        if viewModel.shouldDisplayUnitsForCurrentGlucose {
+                            Text(viewModel.glucoseUnitString)
+                                .foregroundColor(.secondary)
+                        }
+                    }
                 }
             }
         }
@@ -218,6 +244,17 @@ struct MockCGMManagerSettingsView: View {
             }
         }
     }
+
+    private var heartbeatSubSection: some View {
+        Section(header: SectionHeader(label: "BLE Heartbeat")) {
+            if let heartbeatFob = viewModel.cgmManager.heartbeatFob {
+                NavigationLink(destination: HeartbeatFobPairingView(heartbeatFob: heartbeatFob)) {
+                    LabeledValueView(label: "Status", value: viewModel.bleHeartbeatStatus)
+                }
+            }
+        }
+    }
+
 
     private var lastReadingSection: some View {
         Section(header: SectionHeader(label: LocalizedString("Last Reading", comment: "Section header for the last reading section"))) {

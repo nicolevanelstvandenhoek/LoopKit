@@ -12,16 +12,16 @@ import LoopKitUI
 import MockKit
 import HealthKit
 
-extension MockService: ServiceUI {
+extension MockService: @retroactive ServiceUI {
     public static var image: UIImage? {
         return UIImage(systemName: "icloud.and.arrow.up")
     }
     
-    public static func setupViewController(colorPalette: LoopUIColorPalette, pluginHost: PluginHost) -> SetupUIResult<ServiceViewController, ServiceUI> {
+    public static func setupViewController(colorPalette: LoopUIColorPalette, pluginHost: PluginHost, allowDebugFeatures: Bool) -> SetupUIResult<ServiceViewController, ServiceUI> {
         return .userInteractionRequired(ServiceNavigationController(rootViewController: MockServiceTableViewController(service: MockService(), for: .create)))
     }
 
-    public func settingsViewController(colorPalette: LoopUIColorPalette) -> ServiceViewController {
+    public func settingsViewController(colorPalette: LoopUIColorPalette, allowDebugFeatures: Bool) -> ServiceViewController {
       return ServiceNavigationController(rootViewController: MockServiceTableViewController(service: self, for: .update))
     }
     

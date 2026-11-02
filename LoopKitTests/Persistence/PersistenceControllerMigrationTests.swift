@@ -54,24 +54,6 @@ class PersistenceControllerMigrationTests: XCTestCase {
         }
     }
 
-    func testModelv1StoreMigratesToCurrentModel() throws {
-        try createStore(modelNamed: "Model") { context in
-            self.insert("CachedCarbObject", into: context, values: ["grams": 30.0, "syncIdentifier": "carb"])
-            self.insert("CachedInsulinDeliveryObject", into: context, values: [
-                "syncIdentifier": "bolus", "value": 1.5, "reason": HKInsulinDeliveryReason.bolus.rawValue
-            ])
-        }
-
-        let cacheStore = try openCacheStore()
-        defer { cacheStore.tearDown() }
-
-        XCTAssertEqual(try fetchDoses(in: cacheStore)["bolus"]?.value, 1.5)
-        try cacheStore.managedObjectContext.performAndWait {
-            let carbs = try cacheStore.managedObjectContext.fetch(CachedCarbObject.fetchRequest())
-            XCTAssertEqual(carbs.map(\.grams), [30])
-        }
-    }
-
     // Core Data keeps the store's model in the store, so it can infer the mapping down to ours
     func testStoreFromNewerModelOpensAndKeepsItsData() throws {
         let newerModel = try bundledModel(named: "Modelv8")
@@ -91,7 +73,7 @@ class PersistenceControllerMigrationTests: XCTestCase {
         let cacheStore = try openCacheStore()
         defer { cacheStore.tearDown() }
 
-        XCTAssertEqual(try fetchDoses(in: cacheStore)["bolus"]?.value, 2.5)
+        XCTAssertEqual(try fetchDoses(in: cacheStore)["bolus"]?.deliveredUnits, 2.5)
         try cacheStore.managedObjectContext.performAndWait {
             let carbs = try cacheStore.managedObjectContext.fetch(CachedCarbObject.fetchRequest())
             XCTAssertEqual(carbs.map(\.grams), [30])

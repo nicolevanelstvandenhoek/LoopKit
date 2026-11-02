@@ -23,13 +23,25 @@ public enum CGMReadingResult {
 public struct CGMManagerStatus: Equatable {
     // Return false if no sensor active, or in a state where no future data is expected without user intervention
     public var hasValidSensorSession: Bool
+    
+    /// Return true if the sensor is warming up, otherwise false
+    public var inSensorWarmup: Bool
+    
+    /// Return true if the cgm is inoperable (e.g., failure state, expired, etc.), otherwise false
+    public var isInoperable: Bool
 
     public var lastCommunicationDate: Date?
 
     public var device: HKDevice?
     
-    public init(hasValidSensorSession: Bool, lastCommunicationDate: Date? = nil, device: HKDevice?) {
+    public init(hasValidSensorSession: Bool,
+                inSensorWarmup: Bool = false,
+                isInoperable: Bool = false,
+                lastCommunicationDate: Date? = nil,
+                device: HKDevice?) {
         self.hasValidSensorSession = hasValidSensorSession
+        self.inSensorWarmup = inSensorWarmup
+        self.isInoperable = isInoperable
         self.lastCommunicationDate = lastCommunicationDate
         self.device = device
     }
@@ -39,6 +51,8 @@ extension CGMManagerStatus: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.hasValidSensorSession = try container.decode(Bool.self, forKey: .hasValidSensorSession)
+        self.inSensorWarmup = try container.decode(Bool.self, forKey: .inSensorWarmup)
+        self.isInoperable = try container.decode(Bool.self, forKey: .isInoperable)
         self.lastCommunicationDate = try container.decodeIfPresent(Date.self, forKey: .lastCommunicationDate)
         self.device = try container.decodeIfPresent(CodableDevice.self, forKey: .device)?.device
     }
@@ -46,12 +60,16 @@ extension CGMManagerStatus: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(hasValidSensorSession, forKey: .hasValidSensorSession)
+        try container.encode(inSensorWarmup, forKey: .inSensorWarmup)
+        try container.encode(isInoperable, forKey: .isInoperable)
         try container.encodeIfPresent(lastCommunicationDate, forKey: .lastCommunicationDate)
         try container.encodeIfPresent(device.map { CodableDevice($0) }, forKey: .device)
     }
 
     private enum CodingKeys: String, CodingKey {
         case hasValidSensorSession
+        case inSensorWarmup
+        case isInoperable
         case lastCommunicationDate
         case device
     }
@@ -90,7 +108,7 @@ public protocol CGMManagerDelegate: DeviceManagerDelegate, CGMManagerStatusObser
     /// Informs the delegate that the manager is deactivating and should be deleted
     ///
     /// - Parameter manager: The manager instance
-    func cgmManagerWantsDeletion(_ manager: CGMManager)
+    func cgmManagerWantsDeletion(_ manager: CGMManager) async
 
     /// Informs the delegate that the manager has updated its state and should be persisted.
     ///
@@ -113,9 +131,18 @@ public protocol CGMManager: DeviceManager {
     /// Whether the device is capable of waking the app
     var providesBLEHeartbeat: Bool { get }
 
+    /// True when this CGM source has its own first-party glucose-level
+    /// alerting (e.g. Dexcom G6/G7 via the Dexcom app, MiaoMiao with
+    /// SpikeApp, etc.). When true, Loop suppresses its own
+    /// threshold-based glucose alerts for samples from this source so
+    /// the user isn't double-alerted. Sensor-lifecycle alerts (expiry,
+    /// session ended) are unaffected. Default is false — the CGMs that
+    /// don't ship native alerts are the more common DIY case.
+    var providesOwnGlucoseAlerts: Bool { get }
+
     /// The length of time to keep samples in HealthKit before removal. Return nil to never remove samples.
     var managedDataInterval: TimeInterval? { get }
-    
+
     /// The length of time to delay until storing samples into HealthKit.  Return 0 for no delay.
     static var healthKitStorageDelay: TimeInterval { get }
 
@@ -182,11 +209,18 @@ public extension CGMManager {
     }
 }
 
+
 public extension CGMManager {
     var appURL: URL? {
         return nil
     }
-    
+
+    /// Default: this CGM source doesn't provide its own glucose alerts.
+    /// Loop's GlucoseAlertManager will evaluate samples against
+    /// thresholds. Plugins like Dexcom-app-paired G7 should override
+    /// to `true`.
+    var providesOwnGlucoseAlerts: Bool { false }
+
     /// Default is no delay to store samples in HealthKit
     static var healthKitStorageDelay: TimeInterval { 0 }
 
@@ -196,8 +230,10 @@ public extension CGMManager {
     ///   - completion: A closure called from the delegate queue after the delegate is called
     func notifyDelegateOfDeletion(completion: @escaping () -> Void) {
         delegateQueue.async {
-            self.cgmManagerDelegate?.cgmManagerWantsDeletion(self)
-            completion()
+            Task {
+                await self.cgmManagerDelegate?.cgmManagerWantsDeletion(self)
+                completion()
+            }
         }
     }
     

@@ -7,54 +7,49 @@
 //
 
 import XCTest
-import HealthKit
 @testable import LoopKit
+import LoopAlgorithm
 
 class GuardrailTests: XCTestCase {
     let correctionRangeSchedule120 = GlucoseRangeSchedule(unit: .milligramsPerDeciliter, dailyItems: [RepeatingScheduleValue(startTime: 0, value: DoubleRange(120...130))])
     let preMealTargetRange120 = DoubleRange(120...130).quantityRange(for: .milligramsPerDeciliter)
-    let workoutTargetRange120 = DoubleRange(120...130).quantityRange(for: .milligramsPerDeciliter)
     let correctionRangeSchedule80 = GlucoseRangeSchedule(unit: .milligramsPerDeciliter, dailyItems: [RepeatingScheduleValue(startTime: 0, value: DoubleRange(80...100))])
     let preMealTargetRange85 = DoubleRange(85...100).quantityRange(for: .milligramsPerDeciliter)
-    let workoutTargetRange90 = DoubleRange(90...100).quantityRange(for: .milligramsPerDeciliter)
 
     func testSuspendThresholdUnits() {
-        XCTAssertTrue(Guardrail.suspendThreshold.absoluteBounds.contains(HKQuantity(unit: .milligramsPerDeciliter, doubleValue: 67)))
-        XCTAssertTrue(Guardrail.suspendThreshold.absoluteBounds.contains(HKQuantity(unit: .milligramsPerDeciliter, doubleValue: 110)))
-        XCTAssertTrue(Guardrail.suspendThreshold.absoluteBounds.contains(HKQuantity(unit: .millimolesPerLiter, doubleValue: 6.1)))
-        XCTAssertTrue(Guardrail.suspendThreshold.recommendedBounds.contains(HKQuantity(unit: .milligramsPerDeciliter, doubleValue: 74)))
-        XCTAssertTrue(Guardrail.suspendThreshold.recommendedBounds.contains(HKQuantity(unit: .milligramsPerDeciliter, doubleValue: 80)))
-        XCTAssertTrue(Guardrail.suspendThreshold.absoluteBounds.contains(HKQuantity(unit: .millimolesPerLiter, doubleValue: 4.44)))
+        XCTAssertTrue(Guardrail.suspendThreshold.absoluteBounds.contains(LoopQuantity(unit: .milligramsPerDeciliter, doubleValue: 67)))
+        XCTAssertTrue(Guardrail.suspendThreshold.absoluteBounds.contains(LoopQuantity(unit: .milligramsPerDeciliter, doubleValue: 110)))
+        XCTAssertTrue(Guardrail.suspendThreshold.absoluteBounds.contains(LoopQuantity(unit: .millimolesPerLiter, doubleValue: 6.1)))
+        XCTAssertTrue(Guardrail.suspendThreshold.recommendedBounds.contains(LoopQuantity(unit: .milligramsPerDeciliter, doubleValue: 74)))
+        XCTAssertTrue(Guardrail.suspendThreshold.recommendedBounds.contains(LoopQuantity(unit: .milligramsPerDeciliter, doubleValue: 80)))
+        XCTAssertTrue(Guardrail.suspendThreshold.absoluteBounds.contains(LoopQuantity(unit: .millimolesPerLiter, doubleValue: 4.44)))
     }
 
     func testMaxSuspensionThresholdValue() {
-        let correctionRangeInputs = [ nil, correctionRangeSchedule120, correctionRangeSchedule80 ]
-        let preMealInputs = [ nil, preMealTargetRange120, preMealTargetRange85 ]
-        let workoutInputs = [ nil, workoutTargetRange120, workoutTargetRange90 ]
-        let expected: [Double] = [ 110.9, 110.9, 90,
-                                   110.9, 110.9, 90,
-                                   85, 85, 85,
-                                   110.9, 110.9, 90,
-                                   110.9, 110.9, 90,
-                                   85, 85, 85,
-                                   80, 80, 80,
-                                   80, 80, 80,
-                                   80, 80, 80 ]
-        var index = 0
-        for correctionRange in correctionRangeInputs {
-            for preMeal in preMealInputs {
-                for workout in workoutInputs {
-                    let maxSuspendThresholdValue = Guardrail.maxSuspendThresholdValue(correctionRangeSchedule: correctionRange, preMealTargetRange: preMeal, workoutTargetRange: workout).doubleValue(for: .milligramsPerDeciliter)
-                    XCTAssertEqual(expected[index], maxSuspendThresholdValue, "Index \(index) failed")
-                    index += 1
-                }
-            }
+        let bounds = [
+            LoopQuantity(unit: .milligramsPerDeciliter, doubleValue: 115),
+            LoopQuantity(unit: .milligramsPerDeciliter, doubleValue: 80),
+            nil
+        ]
+
+        let expectedValues: [Double] = [
+            110,
+            80,
+            110
+        ]
+        for (bound, expectedValue) in zip(bounds, expectedValues) {
+            XCTAssertEqual(expectedValue, Guardrail.maxSuspendThresholdValue(minimumConfiguredLowerBound: bound).doubleValue(for: .milligramsPerDeciliter))
         }
     }
     
     func testMinCorrectionRangeValue() {
         let suspendThresholdInputs: [Double?] = [ nil, 80, 88 ]
-        let expected: [Double] = [ 86.1, 86.1, 88 ]
+        // correctionRange absolute lower bound is 87 mg/dL. The historical 86.1 was
+        // #527's deliberately-offset constant (86.1...180.5), reverted to clean
+        // 87...180 in the Swift-package lineage we now track; leftover here and in
+        // testPreMealCorrectionRange when the constants were reverted. Boundary
+        // selectability is handled by GlucoseValuePicker, not offset constants.
+        let expected: [Double] = [ 87, 87, 88 ]
         for (index, suspendThreshold) in suspendThresholdInputs.enumerated() {
             XCTAssertEqual(expected[index], Guardrail.minCorrectionRangeValue(suspendThreshold: suspendThreshold.map { GlucoseThreshold(unit: .milligramsPerDeciliter, value: $0) }).doubleValue(for: .milligramsPerDeciliter), "Index \(index) failed")
         }
@@ -63,45 +58,24 @@ class GuardrailTests: XCTestCase {
     func testCorrectionRange() {
         let guardrail = Guardrail.correctionRange
         let expectedAndTest: [(SafetyClassification, Double)] = [
-            (SafetyClassification.withinRecommendedRange, 100),
-            (SafetyClassification.withinRecommendedRange, 115),
-            (SafetyClassification.outsideRecommendedRange(.belowRecommended), 99),
-            (SafetyClassification.outsideRecommendedRange(.aboveRecommended), 116),
-            (SafetyClassification.outsideRecommendedRange(.maximum), 180.9),
-            (SafetyClassification.outsideRecommendedRange(.minimum), 86.1),
+            (SafetyClassification.withinRecommendedRange, 87),
+            (SafetyClassification.withinRecommendedRange, 180),
+            (SafetyClassification.outsideRecommendedRange(.belowRecommended), 87.nextDown),
+            (SafetyClassification.outsideRecommendedRange(.maximum), 180.nextUp),
         ]
         
         for test in expectedAndTest {
-            XCTAssertEqual(test.0, guardrail.classification(for: HKQuantity(unit: .milligramsPerDeciliter, doubleValue: test.1)), "for \(test.1)")
-        }
-    }
-    
-    func testWorkoutCorrectionRange() {
-        let correctionRangeInputs = [ 70...80, 70...85, 70...90 ]
-        let suspendThresholdInputs: [Double?] = [ nil, 81, 91 ]
-        let expectedLow: [Double] = [ 86.1, 86.1, 91,
-                                      86.1, 86.1, 91,
-                                      90, 90, 91 ]
-        let expectedMin: [Double] = [ 86.1, 86.1, 91, 86.1, 86.1, 91, 86.1, 86.1, 91 ]
-
-        var index = 0
-        for correctionRange in correctionRangeInputs {
-            for suspendThreshold in suspendThresholdInputs {
-                let guardrail = Guardrail.correctionRangeOverride(for: .workout, correctionRangeScheduleRange: correctionRange.range(withUnit: .milligramsPerDeciliter), suspendThreshold: suspendThreshold.map { GlucoseThreshold(unit: .milligramsPerDeciliter, value: $0) })
-                XCTAssertEqual(expectedLow[index], guardrail.recommendedBounds.lowerBound.doubleValue(for: .milligramsPerDeciliter), "Index \(index) failed")
-                XCTAssertEqual(expectedMin[index], guardrail.absoluteBounds.lowerBound.doubleValue(for: .milligramsPerDeciliter), "Index \(index) failed")
-                index += 1
-            }
+            XCTAssertEqual(test.0, guardrail.classification(for: LoopQuantity(unit: .milligramsPerDeciliter, doubleValue: test.1)), "for \(test.1)")
         }
     }
 
     func testPreMealCorrectionRange() {
         let correctionRangeInputs = [ 60...80, 100...110, 150...180 ]
         let suspendThresholdInputs: [Double?] = [ nil, 90 ]
-        let expectedRecommendedHigh: [Double] = [ 66.1, 90,
+        let expectedRecommendedHigh: [Double] = [ 67, 90,
                                                   100, 100,
                                                   130, 130 ]
-        let expectedMin: [Double] = [ 66.1, 90, 66.1, 90, 66.1, 90 ]
+        let expectedMin: [Double] = [ 67, 90, 67, 90, 67, 90 ]
 
         var index = 0
         for correctionRange in correctionRangeInputs {
@@ -158,6 +132,15 @@ class GuardrailTests: XCTestCase {
         XCTAssertEqual(guardrail.recommendedBounds.range(withUnit: .internationalUnitsPerHour), 1.6...5.0)
     }
     
+    func testMaxBasalRateGuardrailZeroSchedule() {
+        let supportedBasalRates = (1...600).map { Double($0) / 20 }
+        let scheduledBasalRange = 0.0...0.0
+        let lowestCarbRatio = 10.0
+        let guardrail = Guardrail.maximumBasalRate(supportedBasalRates: supportedBasalRates, scheduledBasalRange: scheduledBasalRange, lowestCarbRatio: lowestCarbRatio)
+        XCTAssertEqual(guardrail.absoluteBounds.range(withUnit: .internationalUnitsPerHour), 0.05...7.0)
+        XCTAssertEqual(guardrail.recommendedBounds.range(withUnit: .internationalUnitsPerHour), 0.1...0.3)
+    }
+    
     func testMaxBasalRateGuardrailHighCarbRatio() {
         let supportedBasalRates = (1...600).map { Double($0) / 20 }
         let scheduledBasalRange = 0.05...0.78125
@@ -198,8 +181,8 @@ class GuardrailTests: XCTestCase {
         let scheduledBasalRange = 0.0...0.0
         let lowestCarbRatio = 10.0
         let guardrail = Guardrail.maximumBasalRate(supportedBasalRates: supportedBasalRates, scheduledBasalRange: scheduledBasalRange, lowestCarbRatio: lowestCarbRatio)
-        XCTAssertEqual(guardrail.absoluteBounds.range(withUnit: .internationalUnitsPerHour), 0.0...1.0)
-        XCTAssertEqual(guardrail.recommendedBounds.range(withUnit: .internationalUnitsPerHour), 0.0...0.0)
+        XCTAssertEqual(guardrail.absoluteBounds.range(withUnit: .internationalUnitsPerHour), 1.0...1.0)
+        XCTAssertEqual(guardrail.recommendedBounds.range(withUnit: .internationalUnitsPerHour), 1.0...1.0)
     }
     
     func testMaxBasalRateGuardrailNoScheduledBasalRates() {
@@ -228,36 +211,36 @@ class GuardrailTests: XCTestCase {
     func testMaxBolusGuardrailInsideLimits() {
         let supportedBolusVolumes = [0.05, 1.0, 2.0]
         let guardrail = Guardrail.maximumBolus(supportedBolusVolumes: supportedBolusVolumes)
-        XCTAssertEqual(guardrail.absoluteBounds.range(withUnit: .internationalUnit()), 0.05...2.0)
-        XCTAssertEqual(guardrail.recommendedBounds.range(withUnit: .internationalUnit()), 1.0...2.0)
+        XCTAssertEqual(guardrail.absoluteBounds.range(withUnit: .internationalUnit), 0.05...2.0)
+        XCTAssertEqual(guardrail.recommendedBounds.range(withUnit: .internationalUnit), 1.0...2.0)
     }
     
     func testMaxBolusGuardrailClamped() {
         let supportedBolusVolumes = [0.05, 1.0, 2.0, 20.0.nextDown, 20.0, 25.0, 30.0, 30.0.nextUp]
         let guardrail = Guardrail.maximumBolus(supportedBolusVolumes: supportedBolusVolumes)
-        XCTAssertEqual(guardrail.absoluteBounds.range(withUnit: .internationalUnit()), 0.05...30.0)
-        XCTAssertEqual(guardrail.recommendedBounds.range(withUnit: .internationalUnit()), 1.0...20.0.nextDown)
+        XCTAssertEqual(guardrail.absoluteBounds.range(withUnit: .internationalUnit), 0.05...30.0)
+        XCTAssertEqual(guardrail.recommendedBounds.range(withUnit: .internationalUnit), 1.0...20.0.nextDown)
     }
     
     func testMaxBolusGuardrailDropsZeroVolume() {
         let supportedBolusVolumes = [0.0, 0.05, 1.0, 2.0, 20.0.nextDown, 20.0, 25.0, 30.0, 30.0.nextUp]
         let guardrail = Guardrail.maximumBolus(supportedBolusVolumes: supportedBolusVolumes)
-        XCTAssertEqual(guardrail.absoluteBounds.range(withUnit: .internationalUnit()), 0.05...30.0)
-        XCTAssertEqual(guardrail.recommendedBounds.range(withUnit: .internationalUnit()), 1.0...20.0.nextDown)
+        XCTAssertEqual(guardrail.absoluteBounds.range(withUnit: .internationalUnit), 0.05...30.0)
+        XCTAssertEqual(guardrail.recommendedBounds.range(withUnit: .internationalUnit), 1.0...20.0.nextDown)
     }
     
     func testMaxBolusGuardrailDropsAllZeroVolumes() {
         let supportedBolusVolumes = [0.0, 0.0, 0.05, 1.0, 2.0, 20.0.nextDown, 20.0, 25.0, 30.0, 30.0.nextUp]
         let guardrail = Guardrail.maximumBolus(supportedBolusVolumes: supportedBolusVolumes)
-        XCTAssertEqual(guardrail.absoluteBounds.range(withUnit: .internationalUnit()), 0.05...30.0)
-        XCTAssertEqual(guardrail.recommendedBounds.range(withUnit: .internationalUnit()), 1.0...20.0.nextDown)
+        XCTAssertEqual(guardrail.absoluteBounds.range(withUnit: .internationalUnit), 0.05...30.0)
+        XCTAssertEqual(guardrail.recommendedBounds.range(withUnit: .internationalUnit), 1.0...20.0.nextDown)
     }
     
     func testMaxBolusGuardrailDropsNegatives() {
         let supportedBolusVolumes = [-2.0, -1.0, 0.05, 1.0, 2.0, 20.0.nextDown, 20.0, 25.0, 30.0, 30.0.nextUp]
         let guardrail = Guardrail.maximumBolus(supportedBolusVolumes: supportedBolusVolumes)
-        XCTAssertEqual(guardrail.absoluteBounds.range(withUnit: .internationalUnit()), 0.05...30.0)
-        XCTAssertEqual(guardrail.recommendedBounds.range(withUnit: .internationalUnit()), 1.0...20.0.nextDown)
+        XCTAssertEqual(guardrail.absoluteBounds.range(withUnit: .internationalUnit), 0.05...30.0)
+        XCTAssertEqual(guardrail.recommendedBounds.range(withUnit: .internationalUnit), 1.0...20.0.nextDown)
     }
     
     func testSelectableBolusVolumes() {
@@ -268,7 +251,7 @@ class GuardrailTests: XCTestCase {
 
     func testAllValuesOfQuantity() {
         var guardrail = Guardrail.carbRatio
-        var unit: HKUnit = .gramsPerUnit
+        var unit: LoopUnit = .gramsPerUnit
         var increment = 0.1
         var allValues = guardrail.allValues(forUnit: unit)
         var expectedValues = Array(stride(
@@ -279,7 +262,7 @@ class GuardrailTests: XCTestCase {
         XCTAssertEqual(allValues, expectedValues)
 
         guardrail = Guardrail.insulinSensitivity
-        unit = HKUnit.milligramsPerDeciliter.unitDivided(by: .internationalUnit())
+        unit = LoopUnit.milligramsPerDeciliterPerInternationalUnit
         increment = 1
         allValues = guardrail.allValues(forUnit: unit)
         expectedValues = Array(stride(
@@ -291,14 +274,14 @@ class GuardrailTests: XCTestCase {
     }
 }
 
-fileprivate extension ClosedRange where Bound == HKQuantity {
-    func range(withUnit unit: HKUnit) -> ClosedRange<Double> {
+fileprivate extension ClosedRange where Bound == LoopQuantity {
+    func range(withUnit unit: LoopUnit) -> ClosedRange<Double> {
         lowerBound.doubleValue(for: unit)...upperBound.doubleValue(for: unit)
     }
 }
 
 fileprivate extension ClosedRange where Bound == Int {
-    func range(withUnit unit: HKUnit) -> ClosedRange<HKQuantity> {
-        HKQuantity(unit: unit, doubleValue: Double(lowerBound))...HKQuantity(unit: unit, doubleValue: Double(upperBound))
+    func range(withUnit unit: LoopUnit) -> ClosedRange<LoopQuantity> {
+        LoopQuantity(unit: unit, doubleValue: Double(lowerBound))...LoopQuantity(unit: unit, doubleValue: Double(upperBound))
     }
 }

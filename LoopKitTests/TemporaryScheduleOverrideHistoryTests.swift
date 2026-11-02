@@ -7,9 +7,10 @@
 //
 
 import XCTest
+import SwiftData
 @testable import LoopKit
 
-
+@MainActor
 final class TemporaryScheduleOverrideHistoryTests: XCTestCase {
     // Midnight of an arbitrary date
     let referenceDate = Calendar.current.startOfDay(for: Date(timeIntervalSinceReferenceDate: .hours(100_000)))
@@ -23,7 +24,8 @@ final class TemporaryScheduleOverrideHistoryTests: XCTestCase {
         timeZone: Calendar.current.timeZone
     )!
 
-    let history = TemporaryScheduleOverrideHistory()
+    let historyContainer = TemporaryScheduleOverrideHistoryContainer.shared
+    var history: TemporaryScheduleOverrideHistory!
 
     private func recordOverride(
         beginningAt offset: TimeInterval,
@@ -31,7 +33,7 @@ final class TemporaryScheduleOverrideHistoryTests: XCTestCase {
         insulinNeedsScaleFactor scaleFactor: Double,
         recordedAt enableDateOffset: TimeInterval? = nil
     ) {
-        let settings = TemporaryScheduleOverrideSettings(unit: .milligramsPerDeciliter, targetRange: nil, insulinNeedsScaleFactor: scaleFactor)
+        let settings = TemporaryPresetSettings(unit: .milligramsPerDeciliter, targetRange: nil, insulinNeedsScaleFactor: scaleFactor)
         let override = TemporaryScheduleOverride(context: .custom, settings: settings, startDate: referenceDate + offset, duration: duration, enactTrigger: .local, syncIdentifier: UUID())
         let enableDate: Date
         if let enableDateOffset = enableDateOffset {
@@ -53,6 +55,8 @@ final class TemporaryScheduleOverrideHistoryTests: XCTestCase {
     }
 
     override func setUp() {
+        TemporaryScheduleOverrideHistory.relevantTimeWindow = .hours(10)
+        history = historyContainer.fetch()
         history.wipeHistory()
     }
 
@@ -275,6 +279,45 @@ final class TemporaryScheduleOverrideHistoryTests: XCTestCase {
         
         XCTAssertEqual(0, overrides.count)
         XCTAssertEqual(1, deletedOverrides.count)
+    }
+
+    func testCriticalEventLogExport() throws {
+        recordOverride(beginningAt: .hours(1), duration: .finite(.hours(1)), insulinNeedsScaleFactor: 0.8)
+        recordOverride(beginningAt: .hours(3), duration: .finite(.hours(1)), insulinNeedsScaleFactor: 1.2)
+        recordOverride(beginningAt: .hours(5), duration: .finite(.hours(1)), insulinNeedsScaleFactor: 1.5)
+        recordOverride(beginningAt: .hours(8), duration: .finite(.hours(1)), insulinNeedsScaleFactor: 1.1)
+        let expected = history.getEvents(relativeTo: referenceDate)
+            .filter { $0.startDate >= referenceDate + .hours(1) && $0.startDate < referenceDate + .hours(6) }
+            .sorted { $0.startDate < $1.startDate }
+            .map(\.syncIdentifier.uuidString)
+        XCTAssertEqual(expected.count, 3)
+
+        XCTAssertEqual(try history.exportProgressTotalUnitCount(startDate: referenceDate + .hours(1), endDate: referenceDate + .hours(6)).get(), 3)
+
+        let stream = MockOutputStream()
+        let progress = Progress()
+        XCTAssertNil(history.export(startDate: referenceDate + .hours(1), endDate: referenceDate + .hours(6), to: stream, progress: progress))
+        let exported = try XCTUnwrap(JSONSerialization.jsonObject(with: stream.data) as? [[String: Any]])
+        XCTAssertEqual(exported.compactMap { $0["syncIdentifier"] as? String }, expected)
+        XCTAssertEqual(progress.completedUnitCount, 3)
+        XCTAssertEqual(history.exportName, "Overrides.json")
+    }
+
+    func testCriticalEventLogExportEmpty() throws {
+        recordOverride(beginningAt: .hours(5), duration: .finite(.hours(1)), insulinNeedsScaleFactor: 1.5)
+
+        XCTAssertEqual(try history.exportProgressTotalUnitCount(startDate: referenceDate, endDate: referenceDate + .hours(1)).get(), 0)
+
+        let stream = MockOutputStream()
+        XCTAssertNil(history.export(startDate: referenceDate, endDate: referenceDate + .hours(1), to: stream, progress: Progress()))
+        XCTAssertEqual(stream.string, "[]")
+    }
+
+    func testCriticalEventLogExportCancelled() {
+        recordOverride(beginningAt: .hours(5), duration: .finite(.hours(1)), insulinNeedsScaleFactor: 1.5)
+        let progress = Progress()
+        progress.cancel()
+        XCTAssertEqual(history.export(startDate: referenceDate, endDate: referenceDate + .hours(10), to: MockOutputStream(), progress: progress) as? CriticalEventLogError, .cancelled)
     }
 
 }

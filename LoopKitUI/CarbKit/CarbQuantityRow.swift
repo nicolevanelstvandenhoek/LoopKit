@@ -8,14 +8,14 @@
 
 import SwiftUI
 import LoopKit
-import HealthKit
+import LoopAlgorithm
 
 public struct CarbQuantityRow: View {
     @Binding private var quantity: Double?
     @Binding private var isFocused: Bool
     
     private let title: String
-    private let preferredCarbUnit: HKUnit
+    private let preferredCarbUnit: LoopUnit
     
     @State private var carbInput: String = ""
     
@@ -27,7 +27,7 @@ public struct CarbQuantityRow: View {
         return formatter
     }()
     
-    public init(quantity: Binding<Double?>, isFocused: Binding<Bool>, title: String, preferredCarbUnit: HKUnit = .gram()) {
+    public init(quantity: Binding<Double?>, isFocused: Binding<Bool>, title: String, preferredCarbUnit: LoopUnit = .gram) {
         self._quantity = quantity
         self._isFocused = isFocused
         self.title = title
@@ -52,14 +52,15 @@ public struct CarbQuantityRow: View {
                     rowTapped()
                 }
             }
+            .accessibilityIdentifier("textField_CarbsAmount")
             
             carbUnitsLabel
         }
         .accessibilityElement(children: .combine)
-        .onChange(of: carbInput) { newValue in
+        .onChange(of: carbInput) { _, newValue in
             updateQuantity(with: newValue)
         }
-        .onChange(of: quantity) { newQuantity in
+        .onChange(of: quantity) { _, newQuantity in
             updateCarbInput(with: newQuantity)
         }
         .onAppear {

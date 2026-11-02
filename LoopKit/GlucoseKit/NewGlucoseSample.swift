@@ -6,19 +6,20 @@
 //
 
 import HealthKit
-
+import LoopAlgorithm
 
 public struct NewGlucoseSample: Equatable, RawRepresentable {
     public let date: Date
-    public let quantity: HKQuantity
+    public let quantity: LoopQuantity
     public let condition: GlucoseCondition?
     public let trend: GlucoseTrend?
-    public let trendRate: HKQuantity?
+    public let trendRate: LoopQuantity?
     public let isDisplayOnly: Bool
     public let wasUserEntered: Bool
     public let syncIdentifier: String
     public var syncVersion: Int
     public let device: HKDevice?
+    public let isBackfill: Bool
 
     /// - Parameters:
     ///   - date: The date the sample was collected
@@ -29,16 +30,18 @@ public struct NewGlucoseSample: Equatable, RawRepresentable {
     ///   - syncIdentifier: A unique identifier representing the sample, used for de-duplication
     ///   - syncVersion: A version number for determining resolution in de-duplication
     ///   - device: The description of the device the collected the sample
+    ///   - isBackfill: Whether the reading was recovered after a gap (sensor history or backfill) rather than received in real time
     public init(date: Date,
-                quantity: HKQuantity,
+                quantity: LoopQuantity,
                 condition: GlucoseCondition?,
                 trend: GlucoseTrend?,
-                trendRate: HKQuantity?,
+                trendRate: LoopQuantity?,
                 isDisplayOnly: Bool,
                 wasUserEntered: Bool,
                 syncIdentifier: String,
                 syncVersion: Int = 1,
-                device: HKDevice? = nil) {
+                device: HKDevice? = nil,
+                isBackfill: Bool = false) {
         self.date = date
         self.quantity = quantity
         self.condition = condition
@@ -49,6 +52,7 @@ public struct NewGlucoseSample: Equatable, RawRepresentable {
         self.syncIdentifier = syncIdentifier
         self.syncVersion = syncVersion
         self.device = device
+        self.isBackfill = isBackfill
     }
     
     public init?(rawValue: [String : Any]) {
@@ -62,12 +66,12 @@ public struct NewGlucoseSample: Equatable, RawRepresentable {
         }
         
         self.date = Date(timeIntervalSince1970: dateInterval)
-        self.quantity = HKQuantity(unit: .milligramsPerDeciliter, doubleValue: quantityValue)
+        self.quantity = LoopQuantity(unit: .milligramsPerDeciliter, doubleValue: quantityValue)
         self.condition = rawValue["condition"] as? GlucoseCondition ?? nil
         self.trend = rawValue["trend"] as? GlucoseTrend ?? nil
         
         if let trendRateValue = rawValue["trendRateValue"] as? Double {
-            self.trendRate = HKQuantity(unit: .milligramsPerDeciliterPerMinute, doubleValue: trendRateValue)
+            self.trendRate = LoopQuantity(unit: .milligramsPerDeciliterPerMinute, doubleValue: trendRateValue)
         } else {
             self.trendRate = nil
         }
@@ -77,6 +81,7 @@ public struct NewGlucoseSample: Equatable, RawRepresentable {
         self.syncIdentifier = syncIdentifier
         self.syncVersion = syncVersion
         self.device = nil
+        self.isBackfill = rawValue["isBackfill"] as? Bool ?? false
     }
     
     public var rawValue: [String : Any] {
@@ -91,6 +96,7 @@ public struct NewGlucoseSample: Equatable, RawRepresentable {
         rawValue["wasUserEntered"] = wasUserEntered
         rawValue["syncIdentifier"] = syncIdentifier
         rawValue["syncVersion"] = syncVersion
+        rawValue["isBackfill"] = isBackfill
         
         return rawValue
     }
@@ -109,16 +115,20 @@ extension NewGlucoseSample {
         if let trendRate = trendRate {
             metadata[MetadataKeyGlucoseTrendRateValue] = trendRate.doubleValue(for: .milligramsPerDeciliterPerMinute)
         }
+    
         if isDisplayOnly {
             metadata[MetadataKeyGlucoseIsDisplayOnly] = true
         }
         if wasUserEntered {
             metadata[HKMetadataKeyWasUserEntered] = true
         }
+        if isBackfill {
+            metadata[MetadataKeyGlucoseIsBackfill] = true
+        }
 
         return HKQuantitySample(
             type: HealthKitSampleStore.glucoseType,
-            quantity: quantity,
+            quantity: quantity.hkQuantity,
             start: date,
             end: date,
             device: device,

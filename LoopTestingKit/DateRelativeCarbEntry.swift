@@ -6,7 +6,7 @@
 //  Copyright © 2019 LoopKit Authors. All rights reserved.
 //
 
-import HealthKit
+import LoopAlgorithm
 import LoopKit
 
 
@@ -16,13 +16,13 @@ struct DateRelativeCarbEntry: DateRelativeQuantity, Codable {
     var enteredAtOffset: TimeInterval?
     var absorptionTime: TimeInterval
 
-    var quantity: HKQuantity {
-        return HKQuantity(unit: .gram(), doubleValue: gramValue)
+    var quantity: LoopQuantity {
+        return LoopQuantity(unit: .gram, doubleValue: gramValue)
     }
 
     func newCarbEntry(relativeTo referenceDate: Date) -> NewCarbEntry {
         let startDate = referenceDate.addingTimeInterval(dateOffset)
-        return NewCarbEntry(quantity: quantity, startDate: startDate, foodType: nil, absorptionTime: absorptionTime)
+        return NewCarbEntry(syncIdentifier: UUID().uuidString, quantity: quantity, startDate: startDate, foodType: nil, absorptionTime: absorptionTime)
     }
 
     func enteredAt(relativeTo referenceDate: Date) -> Date {

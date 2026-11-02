@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 import HealthKit
+import LoopAlgorithm
 
 class CachedInsulinDeliveryObject: NSManagedObject {
     var reason: HKInsulinDeliveryReason! {
@@ -35,7 +36,7 @@ class CachedInsulinDeliveryObject: NSManagedObject {
         }
     }
 
-    var scheduledBasalRate: HKQuantity? {
+    var scheduledBasalRate: LoopQuantity? {
         get {
             willAccessValue(forKey: "scheduledBasalRate")
             defer { didAccessValue(forKey: "scheduledBasalRate") }
@@ -44,7 +45,7 @@ class CachedInsulinDeliveryObject: NSManagedObject {
                 return nil
             }
 
-            return HKQuantity(unit: DoseEntry.unitsPerHour, doubleValue: rate.doubleValue)
+            return LoopQuantity(unit: DoseEntry.unitsPerHour, doubleValue: rate.doubleValue)
         }
         set {
             willChangeValue(forKey: "scheduledBasalRate")
@@ -58,8 +59,32 @@ class CachedInsulinDeliveryObject: NSManagedObject {
             primitiveScheduledBasalRate = NSNumber(value: rate)
         }
     }
+    
+    var deliveredUnits: Double? {
+        get {
+            willAccessValue(forKey: "deliveredUnits")
+            defer { didAccessValue(forKey: "deliveredUnits") }
 
-    var programmedTempBasalRate: HKQuantity? {
+            guard let deliveredUnits = primitiveDeliveredUnits else {
+                return nil
+            }
+
+            return deliveredUnits.doubleValue
+        }
+        set {
+            willChangeValue(forKey: "deliveredUnits")
+            defer { didChangeValue(forKey: "deliveredUnits") }
+
+            guard let deliveredUnits = newValue else {
+                primitiveDeliveredUnits = nil
+                return
+            }
+
+            primitiveDeliveredUnits = NSNumber(value: deliveredUnits)
+        }
+    }
+
+    var programmedTempBasalRate: LoopQuantity? {
         get {
             willAccessValue(forKey: "programmedTempBasalRate")
             defer { didAccessValue(forKey: "programmedTempBasalRate") }
@@ -68,7 +93,7 @@ class CachedInsulinDeliveryObject: NSManagedObject {
                 return nil
             }
 
-            return HKQuantity(unit: DoseEntry.unitsPerHour, doubleValue: rate.doubleValue)
+            return LoopQuantity(unit: DoseEntry.unitsPerHour, doubleValue: rate.doubleValue)
         }
         set {
             willChangeValue(forKey: "programmedTempBasalRate")
@@ -80,6 +105,22 @@ class CachedInsulinDeliveryObject: NSManagedObject {
             }
 
             primitiveProgrammedTempBasalRate = NSNumber(value: rate)
+        }
+    }
+
+    var programmedUnits: Double? {
+        get {
+            willAccessValue(forKey: "programmedUnits")
+            defer { didAccessValue(forKey: "programmedUnits") }
+            guard let programmedUnits = primitiveProgrammedUnits else {
+                return nil
+            }
+            return programmedUnits as? Double
+        }
+        set {
+            willChangeValue(forKey: "programmedUnits")
+            defer { didChangeValue(forKey: "programmedUnits") }
+            primitiveProgrammedUnits = newValue != nil ? NSNumber(value: newValue!) : nil
         }
     }
 
@@ -98,7 +139,7 @@ class CachedInsulinDeliveryObject: NSManagedObject {
             primitiveInsulinType = newValue != nil ? NSNumber(value: newValue!.rawValue) : nil
         }
     }
-    
+
     var automaticallyIssued: Bool? {
         get {
             willAccessValue(forKey: "automaticallyIssued")
@@ -151,26 +192,48 @@ extension CachedInsulinDeliveryObject {
             fatalError("CachedInsulinDeliveryObject has unexpected reason value: \(String(describing: reason))")
         }
 
-        let doseValue: Double
+        let programmedValue: Double
         let unit: DoseUnit
         let deliveredUnits: Double?
 
-        if let programmedRate = programmedTempBasalRate {
-            doseValue = programmedRate.doubleValue(for: .internationalUnitsPerHour)
+        if type == .tempBasal,
+           let programmedRate = programmedTempBasalRate,
+           let _deliveredUnits = self.deliveredUnits
+        {
+            deliveredUnits = _deliveredUnits
+            programmedValue = programmedRate.doubleValue(for: .internationalUnitsPerHour)
             unit = .unitsPerHour
-            deliveredUnits = self.deliveredUnits
-        } else {
-            doseValue = self.deliveredUnits
+        } else if type == .basal,
+                  let programmedRate = scheduledBasalRate,
+                  let _deliveredUnits = self.deliveredUnits
+        {
+            deliveredUnits = _deliveredUnits
+            programmedValue = programmedRate.doubleValue(for: .internationalUnitsPerHour)
+            unit = .unitsPerHour
+        } else if type == .suspend {
+            deliveredUnits = 0
+            programmedValue = 0
             unit = .units
-            deliveredUnits = nil
+        } else {
+            deliveredUnits = self.deliveredUnits
+            programmedValue = self.programmedUnits ?? self.deliveredUnits ?? 0
+            unit = .units
         }
+
+        // A .bolus normally always has programmedUnits and/or deliveredUnits. Legacy records
+        // carried over when upgrading from an older DIY install can have neither; rather than
+        // crashing on read (the previous assertionFailure, which traps debug builds), fall back
+        // to the 0 value computed above so the upgrade and subsequent dose reads succeed.
+        // (Upstream keeps the assertion here, but only ever sees fresh installs.)
+
 
         return DoseEntry(
             type: type,
             startDate: startDate,
             endDate: endDate,
-            value: doseValue,
+            value: programmedValue,
             unit: unit,
+            decisionId: decisionId,
             deliveredUnits: !isMutable ? deliveredUnits : nil,
             description: nil,
             syncIdentifier: syncIdentifier,
@@ -191,6 +254,7 @@ extension CachedInsulinDeliveryObject {
         self.hasLoopKitOrigin = sample.hasLoopKitOrigin
         self.startDate = sample.startDate
         self.endDate = sample.endDate
+        self.decisionId = sample.decisionId
         self.syncIdentifier = sample.syncIdentifier ?? sample.uuid.uuidString // External doses might not have a syncIdentifier, so use the UUID
         self.deliveredUnits = sample.quantity.doubleValue(for: .internationalUnit())
         self.scheduledBasalRate = sample.scheduledBasalRate
@@ -215,8 +279,10 @@ extension CachedInsulinDeliveryObject {
         self.endDate = entry.endDate
         self.syncIdentifier = entry.syncIdentifier
         self.deliveredUnits = entry.unitsInDeliverableIncrements
-        self.scheduledBasalRate = entry.scheduledBasalRate
-        self.programmedTempBasalRate = (entry.type == .tempBasal) ? HKQuantity(unit: .internationalUnitsPerHour, doubleValue: entry.unitsPerHour) : nil
+        // A `.basal` dose's rate (used via `.unitsPerHour` accessor) is its `value`; preserve it as the rate field so the cache reports the exact rate instead of one derived from a quantized delivered total.
+        self.scheduledBasalRate = entry.scheduledBasalRate ?? (entry.type == .basal ? LoopQuantity(unit: .internationalUnitsPerHour, doubleValue: entry.unitsPerHour) : nil)
+        self.programmedTempBasalRate = (entry.type == .tempBasal) ? LoopQuantity(unit: .internationalUnitsPerHour, doubleValue: entry.unitsPerHour) : nil
+        self.programmedUnits = (entry.type == .bolus) ? entry.programmedUnits : nil
         self.reason = (entry.type == .bolus) ? .bolus : .basal
         self.createdAt = date
         self.deletedAt = nil
@@ -226,6 +292,7 @@ extension CachedInsulinDeliveryObject {
         self.isSuspend = (entry.type == .suspend)
         self.isMutable = entry.isMutable
         self.wasProgrammedByPumpUI = entry.wasProgrammedByPumpUI
+        self.decisionId = entry.decisionId
         updateModificationCounter()  // Maintains modificationCounter order
     }
 
@@ -239,8 +306,10 @@ extension CachedInsulinDeliveryObject {
         self.endDate = entry.endDate
         self.syncIdentifier = entry.syncIdentifier
         self.deliveredUnits = entry.unitsInDeliverableIncrements
-        self.scheduledBasalRate = entry.scheduledBasalRate
-        self.programmedTempBasalRate = (entry.type == .tempBasal) ? HKQuantity(unit: .internationalUnitsPerHour, doubleValue: entry.unitsPerHour) : nil
+        // A `.basal` dose's rate is its `value` (used via `.unitsPerHour` accessor); preserve it as the rate field so the cache reports the exact rate instead of one derived from a quantized delivered total.
+        self.scheduledBasalRate = entry.scheduledBasalRate ?? (entry.type == .basal ? LoopQuantity(unit: .internationalUnitsPerHour, doubleValue: entry.unitsPerHour) : nil)
+        self.programmedTempBasalRate = (entry.type == .tempBasal) ? LoopQuantity(unit: .internationalUnitsPerHour, doubleValue: entry.unitsPerHour) : nil
+        self.programmedUnits = (entry.type == .bolus) ? entry.programmedUnits : nil
         self.reason = (entry.type == .bolus) ? .bolus : .basal
         self.deletedAt = nil
         self.insulinType = entry.insulinType
@@ -249,6 +318,26 @@ extension CachedInsulinDeliveryObject {
         self.isSuspend = (entry.type == .suspend)
         self.isMutable = entry.isMutable
         self.wasProgrammedByPumpUI = entry.wasProgrammedByPumpUI
+        self.decisionId = entry.decisionId
         updateModificationCounter()  // Maintains modificationCounter order
+    }
+}
+
+extension CachedInsulinDeliveryObject {
+    var issueReportDescription: String {
+        return "CachedInsulinDeliveryObject(startDate: \(startDate), endDate: \(endDate), reason: \(reason.issueReportDescription), syncIdentifier: \(syncIdentifier ?? "nil"), deletedAt: \(String(describing: deletedAt)), programmedUnits: \(String(describing: programmedUnits)), programmedTempBasalRate: \(String(describing: programmedTempBasalRate)), deliveredUnits: \(String(describing: deliveredUnits)), scheduledBasalRate: \(String(describing: scheduledBasalRate)), insulinType: \(String(describing: insulinType)), automaticallyIssued: \(String(describing: automaticallyIssued)), manuallyEntered: \(manuallyEntered), isSuspend: \(isSuspend), isMutable: \(isMutable), wasProgrammedByPumpUI: \(wasProgrammedByPumpUI))"
+    }
+}
+
+extension HKInsulinDeliveryReason {
+    var issueReportDescription: String {
+        switch self {
+        case .basal:
+            return "basal"
+        case .bolus:
+            return "bolus"
+        @unknown default:
+            return "unknown"
+        }
     }
 }

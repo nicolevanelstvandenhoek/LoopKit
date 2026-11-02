@@ -13,16 +13,21 @@ public struct ChartColorPalette {
     public let axisLine: UIColor
     public let axisLabel: UIColor
     public let grid: UIColor
+    public let presetTint: UIColor
     public let glucoseTint: UIColor
     public let insulinTint: UIColor
     public let carbTint: UIColor
+    /// The chart's surface color, used to cover axis labels while scrubbing.
+    public let background: UIColor
 
-    public init(axisLine: UIColor, axisLabel: UIColor, grid: UIColor, glucoseTint: UIColor, insulinTint: UIColor, carbTint: UIColor) {
+    public init(axisLine: UIColor, axisLabel: UIColor, grid: UIColor, presetTint: UIColor, glucoseTint: UIColor, insulinTint: UIColor, carbTint: UIColor, background: UIColor = .systemBackground) {
         self.axisLine = axisLine
         self.axisLabel = axisLabel
         self.grid = grid
+        self.presetTint = presetTint
         self.glucoseTint = glucoseTint
         self.insulinTint = insulinTint
         self.carbTint = carbTint
+        self.background = background
     }
 }

@@ -8,6 +8,7 @@
 
 import XCTest
 import HealthKit
+import LoopAlgorithm
 import CoreData
 @testable import LoopKit
 
@@ -16,29 +17,23 @@ class GlucoseStoreTests: PersistenceControllerTestCase {
     var healthStore: HKHealthStoreMock!
     var glucoseStore: GlucoseStore!
 
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
         
         healthStore = HKHealthStoreMock()
-        glucoseStore = GlucoseStore(cacheStore: cacheStore,
+        glucoseStore = await GlucoseStore(cacheStore: cacheStore,
                                     provenanceIdentifier: Bundle.main.bundleIdentifier!)
-        let semaphore = DispatchSemaphore(value: 0)
-        cacheStore.onReady { (error) in
-            semaphore.signal()
-        }
-        semaphore.wait()
     }
     
-    override func tearDown() {
+    override func tearDown() async throws {
         glucoseStore = nil
         healthStore = nil
 
-        super.tearDown()
+        try await super.tearDown()
     }
     
-    func testLatestGlucoseIsSetAfterStoreAndClearedAfterPurge() {
-        let storeCompletion = expectation(description: "Storage completion")
-        let storedQuantity = HKQuantity(unit: .milligramsPerDeciliter, doubleValue: 80)
+    func testLatestGlucoseIsSetAfterStoreAndClearedAfterPurge() async throws {
+        let storedQuantity = LoopQuantity(unit: .milligramsPerDeciliter, doubleValue: 80)
         let device = HKDevice(name: "Unit Test Mock CGM",
             manufacturer: "Device Manufacturer",
             model: "Device Model",
@@ -48,29 +43,103 @@ class GlucoseStoreTests: PersistenceControllerTestCase {
             localIdentifier: "Device Local Identifier",
             udiDeviceIdentifier: "Device UDI Device Identifier")
         let sample = NewGlucoseSample(date: Date(), quantity: storedQuantity, condition: nil, trend: nil, trendRate: nil, isDisplayOnly: false, wasUserEntered: false, syncIdentifier: "random", device: device)
-        glucoseStore.addGlucoseSamples([sample]) { (result) in
-            switch result {
-            case .failure(let error):
-                XCTFail("Unexpected failure: \(error)")
-            case .success(let samples):
-                XCTAssertEqual(storedQuantity, samples.first!.quantity)
-            }
-            storeCompletion.fulfill()
-        }
-        wait(for: [storeCompletion], timeout: 30)
-        XCTAssertEqual(storedQuantity, self.glucoseStore.latestGlucose?.quantity)
+        let samples = try await glucoseStore.addGlucoseSamples([sample])
+        XCTAssertEqual(storedQuantity, samples.first!.quantity)
 
-        let purgeCompletion = expectation(description: "Storage completion")
-        
-        let predicate = HKQuery.predicateForObjects(from: [device])
-        glucoseStore.purgeAllGlucoseSamples(healthKitPredicate: predicate) { (error) in
-            if let error = error {
-                XCTFail("Unexpected failure: \(error)")
-            }
-            purgeCompletion.fulfill()
-        }
-        wait(for: [purgeCompletion], timeout: 30)
+        try await glucoseStore.purgeAllGlucose(for: device)
         XCTAssertNil(self.glucoseStore.latestGlucose)
+    }
+
+    func testBackfillFlagAndReceivedDateAreStored() async throws {
+        let quantity = LoopQuantity(unit: .milligramsPerDeciliter, doubleValue: 100)
+        let backfill = NewGlucoseSample(date: Date().addingTimeInterval(-.minutes(30)), quantity: quantity, condition: nil, trend: nil, trendRate: nil, isDisplayOnly: false, wasUserEntered: false, syncIdentifier: "backfill", isBackfill: true)
+        let live = NewGlucoseSample(date: Date(), quantity: quantity, condition: nil, trend: nil, trendRate: nil, isDisplayOnly: false, wasUserEntered: false, syncIdentifier: "live")
+
+        let before = Date()
+        let samples = try await glucoseStore.addGlucoseSamples([backfill, live])
+
+        XCTAssertEqual(samples.map { $0.isBackfill }, [true, false])
+        for sample in samples {
+            XCTAssertGreaterThanOrEqual(try XCTUnwrap(sample.receivedDate), before)
+        }
+    }
+
+    func testAddGlucoseSamplesSkipsSyncedSampleFromDifferentProvenance() async throws {
+        let date = Date()
+        let synced = StoredGlucoseSample(
+            uuid: UUID(),
+            provenanceIdentifier: "com.example.phone",
+            syncIdentifier: "shared-sample",
+            syncVersion: 1,
+            startDate: date,
+            quantity: LoopQuantity(unit: .milligramsPerDeciliter, doubleValue: 100))
+        try await glucoseStore.setSyncGlucoseSamples([synced])
+
+        // The watch receives a latest-value update after backfilling the same sample.
+        // A differing value ensures that the existing sample is preserved, not overwritten.
+        let duplicate = NewGlucoseSample(
+            date: date,
+            quantity: LoopQuantity(unit: .milligramsPerDeciliter, doubleValue: 110),
+            condition: nil, trend: nil, trendRate: nil, isDisplayOnly: false, wasUserEntered: false,
+            syncIdentifier: "shared-sample")
+        let newSample = NewGlucoseSample(
+            date: date.addingTimeInterval(1),
+            quantity: LoopQuantity(unit: .milligramsPerDeciliter, doubleValue: 120),
+            condition: nil, trend: nil, trendRate: nil, isDisplayOnly: false, wasUserEntered: false,
+            syncIdentifier: "new-sample")
+
+        let added = try await glucoseStore.addGlucoseSamples([duplicate, newSample, newSample])
+        XCTAssertEqual(added.map { $0.syncIdentifier }, ["new-sample"])
+        XCTAssertEqual(added.first?.startDate, newSample.date)
+        XCTAssertEqual(added.first?.quantity, newSample.quantity)
+
+        let cached = try await glucoseStore.getGlucoseSamples()
+        XCTAssertEqual(cached.count, 2)
+        XCTAssertEqual(cached.first { $0.syncIdentifier == synced.syncIdentifier }, synced)
+
+        let repeated = try await glucoseStore.addGlucoseSamples([duplicate, newSample])
+        XCTAssertTrue(repeated.isEmpty)
+    }
+
+    func testReceivedDateIsWrittenToHealthKitMetadata() async throws {
+        let quantity = LoopQuantity(unit: .milligramsPerDeciliter, doubleValue: 100)
+        let sample = NewGlucoseSample(date: Date(), quantity: quantity, condition: nil, trend: nil, trendRate: nil, isDisplayOnly: false, wasUserEntered: false, syncIdentifier: "live")
+        let stored = try await glucoseStore.addGlucoseSamples([sample])
+        let receivedDate = try XCTUnwrap(stored.first?.receivedDate)
+
+        let quantitySample = try await cacheStore.managedObjectContext.perform {
+            let request: NSFetchRequest<CachedGlucoseObject> = CachedGlucoseObject.fetchRequest()
+            return try XCTUnwrap(self.cacheStore.managedObjectContext.fetch(request).first).quantitySample
+        }
+
+        XCTAssertEqual(quantitySample.receivedDate, receivedDate)
+        XCTAssertEqual(StoredGlucoseSample(sample: quantitySample).receivedDate, receivedDate)
+    }
+}
+
+class GlucoseStoreDuplicateSampleTests: XCTestCase {
+    private func sample(at date: Date) -> HKQuantitySample {
+        HKQuantitySample(type: HealthKitSampleStore.glucoseType, quantity: HKQuantity(unit: .milligramsPerDeciliter, doubleValue: 100), start: date, end: date)
+    }
+
+    func testOnlySamplesWithAnotherSampleWithinToleranceAreDuplicates() {
+        let now = Date()
+        let duplicated = sample(at: now)
+        let nearlyDuplicated = sample(at: now.addingTimeInterval(.minutes(10)))
+        let alone = sample(at: now.addingTimeInterval(.minutes(20)))
+        let others = [
+            sample(at: now.addingTimeInterval(30)),
+            sample(at: now.addingTimeInterval(.minutes(10) - GlucoseStore.duplicateTolerance)),
+            sample(at: now.addingTimeInterval(.minutes(25)))
+        ]
+
+        let duplicates = GlucoseStore.samples([duplicated, nearlyDuplicated, alone], duplicatedIn: others)
+
+        XCTAssertEqual(duplicates.map(\.uuid), [duplicated.uuid, nearlyDuplicated.uuid])
+    }
+
+    func testNoSamplesAreDuplicatesWithoutOtherSamples() {
+        XCTAssertTrue(GlucoseStore.samples([sample(at: Date())], duplicatedIn: []).isEmpty)
     }
 }
 
@@ -118,195 +187,114 @@ class GlucoseStoreRemoteDataServiceQueryAnchorTests: XCTestCase {
 class GlucoseStoreRemoteDataServiceQueryTests: PersistenceControllerTestCase {
     var healthStore: HKHealthStoreMock!
     var glucoseStore: GlucoseStore!
-    var completion: XCTestExpectation!
     var queryAnchor: GlucoseStore.QueryAnchor!
     var limit: Int!
 
-    override func setUp() {
-        super.setUp()
-        
-        glucoseStore = GlucoseStore(cacheStore: cacheStore,
+    override func setUp() async throws {
+        try await super.setUp()
+
+        glucoseStore = await GlucoseStore(cacheStore: cacheStore,
                                     provenanceIdentifier: Bundle.main.bundleIdentifier!)
-        let semaphore = DispatchSemaphore(value: 0)
-        cacheStore.onReady { (error) in
-            semaphore.signal()
-        }
-        semaphore.wait()
-        completion = expectation(description: "Completion")
+
         queryAnchor = GlucoseStore.QueryAnchor()
         limit = Int.max
     }
     
-    override func tearDown() {
+    override func tearDown() async throws {
         limit = nil
         queryAnchor = nil
-        completion = nil
         glucoseStore = nil
         healthStore = nil
 
-        super.tearDown()
+        try await super.tearDown()
     }
 
-    func testEmptyWithDefaultQueryAnchor() {
-        glucoseStore.executeGlucoseQuery(fromQueryAnchor: queryAnchor, limit: limit) { result in
-            switch result {
-            case .failure(let error):
-                XCTFail("Unexpected failure: \(error)")
-            case .success(let anchor, let data):
-                XCTAssertEqual(anchor.modificationCounter, 0)
-                XCTAssertEqual(data.count, 0)
-            }
-            self.completion.fulfill()
-        }
-        
-        wait(for: [completion], timeout: 30, enforceOrder: true)
+    func testEmptyWithDefaultQueryAnchor() async throws {
+        let (anchor, data) = try await glucoseStore.executeGlucoseQuery(fromQueryAnchor: queryAnchor, limit: limit)
+        XCTAssertEqual(anchor.modificationCounter, 0)
+        XCTAssertEqual(data.count, 0)
     }
     
-    func testEmptyWithMissingQueryAnchor() {
-        queryAnchor = nil
-
-        glucoseStore.executeGlucoseQuery(fromQueryAnchor: queryAnchor, limit: limit) { result in
-            switch result {
-            case .failure(let error):
-                XCTFail("Unexpected failure: \(error)")
-            case .success(let anchor, let data):
-                XCTAssertEqual(anchor.modificationCounter, 0)
-                XCTAssertEqual(data.count, 0)
-            }
-            self.completion.fulfill()
-        }
-        
-        wait(for: [completion], timeout: 30, enforceOrder: true)
+    func testEmptyWithMissingQueryAnchor() async throws {
+        let (anchor, data) = try await glucoseStore.executeGlucoseQuery(fromQueryAnchor: queryAnchor, limit: limit)
+        XCTAssertEqual(anchor.modificationCounter, 0)
+        XCTAssertEqual(data.count, 0)
     }
     
-    func testEmptyWithNonDefaultQueryAnchor() {
+    func testEmptyWithNonDefaultQueryAnchor() async throws {
         queryAnchor.modificationCounter = 1
 
-        glucoseStore.executeGlucoseQuery(fromQueryAnchor: queryAnchor, limit: limit) { result in
-            switch result {
-            case .failure(let error):
-                XCTFail("Unexpected failure: \(error)")
-            case .success(let anchor, let data):
-                XCTAssertEqual(anchor.modificationCounter, 1)
-                XCTAssertEqual(data.count, 0)
-            }
-            self.completion.fulfill()
-        }
-        
-        wait(for: [completion], timeout: 30, enforceOrder: true)
+        let (anchor, data) = try await glucoseStore.executeGlucoseQuery(fromQueryAnchor: queryAnchor, limit: limit)
+        XCTAssertEqual(anchor.modificationCounter, 1)
+        XCTAssertEqual(data.count, 0)
     }
     
-    func testDataWithUnusedQueryAnchor() {
+    func testDataWithUnusedQueryAnchor() async throws {
         let syncIdentifiers = [generateSyncIdentifier(), generateSyncIdentifier(), generateSyncIdentifier()]
         
         addData(withSyncIdentifiers: syncIdentifiers)
         
-        glucoseStore.executeGlucoseQuery(fromQueryAnchor: queryAnchor, limit: limit) { result in
-            switch result {
-            case .failure(let error):
-                XCTFail("Unexpected failure: \(error)")
-            case .success(let anchor, let data):
-                XCTAssertEqual(anchor.modificationCounter, 3)
-                XCTAssertEqual(data.count, 3)
-                for (index, syncIdentifier) in syncIdentifiers.enumerated() {
-                    XCTAssertEqual(data[index].syncIdentifier, syncIdentifier)
-                    XCTAssertEqual(data[index].syncVersion, index)
-                }
-            }
-            self.completion.fulfill()
+        let (anchor, data) = try await glucoseStore.executeGlucoseQuery(fromQueryAnchor: queryAnchor, limit: limit)
+        XCTAssertEqual(anchor.modificationCounter, 3)
+        XCTAssertEqual(data.count, 3)
+        for (index, syncIdentifier) in syncIdentifiers.enumerated() {
+            XCTAssertEqual(data[index].syncIdentifier, syncIdentifier)
+            XCTAssertEqual(data[index].syncVersion, index)
         }
-        
-        wait(for: [completion], timeout: 30, enforceOrder: true)
     }
     
-    func testDataWithStaleQueryAnchor() {
+    func testDataWithStaleQueryAnchor() async throws {
         let syncIdentifiers = [generateSyncIdentifier(), generateSyncIdentifier(), generateSyncIdentifier()]
         
         addData(withSyncIdentifiers: syncIdentifiers)
         
         queryAnchor.modificationCounter = 2
         
-        glucoseStore.executeGlucoseQuery(fromQueryAnchor: queryAnchor, limit: limit) { result in
-            switch result {
-            case .failure(let error):
-                XCTFail("Unexpected failure: \(error)")
-            case .success(let anchor, let data):
-                XCTAssertEqual(anchor.modificationCounter, 3)
-                XCTAssertEqual(data.count, 1)
-                XCTAssertEqual(data[0].syncIdentifier, syncIdentifiers[2])
-                XCTAssertEqual(data[0].syncVersion, 2)
-            }
-            self.completion.fulfill()
-        }
-        
-        wait(for: [completion], timeout: 30, enforceOrder: true)
+        let (anchor, data) = try await glucoseStore.executeGlucoseQuery(fromQueryAnchor: queryAnchor, limit: limit)
+        XCTAssertEqual(anchor.modificationCounter, 3)
+        XCTAssertEqual(data.count, 1)
+        XCTAssertEqual(data[0].syncIdentifier, syncIdentifiers[2])
+        XCTAssertEqual(data[0].syncVersion, 2)
     }
     
-    func testDataWithCurrentQueryAnchor() {
+    func testDataWithCurrentQueryAnchor() async throws {
         let syncIdentifiers = [generateSyncIdentifier(), generateSyncIdentifier(), generateSyncIdentifier()]
         
         addData(withSyncIdentifiers: syncIdentifiers)
         
         queryAnchor.modificationCounter = 3
         
-        glucoseStore.executeGlucoseQuery(fromQueryAnchor: queryAnchor, limit: limit) { result in
-            switch result {
-            case .failure(let error):
-                XCTFail("Unexpected failure: \(error)")
-            case .success(let anchor, let data):
-                XCTAssertEqual(anchor.modificationCounter, 3)
-                XCTAssertEqual(data.count, 0)
-            }
-            self.completion.fulfill()
-        }
-        
-        wait(for: [completion], timeout: 30, enforceOrder: true)
+        let (anchor, data) = try await glucoseStore.executeGlucoseQuery(fromQueryAnchor: queryAnchor, limit: limit)
+        XCTAssertEqual(anchor.modificationCounter, 3)
+        XCTAssertEqual(data.count, 0)
     }
 
-    func testDataWithLimitZero() {
+    func testDataWithLimitZero() async throws {
         let syncIdentifiers = [generateSyncIdentifier(), generateSyncIdentifier(), generateSyncIdentifier()]
 
         addData(withSyncIdentifiers: syncIdentifiers)
 
         limit = 0
 
-        glucoseStore.executeGlucoseQuery(fromQueryAnchor: queryAnchor, limit: limit) { result in
-            switch result {
-            case .failure(let error):
-                XCTFail("Unexpected failure: \(error)")
-            case .success(let anchor, let data):
-                XCTAssertEqual(anchor.modificationCounter, 0)
-                XCTAssertEqual(data.count, 0)
-            }
-            self.completion.fulfill()
-        }
-
-        wait(for: [completion], timeout: 30, enforceOrder: true)
+        let (anchor, data) = try await glucoseStore.executeGlucoseQuery(fromQueryAnchor: queryAnchor, limit: limit)
+        XCTAssertEqual(anchor.modificationCounter, 0)
+        XCTAssertEqual(data.count, 0)
     }
 
-    func testDataWithLimitCoveredByData() {
+    func testDataWithLimitCoveredByData() async throws {
         let syncIdentifiers = [generateSyncIdentifier(), generateSyncIdentifier(), generateSyncIdentifier()]
         
         addData(withSyncIdentifiers: syncIdentifiers)
         
         limit = 2
         
-        glucoseStore.executeGlucoseQuery(fromQueryAnchor: queryAnchor, limit: limit) { result in
-            switch result {
-            case .failure(let error):
-                XCTFail("Unexpected failure: \(error)")
-            case .success(let anchor, let data):
-                XCTAssertEqual(anchor.modificationCounter, 2)
-                XCTAssertEqual(data.count, 2)
-                XCTAssertEqual(data[0].syncIdentifier, syncIdentifiers[0])
-                XCTAssertEqual(data[0].syncVersion, 0)
-                XCTAssertEqual(data[1].syncIdentifier, syncIdentifiers[1])
-                XCTAssertEqual(data[1].syncVersion, 1)
-            }
-            self.completion.fulfill()
-        }
-        
-        wait(for: [completion], timeout: 30, enforceOrder: true)
+        let (anchor, data) = try await glucoseStore.executeGlucoseQuery(fromQueryAnchor: queryAnchor, limit: limit)
+        XCTAssertEqual(anchor.modificationCounter, 2)
+        XCTAssertEqual(data.count, 2)
+        XCTAssertEqual(data[0].syncIdentifier, syncIdentifiers[0])
+        XCTAssertEqual(data[0].syncVersion, 0)
+        XCTAssertEqual(data[1].syncIdentifier, syncIdentifiers[1])
+        XCTAssertEqual(data[1].syncVersion, 1)
     }
     
     private func addData(withSyncIdentifiers syncIdentifiers: [String]) {
@@ -318,7 +306,7 @@ class GlucoseStoreRemoteDataServiceQueryTests: PersistenceControllerTestCase {
                 cachedGlucoseObject.syncIdentifier = syncIdentifier
                 cachedGlucoseObject.syncVersion = index
                 cachedGlucoseObject.value = 123
-                cachedGlucoseObject.unitString = HKUnit.milligramsPerDeciliter.unitString
+                cachedGlucoseObject.unitString = LoopUnit.milligramsPerDeciliter.unitString
                 cachedGlucoseObject.startDate = Date()
                 self.cacheStore.save()
             }
@@ -335,34 +323,28 @@ class GlucoseStoreCriticalEventLogExportTests: PersistenceControllerTestCase {
     var outputStream: MockOutputStream!
     var progress: Progress!
     
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
 
-        let samples = [NewGlucoseSample(date: dateFormatter.date(from: "2100-01-02T03:08:00Z")!, quantity: HKQuantity(unit: .milligramsPerDeciliter, doubleValue: 111), condition: nil, trend: nil, trendRate: nil, isDisplayOnly: false, wasUserEntered: false, syncIdentifier: "18CF3948-0B3D-4B12-8BFE-14986B0E6784", syncVersion: 1),
-                       NewGlucoseSample(date: dateFormatter.date(from: "2100-01-02T03:10:00Z")!, quantity: HKQuantity(unit: .milligramsPerDeciliter, doubleValue: 112), condition: nil, trend: .up, trendRate: HKQuantity(unit: .milligramsPerDeciliterPerMinute, doubleValue: 1.0), isDisplayOnly: false, wasUserEntered: false, syncIdentifier: "C86DEB61-68E9-464E-9DD5-96A9CB445FD3", syncVersion: 2),
-                       NewGlucoseSample(date: dateFormatter.date(from: "2100-01-02T03:04:00Z")!, quantity: HKQuantity(unit: .milligramsPerDeciliter, doubleValue: 113), condition: nil, trend: .up, trendRate: HKQuantity(unit: .milligramsPerDeciliterPerMinute, doubleValue: 1.0), isDisplayOnly: false, wasUserEntered: false, syncIdentifier: "2B03D96C-6F5D-4140-99CD-80C3E64D6010", syncVersion: 3),
-                       NewGlucoseSample(date: dateFormatter.date(from: "2100-01-02T03:06:00Z")!, quantity: HKQuantity(unit: .milligramsPerDeciliter, doubleValue: 114), condition: nil, trend: .up, trendRate: HKQuantity(unit: .milligramsPerDeciliterPerMinute, doubleValue: 1.0), isDisplayOnly: false, wasUserEntered: false, syncIdentifier: "FF1C4F01-3558-4FB2-957E-FA1522C4735E", syncVersion: 4),
-                       NewGlucoseSample(date: dateFormatter.date(from: "2100-01-02T03:02:00Z")!, quantity: HKQuantity(unit: .milligramsPerDeciliter, doubleValue: 400), condition: .aboveRange, trend: .upUpUp, trendRate: HKQuantity(unit: .milligramsPerDeciliterPerMinute, doubleValue: 1.0), isDisplayOnly: false, wasUserEntered: false, syncIdentifier: "71B699D7-0E8F-4B13-B7A1-E7751EB78E74", syncVersion: 5)]
+        let samples = [NewGlucoseSample(date: dateFormatter.date(from: "2100-01-02T03:08:00Z")!, quantity: LoopQuantity(unit: .milligramsPerDeciliter, doubleValue: 111), condition: nil, trend: nil, trendRate: nil, isDisplayOnly: false, wasUserEntered: false, syncIdentifier: "18CF3948-0B3D-4B12-8BFE-14986B0E6784", syncVersion: 1),
+                       NewGlucoseSample(date: dateFormatter.date(from: "2100-01-02T03:10:00Z")!, quantity: LoopQuantity(unit: .milligramsPerDeciliter, doubleValue: 112), condition: nil, trend: .up, trendRate: LoopQuantity(unit: .milligramsPerDeciliterPerMinute, doubleValue: 1.0), isDisplayOnly: false, wasUserEntered: false, syncIdentifier: "C86DEB61-68E9-464E-9DD5-96A9CB445FD3", syncVersion: 2),
+                       NewGlucoseSample(date: dateFormatter.date(from: "2100-01-02T03:04:00Z")!, quantity: LoopQuantity(unit: .milligramsPerDeciliter, doubleValue: 113), condition: nil, trend: .up, trendRate: LoopQuantity(unit: .milligramsPerDeciliterPerMinute, doubleValue: 1.0), isDisplayOnly: false, wasUserEntered: false, syncIdentifier: "2B03D96C-6F5D-4140-99CD-80C3E64D6010", syncVersion: 3),
+                       NewGlucoseSample(date: dateFormatter.date(from: "2100-01-02T03:06:00Z")!, quantity: LoopQuantity(unit: .milligramsPerDeciliter, doubleValue: 114), condition: nil, trend: .up, trendRate: LoopQuantity(unit: .milligramsPerDeciliterPerMinute, doubleValue: 1.0), isDisplayOnly: false, wasUserEntered: false, syncIdentifier: "FF1C4F01-3558-4FB2-957E-FA1522C4735E", syncVersion: 4),
+                       NewGlucoseSample(date: dateFormatter.date(from: "2100-01-02T03:02:00Z")!, quantity: LoopQuantity(unit: .milligramsPerDeciliter, doubleValue: 400), condition: .aboveRange, trend: .upUpUp, trendRate: LoopQuantity(unit: .milligramsPerDeciliterPerMinute, doubleValue: 1.0), isDisplayOnly: false, wasUserEntered: false, syncIdentifier: "71B699D7-0E8F-4B13-B7A1-E7751EB78E74", syncVersion: 5)]
 
-        glucoseStore = GlucoseStore(cacheStore: cacheStore,
+        glucoseStore = await GlucoseStore(cacheStore: cacheStore,
                                     provenanceIdentifier: Bundle.main.bundleIdentifier!)
 
-        let dispatchGroup = DispatchGroup()
-        dispatchGroup.enter()
-        glucoseStore.addNewGlucoseSamples(samples: samples) { error in
-            XCTAssertNil(error)
-            dispatchGroup.leave()
-        }
-        dispatchGroup.wait()
+        try await glucoseStore.addNewGlucoseSamples(samples: samples)
 
         outputStream = MockOutputStream()
         progress = Progress()
     }
 
-    override func tearDown() {
+    override func tearDown() async throws {
         glucoseStore = nil
 
-        super.tearDown()
+        try await super.tearDown()
     }
     
     func testExportProgressTotalUnitCount() {
@@ -390,11 +372,13 @@ class GlucoseStoreCriticalEventLogExportTests: PersistenceControllerTestCase {
                                          endDate: dateFormatter.date(from: "2100-01-02T03:09:00Z")!,
                                          to: outputStream,
                                          progress: progress))
-        XCTAssertEqual(outputStream.string, """
+        let receivedDatePattern = #""receivedDate":"[^"]+","#
+        XCTAssertEqual(outputStream.string.ranges(of: try! Regex(receivedDatePattern)).count, 3)
+        XCTAssertEqual(outputStream.string.replacingOccurrences(of: receivedDatePattern, with: "", options: .regularExpression), """
             [
-            {"isDisplayOnly":false,"modificationCounter":1,"provenanceIdentifier":"com.apple.dt.xctest.tool","startDate":"2100-01-02T03:08:00.000Z","syncIdentifier":"18CF3948-0B3D-4B12-8BFE-14986B0E6784","syncVersion":1,"unitString":"mg/dL","value":111,"wasUserEntered":false},
-            {"isDisplayOnly":false,"modificationCounter":3,"provenanceIdentifier":"com.apple.dt.xctest.tool","startDate":"2100-01-02T03:04:00.000Z","syncIdentifier":"2B03D96C-6F5D-4140-99CD-80C3E64D6010","syncVersion":3,"trend":3,"trendRateValue":1,"unitString":"mg/dL","value":113,"wasUserEntered":false},
-            {"isDisplayOnly":false,"modificationCounter":4,"provenanceIdentifier":"com.apple.dt.xctest.tool","startDate":"2100-01-02T03:06:00.000Z","syncIdentifier":"FF1C4F01-3558-4FB2-957E-FA1522C4735E","syncVersion":4,"trend":3,"trendRateValue":1,"unitString":"mg/dL","value":114,"wasUserEntered":false}
+            {"isBackfill":false,"isDisplayOnly":false,"modificationCounter":1,"provenanceIdentifier":"com.apple.dt.xctest.tool","startDate":"2100-01-02T03:08:00.000Z","syncIdentifier":"18CF3948-0B3D-4B12-8BFE-14986B0E6784","syncVersion":1,"unitString":"mg/dL","value":111,"wasUserEntered":false},
+            {"isBackfill":false,"isDisplayOnly":false,"modificationCounter":3,"provenanceIdentifier":"com.apple.dt.xctest.tool","startDate":"2100-01-02T03:04:00.000Z","syncIdentifier":"2B03D96C-6F5D-4140-99CD-80C3E64D6010","syncVersion":3,"trend":3,"trendRateValue":1,"unitString":"mg/dL","value":113,"wasUserEntered":false},
+            {"isBackfill":false,"isDisplayOnly":false,"modificationCounter":4,"provenanceIdentifier":"com.apple.dt.xctest.tool","startDate":"2100-01-02T03:06:00.000Z","syncIdentifier":"FF1C4F01-3558-4FB2-957E-FA1522C4735E","syncVersion":4,"trend":3,"trendRateValue":1,"unitString":"mg/dL","value":114,"wasUserEntered":false}
             ]
             """
         )
