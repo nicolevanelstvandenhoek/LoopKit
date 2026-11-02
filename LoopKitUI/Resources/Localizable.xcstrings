@@ -132,10 +132,46 @@
       }
     },
     " " : {},
-    " %@" : {},
-    " - " : {},
-    " Extra Training Needed" : {},
-    " Overall insulin cannot be adjusted for this preset" : {},
+    " %@" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " %@"
+          }
+        }
+      }
+    },
+    " - " : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " - "
+          }
+        }
+      }
+    },
+    " Extra Training Needed" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " Extra training nodig"
+          }
+        }
+      }
+    },
+    " Overall insulin cannot be adjusted for this preset" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " De totale insuline kan voor dit programma niet worden aangepast"
+          }
+        }
+      }
+    },
     " higher " : {
       "comment" : "Information about workout range relative to correction range",
       "extractionState" : "stale",
@@ -280,8 +316,26 @@
         }
       }
     },
-    " indicates you need more insulin" : {},
-    " less " : {},
+    " indicates you need more insulin" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " geeft aan dat je meer insuline nodig hebt"
+          }
+        }
+      }
+    },
+    " less " : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " minder "
+          }
+        }
+      }
+    },
     " lower " : {
       "comment" : "Information about pre-meal range relative to correction range",
       "localizations" : {
@@ -425,13 +479,57 @@
         }
       }
     },
-    " more " : {},
-    " of scheduled" : {},
-    " setting. For this range, choose the specific glucose value (or range of values) that you want %1$@ to aim for in adjusting your insulin delivery. This will be a narrower range." : {
-      "comment" : "Information about correction range format (1: app name)"
+    " more " : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " meer "
+          }
+        }
+      }
     },
-    " tells the system you need less insulin" : {},
-    " than your typical correction range." : {},
+    " of scheduled" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " van gepland"
+          }
+        }
+      }
+    },
+    " setting. For this range, choose the specific glucose value (or range of values) that you want %1$@ to aim for in adjusting your insulin delivery. This will be a narrower range." : {
+      "comment" : "Information about correction range format (1: app name)",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "-instelling. Kies voor dit bereik de glucosewaarde (of reeks waarden) waar je wilt dat %1$@ naar streeft bij het aanpassen van je insulinetoediening. Dit is een smaller bereik."
+          }
+        }
+      }
+    },
+    " tells the system you need less insulin" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " vertelt het systeem dat je minder insuline nodig hebt"
+          }
+        }
+      }
+    },
+    " than your typical correction range." : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " dan je gebruikelijke correctiebereik."
+          }
+        }
+      }
+    },
     "%1$@ %2$@" : {
       "comment" : "The format for a preset symbol and name (1: symbol)(2: name)\nThe format for an override symbol and name (1: symbol)(2: name)",
       "localizations" : {
@@ -1306,10 +1404,26 @@
       }
     },
     "%1$@ will always ask you to confirm before turning on a scheduled preset." : {
-      "comment" : "Scheduled preset confirmation note (1: app name)"
+      "comment" : "Scheduled preset confirmation note (1: app name)",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ vraagt je altijd om bevestiging voordat een gepland programma wordt ingeschakeld."
+          }
+        }
+      }
     },
     "%1$@ will set your correction range to 110 mg/dL or higher when this preset is enabled." : {
-      "comment" : "The format string for the high insulin needs preset warning text on the preset preview screen. (1: app name)"
+      "comment" : "The format string for the high insulin needs preset warning text on the preset preview screen. (1: app name)",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ zet je correctiebereik op 110 mg/dL of hoger zolang dit programma is ingeschakeld."
+          }
+        }
+      }
     },
     "%1$@ – %2$@ %3$@" : {
       "comment" : "The format for a glucose target range. (1: min target)(2: max target)(3: glucose unit)",
@@ -1462,7 +1576,15 @@
       }
     },
     "%1$@%2$@" : {
-      "comment" : "The format for a preset symbol and name (1: symbol)(2: name)"
+      "comment" : "The format for a preset symbol and name (1: symbol)(2: name)",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@%2$@"
+          }
+        }
+      }
     },
     "%1$@%2$@%3$@" : {
       "comment" : "String format for value with units (1: value, 2: separator, 3: units)",
@@ -2923,7 +3045,16 @@
         }
       }
     },
-    "%lld%%" : {},
+    "%lld%%" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld%%"
+          }
+        }
+      }
+    },
     "%lld, " : {
       "localizations" : {
         "ar" : {
@@ -3221,8 +3352,26 @@
         }
       }
     },
-    ": " : {},
-    "A Correction Range is different. The Correction Range is a " : {},
+    ": " : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ": "
+          }
+        }
+      }
+    },
+    "A Correction Range is different. The Correction Range is a " : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een correctiebereik is iets anders. Het correctiebereik is een "
+          }
+        }
+      }
+    },
     "A Correction Range is different. This will be a narrower range." : {
       "comment" : "Information about differences between target range and correction range",
       "extractionState" : "stale",
@@ -3367,7 +3516,16 @@
         }
       }
     },
-    "A percentage " : {},
+    "A percentage " : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een percentage "
+          }
+        }
+      }
+    },
     "A value of 0 U/hr means you will be scheduled to receive no basal insulin." : {
       "comment" : "Warning text for basal rate of 0 U/hr",
       "localizations" : {
@@ -4400,8 +4558,26 @@
         }
       }
     },
-    "Adjust Overall Insulin Needs" : {},
-    "Adjusted Range" : {},
+    "Adjust Overall Insulin Needs" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Totale insulinebehoefte aanpassen"
+          }
+        }
+      }
+    },
+    "Adjusted Range" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aangepast bereik"
+          }
+        }
+      }
+    },
     "Afrezza" : {
       "comment" : "Title of insulin model preset - afrezza",
       "localizations" : {
@@ -4545,15 +4721,49 @@
         }
       }
     },
-    "All App Sounds Muted" : {},
+    "All App Sounds Muted" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle app-geluiden gedempt"
+          }
+        }
+      }
+    },
     "All app sounds will be muted" : {
       "comment" : "A warning message displayed in the \"Mute All App Sounds\" sheet, explaining that all app sounds will be muted.",
-      "isCommentAutoGenerated" : true
+      "isCommentAutoGenerated" : true,
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle app-geluiden worden gedempt"
+          }
+        }
+      }
     },
-    "All app sounds, including sounds for all critical alerts such as Urgent Low, Sensor Fail, Pump Expiration, and others will NOT sound for your selected time duration." : {},
+    "All app sounds, including sounds for all critical alerts such as Urgent Low, Sensor Fail, Pump Expiration, and others will NOT sound for your selected time duration." : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle app-geluiden, ook die van kritieke meldingen zoals Dringend laag, Sensorfout, Pomp verlopen en andere, klinken NIET gedurende de gekozen tijd."
+          }
+        }
+      }
+    },
     "All sounds from the app, including alerts such as Urgent Low, Sensor Fail, Pump Expiration, and others will NOT sound for your selected time duration." : {
       "comment" : "A message within a callout that explains that all app sounds, including critical alerts, will be muted for a selected duration.",
-      "isCommentAutoGenerated" : true
+      "isCommentAutoGenerated" : true,
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle geluiden van de app, ook meldingen zoals Dringend laag, Sensorfout, Pomp verlopen en andere, klinken NIET gedurende de gekozen tijd."
+          }
+        }
+      }
     },
     "Are you sure you want to delete all history entries?" : {
       "comment" : "Action sheet confirmation message for pump history deletion",
@@ -4855,8 +5065,26 @@
         }
       }
     },
-    "Are you sure you want to delete this preset?" : {},
-    "At 100%, your settings remain unchanged from your scheduled settings." : {},
+    "Are you sure you want to delete this preset?" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weet je zeker dat je dit programma wilt verwijderen?"
+          }
+        }
+      }
+    },
+    "At 100%, your settings remain unchanged from your scheduled settings." : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bij 100% blijven je instellingen gelijk aan je geplande instellingen."
+          }
+        }
+      }
+    },
     "Authenticate to save therapy setting" : {
       "comment" : "Authentication hint string for therapy settings",
       "localizations" : {
@@ -5751,7 +5979,16 @@
         }
       }
     },
-    "Before deciding to adjust your overall insulin," : {},
+    "Before deciding to adjust your overall insulin," : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voordat je besluit je totale insuline aan te passen,"
+          }
+        }
+      }
+    },
     "Cancel" : {
       "comment" : "Button text to cancel adding a new schedule item\nCancel editing settings button title\nThe text for the scheduled custom preset cancel button",
       "localizations" : {
@@ -6355,7 +6592,16 @@
         }
       }
     },
-    "Caution" : {},
+    "Caution" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Let op"
+          }
+        }
+      }
+    },
     "Changes will only apply this time you enable the override. The default settings of %@ will not be affected." : {
       "comment" : "Footer text for customizing an override from a preset (1: preset name)",
       "extractionState" : "manual",
@@ -6649,7 +6895,16 @@
         }
       }
     },
-    "Changing the percentage will affect:" : {},
+    "Changing the percentage will affect:" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het percentage aanpassen heeft invloed op:"
+          }
+        }
+      }
+    },
     "Choose a longer absorption time for larger meals, or those containing fats and proteins. This is only guidance to the algorithm and need not be exact." : {
       "comment" : "Carb entry section footer text explaining absorption time",
       "extractionState" : "manual",
@@ -6943,8 +7198,26 @@
         }
       }
     },
-    "Complete the training to change this preset’s settings." : {},
-    "Complete the training to change this preset’s settings. You can still update the details." : {},
+    "Complete the training to change this preset’s settings." : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rond de training af om de instellingen van dit programma te wijzigen."
+          }
+        }
+      }
+    },
+    "Complete the training to change this preset’s settings. You can still update the details." : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rond de training af om de instellingen van dit programma te wijzigen. De details kun je wel nog aanpassen."
+          }
+        }
+      }
+    },
     "Completed." : {
       "comment" : "Accessibility label for ProgressIndicatorView when showIndeterminantProgress",
       "localizations" : {
@@ -7237,7 +7510,16 @@
         }
       }
     },
-    "Confirm Preset" : {},
+    "Confirm Preset" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programma bevestigen"
+          }
+        }
+      }
+    },
     "Confirm Setting" : {
       "comment" : "The button text for confirming the setting",
       "localizations" : {
@@ -7525,10 +7807,26 @@
       }
     },
     "Continue with adjusted range" : {
-      "comment" : "Continue button for new preset range edit when range edited"
+      "comment" : "Continue button for new preset range edit when range edited",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doorgaan met aangepast bereik"
+          }
+        }
+      }
     },
     "Continue with scheduled range" : {
-      "comment" : "Continue button for new preset range edit when range is not edited"
+      "comment" : "Continue button for new preset range edit when range is not edited",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doorgaan met gepland bereik"
+          }
+        }
+      }
     },
     "Correct the highlighted unsupported value(s)." : {
       "comment" : "Instruction to correct unsupported value",
@@ -7673,7 +7971,16 @@
         }
       }
     },
-    "Correction Range" : {},
+    "Correction Range" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Correctiebereik"
+          }
+        }
+      }
+    },
     "Correction Values" : {
       "comment" : "Title text for multi-value correction value warning",
       "localizations" : {
@@ -7817,7 +8124,16 @@
         }
       }
     },
-    "Correction range adjustment when preset is enabled" : {},
+    "Correction range adjustment when preset is enabled" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aanpassing van het correctiebereik als het programma is ingeschakeld"
+          }
+        }
+      }
+    },
     "Correction range is the blood glucose range that you would like Loop to correct to." : {
       "comment" : "The section footer of correction range schedule",
       "localizations" : {
@@ -7967,9 +8283,36 @@
         }
       }
     },
-    "Create a Preset" : {},
-    "Critical alerts will be muted" : {},
-    "Currently Scheduled Correction Range" : {},
+    "Create a Preset" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programma maken"
+          }
+        }
+      }
+    },
+    "Critical alerts will be muted" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kritieke meldingen worden gedempt"
+          }
+        }
+      }
+    },
+    "Currently Scheduled Correction Range" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Huidig gepland correctiebereik"
+          }
+        }
+      }
+    },
     "Custom" : {
       "comment" : "The text for a custom preset\nTitle for custom override history cell",
       "extractionState" : "stale",
@@ -9012,7 +9355,16 @@
         }
       }
     },
-    "Delete Preset" : {},
+    "Delete Preset" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programma verwijderen"
+          }
+        }
+      }
+    },
     "Delivery Limits" : {
       "comment" : "Title text for crossed thresholds guardrail warning",
       "localizations" : {
@@ -10189,7 +10541,16 @@
         }
       }
     },
-    "Edit Preset" : {},
+    "Edit Preset" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programma bewerken"
+          }
+        }
+      }
+    },
     "Editing affects only the active override. The default settings of %@ will not be affected." : {
       "comment" : "Footer text for editing an active override (1: preset name)",
       "extractionState" : "manual",
@@ -12246,10 +12607,26 @@
       }
     },
     "For presets with insulin needs of 170%% or greater, %1$@ will set your correction range to 110 mg/dL or higher when this is preset enabled." : {
-      "comment" : "The format string for the high insulin needs preset warning text. (1: app name)"
+      "comment" : "The format string for the high insulin needs preset warning text. (1: app name)",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bij programma's met een insulinebehoefte van 170%% of meer zet %1$@ je correctiebereik op 110 mg/dL of hoger zolang dit programma is ingeschakeld."
+          }
+        }
+      }
     },
     "For presets with insulin needs of 170%% or greater, %1$@ will set your correction range to 110 mg/dL or higher when this preset is enabled." : {
-      "comment" : "The format string for the high insulin needs preset warning text. (1: app name)"
+      "comment" : "The format string for the high insulin needs preset warning text. (1: app name)",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bij programma's met een insulinebehoefte van 170%% of meer zet %1$@ je correctiebereik op 110 mg/dL of hoger zolang dit programma is ingeschakeld."
+          }
+        }
+      }
     },
     "For this range, choose the specific glucose value (or range of values) that you want %1$@ to aim for in adjusting your basal insulin." : {
       "comment" : "Information about correction range format (1: app name)",
@@ -14114,7 +14491,16 @@
         }
       }
     },
-    "Hours" : {},
+    "Hours" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uren"
+          }
+        }
+      }
+    },
     "If these settings look good to you, tap Save Settings to continue." : {
       "comment" : "Description of how to interact with summary screen",
       "localizations" : {
@@ -14258,7 +14644,16 @@
         }
       }
     },
-    "If vibration is enabled on your device, all alerts will still vibrate. Your insulin pump and CGM hardware may still sound." : {},
+    "If vibration is enabled on your device, all alerts will still vibrate. Your insulin pump and CGM hardware may still sound." : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als trillen op je apparaat aanstaat, trillen alle meldingen nog wel. Je insulinepomp en CGM kunnen nog steeds geluid maken."
+          }
+        }
+      }
+    },
     "If you've used a CGM before, you're likely familiar with target range as a wide range of values you'd like for your glucose notification alerts, such as 70-180 mg/dL or 90-200 mg/dL." : {
       "comment" : "Information about target range",
       "extractionState" : "stale",
@@ -14404,7 +14799,15 @@
       }
     },
     "If you’ve used CGM before, you’re likely familiar with target range as a wide range of values you’d like for your glucose notification alerts, such as 70-180 mg/dL or 90-200 mg/dL, etc." : {
-      "comment" : "Information about target range"
+      "comment" : "Information about target range",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als je eerder een CGM hebt gebruikt, ken je het doelbereik waarschijnlijk als een breed bereik van waarden voor je glucosemeldingen, zoals 70-180 mg/dL of 90-200 mg/dL."
+          }
+        }
+      }
     },
     "Insulin Model" : {
       "comment" : "Title text for insulin model",
@@ -14705,8 +15108,26 @@
         }
       }
     },
-    "Insulin adjustment is above the safety threshold" : {},
-    "Insulin adjustment is below the safety threshold" : {},
+    "Insulin adjustment is above the safety threshold" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De insulineaanpassing ligt boven de veiligheidsgrens"
+          }
+        }
+      }
+    },
+    "Insulin adjustment is below the safety threshold" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De insulineaanpassing ligt onder de veiligheidsgrens"
+          }
+        }
+      }
+    },
     "Insulin sensitivity describes how your blood glucose should respond to a 1 Unit dose of insulin. Smaller values mean more insulin will be given when above target. Values that are too small can cause dangerously low blood glucose." : {
       "comment" : "The description shown on the insulin sensitivity schedule interface.",
       "localizations" : {
@@ -15000,7 +15421,16 @@
         }
       }
     },
-    "Invalid Start Time" : {},
+    "Invalid Start Time" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ongeldige starttijd"
+          }
+        }
+      }
+    },
     "It can be set as low as %1$@. It can be set as high as %2$@." : {
       "comment" : "Guardrail info text format",
       "localizations" : {
@@ -16727,7 +17157,15 @@
       }
     },
     "Maximum Basal Rate is the automatically adjusted basal rate that %1$@ is allowed to enact to help reach your Correction Range." : {
-      "comment" : "Information about maximum basal rate (1: app name)"
+      "comment" : "Information about maximum basal rate (1: app name)",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De maximale basaalsnelheid is de automatisch aangepaste basaalsnelheid die %1$@ mag instellen om je correctiebereik te helpen bereiken."
+          }
+        }
+      }
     },
     "Maximum Basal Rate is the maximum automatically adjusted basal rate that %1$@ is allowed to enact to help reach your correction range." : {
       "comment" : "Information about maximum basal rate (1: app name)",
@@ -17327,7 +17765,16 @@
         }
       }
     },
-    "Minutes" : {},
+    "Minutes" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minuten"
+          }
+        }
+      }
+    },
     "More Info" : {
       "comment" : "Alert action title to open error help",
       "localizations" : {
@@ -17477,7 +17924,16 @@
         }
       }
     },
-    "Mute All App Sounds" : {},
+    "Mute All App Sounds" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle app-geluiden dempen"
+          }
+        }
+      }
+    },
     "Name" : {
       "comment" : "The text for the custom preset name setting",
       "localizations" : {
@@ -17634,7 +18090,15 @@
       }
     },
     "Never" : {
-      "comment" : "Repeat option never for a preset schedule"
+      "comment" : "Repeat option never for a preset schedule",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nooit"
+          }
+        }
+      }
     },
     "New Entry" : {
       "comment" : "Title for mini-modal to add a new schedule entry",
@@ -17928,7 +18392,16 @@
         }
       }
     },
-    "Next Date" : {},
+    "Next Date" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volgende datum"
+          }
+        }
+      }
+    },
     "No Basal Insulin" : {
       "comment" : "Title text for the zero basal rate warning",
       "localizations" : {
@@ -18072,9 +18545,36 @@
         }
       }
     },
-    "No change to insulin settings." : {},
-    "Note" : {},
-    "Note: These example values are based on your current settings. Values may be different when you enable the preset." : {},
+    "No change to insulin settings." : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geen wijziging in de insuline-instellingen."
+          }
+        }
+      }
+    },
+    "Note" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opmerking"
+          }
+        }
+      }
+    },
+    "Note: These example values are based on your current settings. Values may be different when you enable the preset." : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opmerking: deze voorbeeldwaarden zijn gebaseerd op je huidige instellingen. De waarden kunnen anders zijn als je het programma inschakelt."
+          }
+        }
+      }
+    },
     "Nothing to See Here!" : {
       "localizations" : {
         "ar" : {
@@ -18366,7 +18866,16 @@
         }
       }
     },
-    "Overall Insulin" : {},
+    "Overall Insulin" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Totale insuline"
+          }
+        }
+      }
+    },
     "Overall Insulin Needs" : {
       "comment" : "The title text for the insulin sensitivity scaling setting",
       "localizations" : {
@@ -18516,7 +19025,16 @@
         }
       }
     },
-    "Overall insulin should be adjusted when your body needs more or less insulin than usual." : {},
+    "Overall insulin should be adjusted when your body needs more or less insulin than usual." : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas de totale insuline aan als je lichaam meer of minder insuline nodig heeft dan normaal."
+          }
+        }
+      }
+    },
     "Override History" : {
       "comment" : "Title for override history view",
       "extractionState" : "stale",
@@ -20430,11 +20948,46 @@
         }
       }
     },
-    "Recommended starting values" : {},
-    "Repeat" : {},
-    "Repeat weekly on" : {},
+    "Recommended starting values" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aanbevolen startwaarden"
+          }
+        }
+      }
+    },
+    "Repeat" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Herhalen"
+          }
+        }
+      }
+    },
+    "Repeat weekly on" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wekelijks herhalen op"
+          }
+        }
+      }
+    },
     "Repeats weekly on %1$@ at %2$@" : {
-      "comment" : "preset weekly repeat footer (1: repeat day(s)) (2: repeat time)"
+      "comment" : "preset weekly repeat footer (1: repeat day(s)) (2: repeat time)",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Herhaalt wekelijks op %1$@ om %2$@"
+          }
+        }
+      }
     },
     "Required" : {
       "comment" : "The default placeholder string for a credential",
@@ -21039,8 +21592,26 @@
         }
       }
     },
-    "Revert to recommended values" : {},
-    "Review Settings" : {},
+    "Revert to recommended values" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terug naar aanbevolen waarden"
+          }
+        }
+      }
+    },
+    "Review Settings" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instellingen controleren"
+          }
+        }
+      }
+    },
     "Review and Save Settings" : {
       "comment" : "title for summary description section",
       "localizations" : {
@@ -21184,7 +21755,16 @@
         }
       }
     },
-    "Review your preset settings below. To make any changes, navigate back to the setting you’d like to edit. You can edit these settings after saving your preset as well." : {},
+    "Review your preset settings below. To make any changes, navigate back to the setting you’d like to edit. You can edit these settings after saving your preset as well." : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controleer hieronder de instellingen van je programma. Ga terug naar de instelling die je wilt wijzigen om iets aan te passen. Je kunt deze instellingen ook na het opslaan nog wijzigen."
+          }
+        }
+      }
+    },
     "Review your therapy settings below. If you’d like to edit any of these settings, tap Back to go back to that screen." : {
       "comment" : "Description of how to interact with summary screen",
       "localizations" : {
@@ -22916,7 +23496,16 @@
         }
       }
     },
-    "Save Preset" : {},
+    "Save Preset" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programma opslaan"
+          }
+        }
+      }
+    },
     "Save Workout Range?" : {
       "comment" : "Alert title for confirming workout range overrides outside the recommended range",
       "extractionState" : "stale",
@@ -23061,8 +23650,26 @@
         }
       }
     },
-    "Save and Schedule for Later" : {},
-    "Save for Later" : {},
+    "Save and Schedule for Later" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opslaan en inplannen"
+          }
+        }
+      }
+    },
+    "Save for Later" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bewaren voor later"
+          }
+        }
+      }
+    },
     "Saving..." : {
       "comment" : "The button text during saving on a configuration page",
       "localizations" : {
@@ -23212,11 +23819,56 @@
         }
       }
     },
-    "Schedule" : {},
-    "Scheduled Range" : {},
-    "Scheduled reminder" : {},
-    "Select" : {},
-    "Select Days" : {},
+    "Schedule" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Planning"
+          }
+        }
+      }
+    },
+    "Scheduled Range" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gepland bereik"
+          }
+        }
+      }
+    },
+    "Scheduled reminder" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geplande herinnering"
+          }
+        }
+      }
+    },
+    "Select" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecteer"
+          }
+        }
+      }
+    },
+    "Select Days" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dagen selecteren"
+          }
+        }
+      }
+    },
     "Selected" : {
       "localizations" : {
         "ar" : {
@@ -23359,11 +24011,56 @@
         }
       }
     },
-    "Selected days" : {},
-    "Set an Adjusted Correction Range" : {},
-    "Set your correction range" : {},
-    "Set your overall insulin needs" : {},
-    "Settings Impact" : {},
+    "Selected days" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geselecteerde dagen"
+          }
+        }
+      }
+    },
+    "Set an Adjusted Correction Range" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stel een aangepast correctiebereik in"
+          }
+        }
+      }
+    },
+    "Set your correction range" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stel je correctiebereik in"
+          }
+        }
+      }
+    },
+    "Set your overall insulin needs" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stel je totale insulinebehoefte in"
+          }
+        }
+      }
+    },
+    "Settings Impact" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invloed op instellingen"
+          }
+        }
+      }
+    },
     "Slow" : {
       "comment" : "Section title for slow absorbing food",
       "localizations" : {
@@ -23656,8 +24353,26 @@
         }
       }
     },
-    "Start Date" : {},
-    "Start Preset" : {},
+    "Start Date" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Startdatum"
+          }
+        }
+      }
+    },
+    "Start Preset" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programma starten"
+          }
+        }
+      }
+    },
     "Start Time" : {
       "comment" : "The text for the custom preset start time",
       "localizations" : {
@@ -23807,9 +24522,36 @@
         }
       }
     },
-    "Start Training" : {},
-    "Start at" : {},
-    "Start time must be at least 1 minute in the future." : {},
+    "Start Training" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Training starten"
+          }
+        }
+      }
+    },
+    "Start at" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starten om"
+          }
+        }
+      }
+    },
+    "Start time must be at least 1 minute in the future." : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De starttijd moet minstens 1 minuut in de toekomst liggen."
+          }
+        }
+      }
+    },
     "Starting Temp Basal" : {
       "comment" : "Title text for suspend resume button when temp basal starting",
       "localizations" : {
@@ -25713,7 +26455,15 @@
       }
     },
     "Temporarily silence all sounds from the %1$@ app." : {
-      "comment" : "Silence all app sounds description (1: appName)"
+      "comment" : "Silence all app sounds description (1: appName)",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Demp tijdelijk alle geluiden van de %1$@-app."
+          }
+        }
+      }
     },
     "Temporary Override" : {
       "comment" : "The title for the override selection screen",
@@ -27032,10 +27782,26 @@
       }
     },
     "The schedule starts at midnight and cannot equal 0 U/day." : {
-      "comment" : "Information about basal rate scheduling"
+      "comment" : "Information about basal rate scheduling",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het schema begint om middernacht en kan niet 0 E/dag zijn."
+          }
+        }
+      }
     },
     "The sum of your basal rates cannot equal 0 U/day. Please adjust your schedule to a value above zero." : {
-      "comment" : "Instruction to correct zero schedule"
+      "comment" : "Instruction to correct zero schedule",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De som van je basaalstanden kan niet 0 E/dag zijn. Pas je schema aan naar een waarde boven nul."
+          }
+        }
+      }
     },
     "Therapy Settings" : {
       "comment" : "Therapy Settings screen title",
@@ -27180,8 +27946,26 @@
         }
       }
     },
-    "This adjustment will make your settings stronger." : {},
-    "This adjustment will make your settings weaker." : {},
+    "This adjustment will make your settings stronger." : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Door deze aanpassing worden je instellingen sterker."
+          }
+        }
+      }
+    },
+    "This adjustment will make your settings weaker." : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Door deze aanpassing worden je instellingen zwakker."
+          }
+        }
+      }
+    },
     "This model assumes peak insulin activity at 19 minutes." : {
       "comment" : "Subtitle of afrezza preset",
       "localizations" : {
@@ -27897,7 +28681,15 @@
       }
     },
     "This setting will also determine a safety limit for automatic delivery to keep the amount of active insulin below twice your maximum bolus." : {
-      "comment" : "Information about maximum bolus part 2"
+      "comment" : "Information about maximum bolus part 2",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze instelling bepaalt ook een veiligheidsgrens voor automatische toediening, zodat de actieve insuline onder twee keer je maximale bolus blijft."
+          }
+        }
+      }
     },
     "This setting will also determine a safety limit for automatic dosing. %1$@ will limit automatic delivery to keep the amount of active insulin below twice your maximum bolus." : {
       "comment" : "Information about maximum automated insulin on board (1: app name)",
@@ -28478,7 +29270,16 @@
         }
       }
     },
-    "Tip" : {},
+    "Tip" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tip"
+          }
+        }
+      }
+    },
     "To be implemented" : {
       "localizations" : {
         "ar" : {
@@ -28621,10 +29422,46 @@
         }
       }
     },
-    "To help avoid lows, set a range " : {},
-    "To help avoid post-meal highs, set a range " : {},
-    "To reduce the risk of highs or lows, you may want to set an adjusted range if you think your glucose will vary more than usual." : {},
-    "Toggle off for a single use preset" : {},
+    "To help avoid lows, set a range " : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stel een bereik in om hypo's te helpen voorkomen "
+          }
+        }
+      }
+    },
+    "To help avoid post-meal highs, set a range " : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stel een bereik in om hoge waarden na de maaltijd te helpen voorkomen "
+          }
+        }
+      }
+    },
+    "To reduce the risk of highs or lows, you may want to set an adjusted range if you think your glucose will vary more than usual." : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om de kans op hoge of lage waarden te verkleinen, kun je een aangepast bereik instellen als je denkt dat je glucose meer schommelt dan normaal."
+          }
+        }
+      }
+    },
+    "Toggle off for a single use preset" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zet uit voor een eenmalig programma"
+          }
+        }
+      }
+    },
     "Total" : {
       "comment" : "The text indicating Total for Daily Schedule Basal",
       "localizations" : {
@@ -29924,12 +30761,66 @@
         }
       }
     },
-    "Until I turn off" : {},
-    "Use Scheduled Range" : {},
-    "Use the + and - buttons to set whether you need" : {},
-    "Using this adjustment may lead to an over delivery of insulin and result in serious injury. Monitor your glucose while this preset is in use." : {},
-    "Using this adjustment may lead to an over delivery of insulin. Monitor your glucose while this preset is in use." : {},
-    "Using this adjustment may lead to an under delivery of insulin. Monitor your glucose while this preset is in use." : {},
+    "Until I turn off" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tot ik het uitzet"
+          }
+        }
+      }
+    },
+    "Use Scheduled Range" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gepland bereik gebruiken"
+          }
+        }
+      }
+    },
+    "Use the + and - buttons to set whether you need" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gebruik de knoppen + en - om in te stellen of je"
+          }
+        }
+      }
+    },
+    "Using this adjustment may lead to an over delivery of insulin and result in serious injury. Monitor your glucose while this preset is in use." : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze aanpassing kan leiden tot te veel insuline en ernstig letsel veroorzaken. Houd je glucose in de gaten zolang dit programma actief is."
+          }
+        }
+      }
+    },
+    "Using this adjustment may lead to an over delivery of insulin. Monitor your glucose while this preset is in use." : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze aanpassing kan leiden tot te veel insuline. Houd je glucose in de gaten zolang dit programma actief is."
+          }
+        }
+      }
+    },
+    "Using this adjustment may lead to an under delivery of insulin. Monitor your glucose while this preset is in use." : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze aanpassing kan leiden tot te weinig insuline. Houd je glucose in de gaten zolang dit programma actief is."
+          }
+        }
+      }
+    },
     "Value" : {
       "comment" : "Placeholder text until value is entered",
       "localizations" : {
@@ -30665,10 +31556,36 @@
       }
     },
     "Weekly" : {
-      "comment" : "Repeat option weekly for a preset schedule"
+      "comment" : "Repeat option weekly for a preset schedule",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wekelijks"
+          }
+        }
+      }
     },
-    "With correction range set to using your scheduled range, overall insulin needs adjustment is required." : {},
-    "With overall insulin needs at 100%, an adjusted correction range is required." : {},
+    "With correction range set to using your scheduled range, overall insulin needs adjustment is required." : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als het correctiebereik je geplande bereik gebruikt, moet je de totale insulinebehoefte aanpassen."
+          }
+        }
+      }
+    },
+    "With overall insulin needs at 100%, an adjusted correction range is required." : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bij een totale insulinebehoefte van 100% is een aangepast correctiebereik nodig."
+          }
+        }
+      }
+    },
     "Work with your healthcare provider to choose a value that is higher than your highest scheduled basal rate, but as conservative or aggressive as you feel comfortable." : {
       "comment" : "Disclaimer",
       "localizations" : {
@@ -31250,9 +32167,26 @@
         }
       }
     },
-    "Yes, Delete" : {},
+    "Yes, Delete" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ja, verwijderen"
+          }
+        }
+      }
+    },
     "You can add different Basal Rates for different times of day by using the ➕." : {
-      "comment" : "Information about adding basal rates for different times of day"
+      "comment" : "Information about adding basal rates for different times of day",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Met de ➕ kun je verschillende basaalstanden toevoegen voor verschillende tijden van de dag."
+          }
+        }
+      }
     },
     "You can add different carb ratios for different times of day by using the ➕." : {
       "comment" : "Description of how to add a ratio",
@@ -32549,7 +33483,15 @@
       }
     },
     "Your Pre-Meal Preset should be the glucose value (or range of values) you want %1$@ to target by the time you take your first bite of your meal. This correction range will be in effect when you activate the Pre-Meal preset." : {
-      "comment" : "Information about pre-meal range format (1: app name)"
+      "comment" : "Information about pre-meal range format (1: app name)",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je pre-meal-programma is de glucosewaarde (of reeks waarden) waar je wilt dat %1$@ naar streeft op het moment dat je je eerste hap neemt. Dit correctiebereik geldt als je het pre-meal-programma activeert."
+          }
+        }
+      }
     },
     "Your Pre-Meal Range should be the glucose value (or range of values) you want %1$@ to target by the time you take your first bite of your meal. This range will be in effect when you activate the Pre-Meal Preset button." : {
       "comment" : "Information about pre-meal range format (1: app name)",
@@ -32840,11 +33782,46 @@
       }
     },
     "Your healthcare provider can help you choose a Correction Range that’s right for you." : {
-      "comment" : "Disclaimer"
+      "comment" : "Disclaimer",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je zorgverlener kan je helpen een correctiebereik te kiezen dat bij je past."
+          }
+        }
+      }
     },
-    "above 100%" : {},
-    "ask yourself, does my body need more or less than usual?" : {},
-    "below 100%" : {},
+    "above 100%" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "boven 100%"
+          }
+        }
+      }
+    },
+    "ask yourself, does my body need more or less than usual?" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "vraag je af: heeft mijn lichaam meer of minder nodig dan normaal?"
+          }
+        }
+      }
+    },
+    "below 100%" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "onder 100%"
+          }
+        }
+      }
+    },
     "com.loudnate.CarbKit.COBDateLabel" : {
       "comment" : "The format string describing the date of a COB value. The first format argument is the localized date.",
       "extractionState" : "manual",
@@ -33619,8 +34596,26 @@
         }
       }
     },
-    "higher" : {},
-    "hour" : {},
+    "higher" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "hoger"
+          }
+        }
+      }
+    },
+    "hour" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "uur"
+          }
+        }
+      }
+    },
     "info" : {
       "localizations" : {
         "ar" : {
@@ -33763,8 +34758,26 @@
         }
       }
     },
-    "insulin than usual." : {},
-    "lower" : {},
+    "insulin than usual." : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "insuline nodig hebt dan normaal."
+          }
+        }
+      }
+    },
+    "lower" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "lager"
+          }
+        }
+      }
+    },
     "max" : {
       "comment" : "Placeholder for maximum value in glucose range\nPlaceholder for quantity range upper bound",
       "localizations" : {
@@ -34063,9 +35076,36 @@
         }
       }
     },
-    "of scheduled" : {},
-    "or" : {},
-    "safety" : {},
+    "of scheduled" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "van gepland"
+          }
+        }
+      }
+    },
+    "or" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "of"
+          }
+        }
+      }
+    },
+    "safety" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "veiligheid"
+          }
+        }
+      }
+    },
     "than your Correction Range." : {
       "comment" : "Information about pre-meal range relative to correction range",
       "localizations" : {
@@ -34209,7 +35249,16 @@
         }
       }
     },
-    "until " : {},
+    "until " : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tot "
+          }
+        }
+      }
+    },
     "your Glucose Safety Limit" : {
       "comment" : "Lower bound pre-meal information text",
       "localizations" : {
