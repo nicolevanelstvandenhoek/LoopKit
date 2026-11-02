@@ -1,7 +1,16 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "%.0f - %.0f %3$@" : {},
+    "%.0f - %.0f %3$@" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%.0f - %.0f %3$@"
+          }
+        }
+      }
+    },
     "%1$@ U bolus failed" : {
       "comment" : "Describes a certain bolus failure (1: size of the bolus in units)",
       "extractionState" : "manual",
@@ -435,7 +444,15 @@
       }
     },
     "%1$@ will only increase your insulin delivery if your glucose is predicted to stay above this limit for the next three hours. If you bolus, the amount it recommends will be lower. " : {
-      "comment" : "Descriptive format string for glucose safety limit (1: app name)"
+      "comment" : "Descriptive format string for glucose safety limit (1: app name)",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ verhoogt je insulinetoediening alleen als je glucose de komende drie uur naar verwachting boven deze grens blijft. Als je een bolus geeft, is het aanbevolen aantal lager. "
+          }
+        }
+      }
     },
     "%1$@%2$@%3$@" : {
       "comment" : "String format for value with units (1: value, 2: separator, 3: units)",
@@ -587,7 +604,15 @@
       }
     },
     "%@ Preset" : {
-      "comment" : "Format for correction range override therapy setting card"
+      "comment" : "Format for correction range override therapy setting card",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programma %@"
+          }
+        }
+      }
     },
     "%@ Range" : {
       "comment" : "Format for correction range override therapy setting card",
@@ -741,6 +766,12 @@
             "state" : "new",
             "value" : "%1$@ and %2$@"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ en %2$@"
+          }
         }
       }
     },
@@ -752,14 +783,36 @@
             "state" : "new",
             "value" : "%1$@, and %2$@"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ en %2$@"
+          }
         }
       }
     },
     ", " : {
-      "comment" : "Separator for multiple days"
+      "comment" : "Separator for multiple days",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ", "
+          }
+        }
+      }
     },
     "A rapid-acting insulin" : {
-      "comment" : "Description for rapid acting insulin types"
+      "comment" : "Description for rapid acting insulin types",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een snelwerkende insuline"
+          }
+        }
+      }
     },
     "A value you have entered is higher than what is typically recommended for most people." : {
       "comment" : "Descriptive text for guardrail high value warning for schedule interface",
@@ -1048,10 +1101,26 @@
       }
     },
     "Active until carbs are added" : {
-      "comment" : "Presets card pre-meal duration accessibility label"
+      "comment" : "Presets card pre-meal duration accessibility label",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actief tot er koolhydraten worden ingevoerd"
+          }
+        }
+      }
     },
     "Active until turned off" : {
-      "comment" : "Presets card indefinite duration accessibility label"
+      "comment" : "Presets card indefinite duration accessibility label",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actief tot je het uitzet"
+          }
+        }
+      }
     },
     "Afrezza" : {
       "comment" : "Brand name for afrezza insulin type\nTitle for Afrezza insulin type",
@@ -1341,10 +1410,26 @@
       }
     },
     "An ultra-rapid-acting insulin" : {
-      "comment" : "Description for ultra rapid acting insulin types"
+      "comment" : "Description for ultra rapid acting insulin types",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een ultrasnelwerkende insuline"
+          }
+        }
+      }
     },
     "An ultra-rapid-acting mealtime insulin that is inhaled" : {
-      "comment" : "Description for afrezza insulin type"
+      "comment" : "Description for afrezza insulin type",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een ultrasnelwerkende maaltijdinsuline die wordt geïnhaleerd"
+          }
+        }
+      }
     },
     "Apidra" : {
       "comment" : "Brand name for apidra insulin type",
@@ -1777,7 +1862,15 @@
       }
     },
     "Apidra (insulin glulisine) is a rapid-acting insulin made by Sanofi-aventis " : {
-      "comment" : "Description for apidra insulin type"
+      "comment" : "Description for apidra insulin type",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apidra (insuline glulisine) is een snelwerkende insuline van Sanofi-aventis "
+          }
+        }
+      }
     },
     "Authorization Denied" : {
       "comment" : "The error description describing when Health sharing was denied",
@@ -2222,7 +2315,15 @@
       }
     },
     "Biking" : {
-      "comment" : "biking activity preset name"
+      "comment" : "biking activity preset name",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fietsen"
+          }
+        }
+      }
     },
     "Bolus" : {
       "comment" : "Title for bolus dose type",
@@ -2660,7 +2761,16 @@
         }
       }
     },
-    "Common Uses of Presets" : {},
+    "Common Uses of Presets" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veelgebruikte toepassingen van programma's"
+          }
+        }
+      }
+    },
     "Communication Failure" : {
       "comment" : "Generic pump error description",
       "localizations" : {
@@ -3253,7 +3363,15 @@
       }
     },
     "Correction Range is the glucose range (or range of values) that you want %1$@ to aim for in adjusting your insulin delivery and helping you calculate your boluses." : {
-      "comment" : "Descriptive text for glucose target range (1: app name)"
+      "comment" : "Descriptive text for glucose target range (1: app name)",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het correctiebereik is het glucosebereik (of de reeks waarden) waar je wilt dat %1$@ naar streeft bij het aanpassen van je insulinetoediening en het berekenen van je bolussen."
+          }
+        }
+      }
     },
     "Correction Range is the glucose value (or range of values) that you want %1$@ to aim for in adjusting your basal insulin and helping you calculate your boluses." : {
       "comment" : "Descriptive text for glucose target range (1: app name)",
@@ -3542,7 +3660,16 @@
         }
       }
     },
-    "Customizing Presets" : {},
+    "Customizing Presets" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programma's aanpassen"
+          }
+        }
+      }
+    },
     "Delivery Limits" : {
       "comment" : "Title text for delivery limits",
       "localizations" : {
@@ -4276,7 +4403,16 @@
         }
       }
     },
-    "Duration" : {},
+    "Duration" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duur"
+          }
+        }
+      }
+    },
     "Ensure carb data exists for the specified date" : {
       "comment" : "Recovery suggestion for a no data error",
       "localizations" : {
@@ -4426,7 +4562,16 @@
         }
       }
     },
-    "Exercise and Your Glucose Levels" : {},
+    "Exercise and Your Glucose Levels" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sporten en je glucosewaarden"
+          }
+        }
+      }
+    },
     "Falling" : {
       "comment" : "Glucose trend down",
       "localizations" : {
@@ -5603,7 +5748,16 @@
         }
       }
     },
-    "High-Intensity Exercise" : {},
+    "High-Intensity Exercise" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intensief sporten"
+          }
+        }
+      }
+    },
     "Hour" : {
       "comment" : "The long unit display string for a singular hour",
       "localizations" : {
@@ -6320,7 +6474,16 @@
         }
       }
     },
-    "Impact on Bolusing" : {},
+    "Impact on Bolusing" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invloed op bolussen"
+          }
+        }
+      }
+    },
     "Insulin Model" : {
       "comment" : "Title text for fast acting insulin model",
       "extractionState" : "stale",
@@ -6914,9 +7077,26 @@
       }
     },
     "Jogging" : {
-      "comment" : "jogging activity preset name"
+      "comment" : "jogging activity preset name",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Joggen"
+          }
+        }
+      }
     },
-    "Light-to-Moderate Intensity Exercise" : {},
+    "Light-to-Moderate Intensity Exercise" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Licht tot matig intensief sporten"
+          }
+        }
+      }
+    },
     "Lyumjev" : {
       "comment" : "Brand name for lyumjev insulin type\nTitle for Lyumjev insulin type",
       "localizations" : {
@@ -7497,7 +7677,15 @@
       }
     },
     "Maximum Basal Rate is the automatically adjusted basal rate that %1$@ is allowed to enact to help reach your Correction Range." : {
-      "comment" : "Descriptive text for maximum basal rate (1: app name)"
+      "comment" : "Descriptive text for maximum basal rate (1: app name)",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De maximale basaalsnelheid is de automatisch aangepaste basaalsnelheid die %1$@ mag instellen om je correctiebereik te helpen bereiken."
+          }
+        }
+      }
     },
     "Maximum Basal Rate is the highest temporary basal rate %1$@ is allowed to set." : {
       "comment" : "Descriptive text for maximum basal rate (1: app name)",
@@ -7793,7 +7981,15 @@
       }
     },
     "Maximum Bolus is the highest bolus amount that you will allow %1$@ to recommend at one time to cover carbs or bring down high glucose." : {
-      "comment" : "Descriptive text for maximum bolus (1: app name)"
+      "comment" : "Descriptive text for maximum bolus (1: app name)",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De maximale bolus is de grootste bolus die %1$@ in één keer mag aanbevelen om koolhydraten te dekken of een hoge glucose te verlagen."
+          }
+        }
+      }
     },
     "Maximum Bolus is the highest bolus amount you can deliver at one time to cover carbs or bring down high glucose." : {
       "comment" : "Descriptive text for maximum bolus",
@@ -7939,9 +8135,26 @@
         }
       }
     },
-    "Mixed-Intensity Exercise" : {},
+    "Mixed-Intensity Exercise" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wisselend intensief sporten"
+          }
+        }
+      }
+    },
     "Multiple" : {
-      "comment" : "Preset schedule repeat option multiple days"
+      "comment" : "Preset schedule repeat option multiple days",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meerdere"
+          }
+        }
+      }
     },
     "Needs Attention" : {
       "comment" : "Sensor state description for the non-valid state",
@@ -9113,8 +9326,26 @@
         }
       }
     },
-    "Overall Insulin" : {},
-    "Perceived Intensity" : {},
+    "Overall Insulin" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Totale insuline"
+          }
+        }
+      }
+    },
+    "Perceived Intensity" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ervaren intensiteit"
+          }
+        }
+      }
+    },
     "Please re-enable sharing in Health" : {
       "comment" : "The error recovery suggestion when Health sharing was denied",
       "extractionState" : "manual",
@@ -9408,11 +9639,56 @@
         }
       }
     },
-    "Presets for Daily Activities" : {},
-    "Presets for Daily Activity" : {},
-    "Presets for Exercise" : {},
-    "Presets for Illness" : {},
-    "Preventing Lows" : {},
+    "Presets for Daily Activities" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programma's voor dagelijkse activiteiten"
+          }
+        }
+      }
+    },
+    "Presets for Daily Activity" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programma's voor dagelijkse activiteit"
+          }
+        }
+      }
+    },
+    "Presets for Exercise" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programma's voor sporten"
+          }
+        }
+      }
+    },
+    "Presets for Illness" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programma's bij ziekte"
+          }
+        }
+      }
+    },
+    "Preventing Lows" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hypo's voorkomen"
+          }
+        }
+      }
+    },
     "Recommended Update" : {
       "comment" : "Description of supported software update needed",
       "localizations" : {
@@ -9563,6 +9839,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Repeats weekly on %1$@ at %2$@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Herhaalt wekelijks op %1$@ om %2$@"
           }
         }
       }
@@ -10157,9 +10439,26 @@
         }
       }
     },
-    "Saved Presets" : {},
+    "Saved Presets" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opgeslagen programma's"
+          }
+        }
+      }
+    },
     "Single Use Preset" : {
-      "comment" : "The title shown for a single use preset"
+      "comment" : "The title shown for a single use preset",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eenmalig programma"
+          }
+        }
+      }
     },
     "Some of the values you have entered are outside of what is typically recommended for most people." : {
       "comment" : "Descriptive text for guardrail high value warning for schedule interface",
@@ -10305,7 +10604,15 @@
       }
     },
     "Strength Training" : {
-      "comment" : "strength training activity preset name"
+      "comment" : "strength training activity preset name",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Krachttraining"
+          }
+        }
+      }
     },
     "Suspended" : {
       "comment" : "Title for suspend dose type",
@@ -11322,7 +11629,16 @@
         }
       }
     },
-    "Training Complete" : {},
+    "Training Complete" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Training voltooid"
+          }
+        }
+      }
+    },
     "U" : {
       "comment" : "The short unit display string for international units of insulin",
       "localizations" : {
@@ -12349,7 +12665,16 @@
         }
       }
     },
-    "Unplanned Activity" : {},
+    "Unplanned Activity" : {
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ongeplande activiteit"
+          }
+        }
+      }
+    },
     "Update Available" : {
       "comment" : "Description of informational software update needed",
       "localizations" : {
@@ -12494,7 +12819,15 @@
       }
     },
     "Walking" : {
-      "comment" : "walking activity preset name"
+      "comment" : "walking activity preset name",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wandelen"
+          }
+        }
+      }
     },
     "Workout" : {
       "comment" : "Title for workout mode",
@@ -13077,7 +13410,15 @@
       }
     },
     "Your Insulin Sensitivity Factor (ISF) is the mg/dL drop in glucose expected from one unit of insulin." : {
-      "comment" : "Descriptive text for insulin sensitivity"
+      "comment" : "Descriptive text for insulin sensitivity",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je insulinegevoeligheidsfactor (ISF) is de verwachte daling van je glucose in mg/dL door één eenheid insuline."
+          }
+        }
+      }
     },
     "com.loudnate.CarbKit.deleteCarbEntryUnownedErrorDescription" : {
       "comment" : "The description of an error returned when attempting to delete a sample not shared by the current app",
@@ -14274,19 +14615,59 @@
       }
     },
     "multiple days" : {
-      "comment" : "Preset schedule repeat option multiple days"
+      "comment" : "Preset schedule repeat option multiple days",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "meerdere dagen"
+          }
+        }
+      }
     },
     "on until carbs added" : {
-      "comment" : "Preset card pre-meal expected end time\nPresets card pre-meal expected end time accessibility label"
+      "comment" : "Preset card pre-meal expected end time\nPresets card pre-meal expected end time accessibility label",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "aan tot er koolhydraten worden ingevoerd"
+          }
+        }
+      }
     },
     "on until turned off" : {
-      "comment" : "Preset card indefinite scheduled end time\nPresets card indefinite duration accessibility label"
+      "comment" : "Preset card indefinite scheduled end time\nPresets card indefinite duration accessibility label",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "aan tot je het uitzet"
+          }
+        }
+      }
     },
     "until carbs added" : {
-      "comment" : "Preset card pre-meal duration"
+      "comment" : "Preset card pre-meal duration",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tot er koolhydraten worden ingevoerd"
+          }
+        }
+      }
     },
     "until turned off" : {
-      "comment" : "Preset card indefinite duration"
+      "comment" : "Preset card indefinite duration",
+      "localizations" : {
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tot je het uitzet"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
